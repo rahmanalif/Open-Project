@@ -6,6 +6,7 @@ type RegisterPageProps = {
 export function RegisterPage({ onSignInClick }: RegisterPageProps) {
   const [formData, setFormData] = useState({
     fullName: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -24,6 +25,7 @@ export function RegisterPage({ onSignInClick }: RegisterPageProps) {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
     if (!formData.fullName) newErrors.fullName = 'Full name is required';
+    if (!formData.username) newErrors.username = 'Username is required';
     if (!formData.email) newErrors.email = 'Email is required';
     if (!formData.password) newErrors.password = 'Password is required';
     if (formData.password.length < 8)
@@ -82,12 +84,42 @@ export function RegisterPage({ onSignInClick }: RegisterPageProps) {
                   value={formData.fullName}
                   onChange={handleChange}
                   className={`w-full pl-10 pr-4 py-2.5 border rounded-lg bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.fullName ? 'border-red-500' : 'border-gray-300 dark:border-[#3f3f46]'}`}
-                  placeholder="John Doe" />
+                  placeholder="Mahmudur Rahman" />
 
               </div>
               {errors.fullName &&
               <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                   {errors.fullName}
+                </p>
+              }
+            </div>
+
+            {/* Username */}
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+
+                Username
+              </label>
+              <div className="relative">
+                <User
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                  size={18} />
+
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-4 py-2.5 border rounded-lg bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.username ? 'border-red-500' : 'border-gray-300 dark:border-[#3f3f46]'}`}
+                  placeholder="rahman-alif" />
+
+              </div>
+              {errors.username &&
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {errors.username}
                 </p>
               }
             </div>

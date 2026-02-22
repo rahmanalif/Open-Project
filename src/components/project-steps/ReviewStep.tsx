@@ -1,16 +1,103 @@
 import React from 'react';
-import {
-  CheckCircle2,
-  Clock,
-  Users,
-  MessageSquare,
-  Target,
-  Briefcase } from
-'lucide-react';
+import { Briefcase, Clock, Layers3, Target, Users } from 'lucide-react';
+
 interface ReviewStepProps {
   data: any;
+  onEditStep: (step: number) => void;
 }
-export function ReviewStep({ data }: ReviewStepProps) {
+
+const sectionConfig = [
+  {
+    title: 'Intent',
+    step: 1,
+    render: (data: any) => [
+      `Domain: ${data.domain || '-'}`,
+      `Goal: ${data.goal || '-'}`,
+      `Stage: ${data.stage || '-'}`,
+      `Description: ${data.projectDescription || '-'}`
+    ]
+  },
+  {
+    title: 'What You Bring',
+    step: 2,
+    render: (data: any) => [
+      `Your role: ${data.ownerRole || '-'}`,
+      `Scope: ${data.ownerScope || '-'}`,
+      `Skills: ${(data.yourSkills || []).join(', ') || '-'}`,
+      `Weekly commitment: ${data.ownerHours || '-'}`
+    ]
+  },
+  {
+    title: 'Roles Needed',
+    step: 3,
+    render: (data: any) =>
+    (data.roles || []).length > 0 ?
+    data.roles.map(
+      (role: any) =>
+      `${role.name} | ${role.scope} | ${role.level} | ${role.peopleNeeded || 1} needed`
+    ) :
+    ['-']
+  },
+  {
+    title: 'Commitment',
+    step: 4,
+    render: (data: any) => [
+      `Expected hours: ${data.hours || '-'}`,
+      `Timeline: ${data.timeline || '-'}`,
+      `Urgency: ${data.urgency || '-'}`,
+      `Availability note: ${data.availabilityNote || '-'}`
+    ]
+  },
+  {
+    title: 'Collaboration Setup',
+    step: 5,
+    render: (data: any) => [
+      `Model: ${data.collabModel || '-'}`,
+      `Onboarding readiness: ${data.onboardingReadiness || '-'}`,
+      `Deal-breakers: ${(data.dealBreakers || []).join(', ') || '-'}`
+    ]
+  },
+  {
+    title: 'Working Style',
+    step: 6,
+    render: (data: any) => [
+      `Communication: ${data.communication || '-'}`,
+      `Meetings: ${data.meetings || '-'}`,
+      `Timezone tolerance: ${data.timezoneTolerance || '-'}`,
+      `Decision style: ${data.decisions || '-'}`,
+      `Language: ${data.primaryLanguage || '-'}`
+    ]
+  },
+  {
+    title: 'Validation Context',
+    step: 7,
+    render: (data: any) => [
+      `Project name: ${data.projectName || '-'}`,
+      `First milestone: ${data.milestone || '-'}`,
+      `Demo: ${data.demoLink || '-'}`,
+      `Repo: ${data.repoLink || '-'}`
+    ]
+  },
+  {
+    title: 'Matching & Visibility',
+    step: 8,
+    render: (data: any) => [
+      `Matching mode: ${data.matchingMode || '-'}`,
+      `Visibility after matching: ${data.visibilityAfterMatching || '-'}`,
+      data.matchingMode === 'open' ? `Application question: ${data.applicationQuestion || '-'}` : '',
+      data.matchingMode === 'invite' ? `Invites: ${(data.invitedUsers || []).join(', ') || '-'}` : ''
+    ].filter(Boolean)
+  }];
+
+export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
+  const modeLabel = data.matchingMode === 'auto' ?
+  'Auto' :
+  data.matchingMode === 'open' ?
+  'Open' :
+  data.matchingMode === 'invite' ?
+  'Invite Only' :
+  'Unselected';
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
@@ -18,140 +105,77 @@ export function ReviewStep({ data }: ReviewStepProps) {
           Review & Publish
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-          Check your project details before listing.
+          Review everything before publishing your listing.
         </p>
 
-        <div className="bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm mb-6">
           <div className="p-6 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b]">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white">
               {data.projectName || 'Untitled Project'}
             </h3>
-            <div className="flex items-center gap-2 mt-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 capitalize">
-                {data.stage}
+            <div className="flex flex-wrap items-center gap-2 mt-2">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
+                {data.domain || 'Domain'}
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-[#27272a] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-[#3f3f46] capitalize">
-                {data.goal}
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-[#27272a] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-[#3f3f46]">
+                {data.goal || 'Goal'}
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
+                {modeLabel}
               </span>
             </div>
           </div>
 
-          <div className="p-6 space-y-6">
-            {/* Roles */}
-            <div>
-              <div className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                <Users size={16} className="text-gray-400 dark:text-gray-500" />
-                Missing Roles
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {data.roles?.map((role: any) =>
-                <div
-                  key={role.name}
-                  className="bg-gray-50 dark:bg-[#27272a] border border-gray-200 dark:border-[#3f3f46] rounded-md px-3 py-2 text-sm">
-
-                    <div className="font-medium text-gray-900 dark:text-white">
-                      {role.name}
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                      {role.scope} • {role.level}
-                    </div>
-                  </div>
-                )}
-              </div>
+          <div className="p-6 space-y-4">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <Layers3 size={15} className="text-gray-400 dark:text-gray-500" />
+              Roles needed: {(data.roles || []).map((role: any) => role.name).join(', ') || '-'}
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Commitment */}
-              <div>
-                <div className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                  <Clock
-                    size={16}
-                    className="text-gray-400 dark:text-gray-500" />
-
-                  Commitment
-                </div>
-                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600" />
-                    {data.hours} hrs/week
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600" />
-                    {data.timeline} timeline
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600" />
-                    {data.urgency} urgency
-                  </li>
-                </ul>
-              </div>
-
-              {/* Collaboration */}
-              <div>
-                <div className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                  <Briefcase
-                    size={16}
-                    className="text-gray-400 dark:text-gray-500" />
-
-                  Collaboration
-                </div>
-                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600" />
-                    Model: {data.collabModel}
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600" />
-                    Ownership: {data.ownership}
-                  </li>
-                </ul>
-              </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <Briefcase size={15} className="text-gray-400 dark:text-gray-500" />
+              You bring: {data.ownerRole || '-'} | {(data.yourSkills || []).join(', ') || '-'}
             </div>
-
-            {/* Working Style */}
-            <div>
-              <div className="flex items-center gap-2 mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                <MessageSquare
-                  size={16}
-                  className="text-gray-400 dark:text-gray-500" />
-
-                Working Style
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {[
-                data.communication,
-                data.meetings,
-                data.timezone,
-                data.decisions].
-
-                filter(Boolean).
-                map((item: string) =>
-                <span
-                  key={item}
-                  className="px-2 py-1 bg-gray-50 dark:bg-[#27272a] text-gray-600 dark:text-gray-300 text-xs rounded border border-gray-200 dark:border-[#3f3f46]">
-
-                      {item}
-                    </span>
-                )}
-              </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <Clock size={15} className="text-gray-400 dark:text-gray-500" />
+              Commitment: {data.hours || '-'} | {data.timeline || '-'}
             </div>
-
-            {/* Milestone */}
-            {data.milestone &&
-            <div>
-                <div className="flex items-center gap-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  <Target
-                  size={16}
-                  className="text-gray-400 dark:text-gray-500" />
-
-                  First Milestone
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-[#27272a] p-3 rounded-md border border-gray-200 dark:border-[#3f3f46] italic">
-                  "{data.milestone}"
-                </p>
-              </div>
-            }
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <Users size={15} className="text-gray-400 dark:text-gray-500" />
+              Working style: {data.communication || '-'} | {data.meetings || '-'}
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <Target size={15} className="text-gray-400 dark:text-gray-500" />
+              Deal-breakers: {(data.dealBreakers || []).join(', ') || 'None'}
+            </div>
           </div>
+        </div>
+
+        <div className="space-y-3">
+          {sectionConfig.map((section) =>
+          <div
+            key={section.title}
+            className="p-4 rounded-lg border border-gray-200 dark:border-[#27272a] bg-white dark:bg-[#1f1f23]">
+
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  {section.title}
+                </h3>
+                <button
+                  onClick={() => onEditStep(section.step)}
+                  className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline">
+
+                  Edit
+                </button>
+              </div>
+              <ul className="space-y-1">
+                {section.render(data).map((line: string, idx: number) =>
+              <li key={idx} className="text-sm text-gray-600 dark:text-gray-300">
+                    {line}
+                  </li>
+              )}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>);
