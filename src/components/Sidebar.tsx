@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   FolderKanban,
+  Zap,
   Target,
   List,
   Settings,
@@ -12,10 +13,16 @@ import {
   ChevronDown } from
 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
-export type Tab = 'projects' | 'matches' | 'listings' | 'settings';
+export type Tab = 'projects' | 'quick-match' | 'matches' | 'listings' | 'settings';
 interface SidebarProps {
   activeTab: Tab;
   onTabChange: (tab: Tab) => void;
+  showMatchingPulse?: boolean;
+  currentUser?: {
+    name: string;
+    initials: string;
+    role: string;
+  };
   onLogout?: () => void;
 }
 type NavItem = {
@@ -28,6 +35,11 @@ const navItems: NavItem[] = [
   id: 'projects',
   label: 'Projects',
   icon: FolderKanban
+},
+{
+  id: 'quick-match',
+  label: 'Quick Match',
+  icon: Zap
 },
 {
   id: 'matches',
@@ -45,7 +57,7 @@ const navItems: NavItem[] = [
   icon: Settings
 }];
 
-export function Sidebar({ activeTab, onTabChange, onLogout }: SidebarProps) {
+export function Sidebar({ activeTab, onTabChange, showMatchingPulse, currentUser, onLogout }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const handleLogout = () => {
@@ -56,6 +68,9 @@ export function Sidebar({ activeTab, onTabChange, onLogout }: SidebarProps) {
       window.location.href = '/login';
     }
   };
+  const displayName = currentUser?.name || 'New Member';
+  const displayRole = currentUser?.role || 'Collaborator';
+  const displayInitials = currentUser?.initials || 'NM';
   return (
     <aside className="w-[240px] h-screen bg-white dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-20 transition-colors duration-200">
       {/* Brand / Logo Area */}
@@ -92,7 +107,15 @@ export function Sidebar({ activeTab, onTabChange, onLogout }: SidebarProps) {
             'text-gray-500 dark:text-gray-400'
             } />
 
-            {item.label}
+            <span className="flex items-center gap-2">
+              {item.label}
+              {item.id === 'quick-match' && showMatchingPulse &&
+              <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
+                </span>
+              }
+            </span>
           </button>
         )}
       </nav>
@@ -117,14 +140,14 @@ export function Sidebar({ activeTab, onTabChange, onLogout }: SidebarProps) {
           className="w-full flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#1f1f23] rounded-md p-2 -m-2 transition-colors group">
 
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-xs font-medium text-white">
-            JD
+            {displayInitials}
           </div>
           <div className="flex-1 flex flex-col text-left">
             <span className="text-sm font-medium text-gray-900 dark:text-white">
-              John Doe
+              {displayName}
             </span>
             <span className="text-xs text-gray-500 dark:text-gray-400">
-              Product Manager
+              {displayRole}
             </span>
           </div>
           <ChevronDown

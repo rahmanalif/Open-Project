@@ -27,6 +27,11 @@ const MOCK_MATCHES: MatchData[] = [
     timezoneOverlap: 6,
     meetings: '1x/week'
   },
+  breakdown: {
+    skillFit: 92,
+    availabilityFit: 84,
+    styleFit: 90
+  },
   reasoning: [
   'They need a UI designer to build the dashboard interface',
   'You prefer early-stage projects with learning opportunities',
@@ -56,6 +61,11 @@ const MOCK_MATCHES: MatchData[] = [
     async: true,
     timezoneOverlap: 4,
     meetings: 'None (Chat only)'
+  },
+  breakdown: {
+    skillFit: 88,
+    availabilityFit: 82,
+    styleFit: 85
   },
   reasoning: [
   'Perfect skill match for their documentation overhaul',
@@ -87,6 +97,11 @@ const MOCK_MATCHES: MatchData[] = [
     timezoneOverlap: 8,
     meetings: 'Daily standups'
   },
+  breakdown: {
+    skillFit: 80,
+    availabilityFit: 74,
+    styleFit: 79
+  },
   reasoning: [
   'Strong domain fit for wellness tech',
   'They need a non-technical co-founder',
@@ -99,7 +114,7 @@ export function MatchesPage() {
   const [matches, setMatches] = useState<MatchData[]>(MOCK_MATCHES);
   const handleAction = (
   id: string,
-  action: 'interested' | 'maybe' | 'pass') =>
+  action: 'interested' | 'maybe' | 'pass' | 'micro') =>
   {
     setMatches((prev) =>
     prev.
@@ -114,6 +129,11 @@ export function MatchesPage() {
       return {
         ...match,
         status: 'passed' as const
+      };
+      if (action === 'micro')
+      return {
+        ...match,
+        status: 'micro-commitment' as const
       };
       return match;
     }).
@@ -132,6 +152,9 @@ export function MatchesPage() {
           We've found {filteredMatches.length} projects where your skills fill a
           critical gap and working styles align. These matches are curated to
           minimize wasted time.
+        </p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+          Transparency: each match score is split by skill fit, availability fit, and working style fit.
         </p>
       </div>
 

@@ -4,8 +4,13 @@ import { useTheme } from '../../hooks/useTheme';
 type LoginPageProps = {
   onForgotPasswordClick?: () => void;
   onRegisterClick?: () => void;
+  onLoginSuccess?: () => void;
 };
-export function LoginPage({ onForgotPasswordClick, onRegisterClick }: LoginPageProps) {
+export function LoginPage({
+  onForgotPasswordClick,
+  onRegisterClick,
+  onLoginSuccess
+}: LoginPageProps) {
   const blurvisionAscii = String.raw`
  ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░       ░▒▓███████▓▒░░▒▓███████▓▒░ ░▒▓██████▓▒░       ░▒▓█▓▒░▒▓████████▓▒░▒▓██████▓▒░▒▓████████▓▒░
 ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░
@@ -41,6 +46,7 @@ export function LoginPage({ onForgotPasswordClick, onRegisterClick }: LoginPageP
       password,
       rememberMe
     });
+    onLoginSuccess?.();
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#0a0a0b] dark:to-[#141416] flex items-center justify-center p-4 transition-colors duration-200">

@@ -4,6 +4,7 @@ import { ProjectTable } from './components/ProjectTable';
 import { MatchesPage } from './pages/MatchesPage';
 import { MyListingsPage } from './pages/MyListingsPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { QuickMatchPage } from './pages/QuickMatchPage';
 import { Tab } from './components/Sidebar';
 import { ProjectCreationModal } from './components/ProjectCreationModal';
 import { ThemeProvider } from './hooks/useTheme';
@@ -18,10 +19,19 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
 import { VerificationPage } from './pages/auth/VerificationPage';
+import { OnboardingPage } from './pages/auth/OnboardingPage';
 import { FilterState, SortOption } from './components/TopBar';
-type AuthView = 'login' | 'register' | 'forgot-password' | 'verification' | null;
+
+type AuthView = 'login' | 'register' | 'forgot-password' | 'verification' | 'onboarding' | null;
+
+type UserProfile = {
+  name: string;
+  initials: string;
+  role: string;
+};
+
 export function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Set to false to show login
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authView, setAuthView] = useState<AuthView>(null);
   const [viewMode, setViewMode] = useState<'browse' | 'workspace'>('browse');
   const [activeTab, setActiveTab] = useState<Tab>('projects');
@@ -34,6 +44,12 @@ export function App() {
   });
   const [sortOption, setSortOption] = useState<SortOption>('relevance');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMatchingActive, setIsMatchingActive] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UserProfile>({
+    name: 'New Member',
+    initials: 'NM',
+    role: 'Collaborator'
+  });
   const handleProjectClick = (id: string) => {
     setViewMode('workspace');
     setProjectTab('overview');
@@ -54,12 +70,27 @@ export function App() {
     setIsAuthenticated(true);
     setAuthView(null);
   };
+
+  const handleOnboardingComplete = (profile: {
+    skills: string[];
+    preferredRole: string;
+  }) => {
+    const role = profile.preferredRole || 'Collaborator';
+    setCurrentUser((prev) => ({
+      ...prev,
+      role
+    }));
+    setAuthView('login');
+  };
+
   // Show authentication pages if not authenticated
   if (!isAuthenticated) {
     return (
       <ThemeProvider>
         {authView === 'register' &&
-        <RegisterPage onSignInClick={() => setAuthView('login')} />
+        <RegisterPage
+          onSignInClick={() => setAuthView('login')}
+          onRegisterSuccess={() => setAuthView('onboarding')} />
         }
         {authView === 'forgot-password' &&
         <ForgotPasswordPage onBackToLoginClick={() => setAuthView('login')} />
@@ -67,8 +98,12 @@ export function App() {
         {authView === 'verification' &&
         <VerificationPage onContinueClick={() => setAuthView('login')} />
         }
+        {authView === 'onboarding' &&
+        <OnboardingPage onContinue={handleOnboardingComplete} />
+        }
         {(authView === 'login' || authView === null) &&
         <LoginPage
+          onLoginSuccess={handleLogin}
           onRegisterClick={() => setAuthView('register')}
           onForgotPasswordClick={() => setAuthView('forgot-password')} />
         }
@@ -99,7 +134,9 @@ export function App() {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onNewProject={() => setIsCreationModalOpen(true)}
+        showMatchingPulse={isMatchingActive}
         onLogout={handleLogout}
+        currentUser={currentUser}
         onFilterChange={setFilters}
         onSortChange={setSortOption}
         onSearchChange={setSearchQuery}>
@@ -136,6 +173,10 @@ export function App() {
         }
 
         {activeTab === 'matches' && <MatchesPage />}
+
+        {activeTab === 'quick-match' &&
+        <QuickMatchPage onMatchingStateChange={setIsMatchingActive} />
+        }
 
         {activeTab === 'listings' && <MyListingsPage />}
 

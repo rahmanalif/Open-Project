@@ -27,12 +27,17 @@ export interface MatchData {
     timezoneOverlap: number;
     meetings: string;
   };
+  breakdown: {
+    skillFit: number;
+    availabilityFit: number;
+    styleFit: number;
+  };
   reasoning: string[];
   status: MatchStatus;
 }
 interface MatchCardProps {
   match: MatchData;
-  onAction: (id: string, action: 'interested' | 'maybe' | 'pass') => void;
+  onAction: (id: string, action: 'interested' | 'maybe' | 'pass' | 'micro') => void;
 }
 export function MatchCard({ match, onAction }: MatchCardProps) {
   const [expanded, setExpanded] = useState(false);
@@ -55,7 +60,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
         return 'bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-500/20';
     }
   };
-  if (match.status === 'pending') {
+  if (match.status === 'pending' || match.status === 'micro-commitment') {
     return (
       <div className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-lg p-6 shadow-sm opacity-75 transition-colors">
         <div className="flex items-center gap-4">
@@ -64,10 +69,13 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
           </div>
           <div>
             <h3 className="font-medium text-gray-900 dark:text-white">
-              Interest Expressed
+              {match.status === 'micro-commitment' ? 'Micro-Collab Requested' : 'Interest Expressed'}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Waiting for {match.projectName} to review your profile.
+              {match.status === 'micro-commitment' ?
+              `Waiting for ${match.projectName} to confirm a 7-day trial sprint.` :
+              `Waiting for ${match.projectName} to review your profile.`
+              }
             </p>
           </div>
         </div>
@@ -134,6 +142,33 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
                 )}
               </ul>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+              Skill Fit
+            </p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              {match.breakdown.skillFit}%
+            </p>
+          </div>
+          <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+              Availability
+            </p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              {match.breakdown.availabilityFit}%
+            </p>
+          </div>
+          <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
+            <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+              Style Fit
+            </p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              {match.breakdown.styleFit}%
+            </p>
           </div>
         </div>
       </div>
@@ -264,6 +299,12 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
             className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-[#141416] border border-gray-300 dark:border-[#3f3f46] rounded-md hover:bg-gray-50 dark:hover:bg-[#1f1f23] transition-colors shadow-sm">
 
             Maybe Later
+          </button>
+          <button
+            onClick={() => onAction(match.id, 'micro')}
+            className="px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 rounded-md hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors shadow-sm">
+
+            Try 7-day Micro-Collab
           </button>
           <button
             onClick={() => onAction(match.id, 'interested')}

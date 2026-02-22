@@ -8,15 +8,21 @@ type Project = {
   commitment: string;
   matchScore: number;
   posted: string;
+  teamSize: number;
+  openRoles: number;
+  responseTime: string;
 };
 const projects: Project[] = [
 {
   id: '1',
   name: 'FinTech Dashboard Redesign',
-  roles: ['Product Designer', 'Frontend Dev'],
-  commitment: '20h/week',
+  roles: ['Product Designer', 'Frontend Developer'],
+  commitment: '10-20 hrs/week',
   matchScore: 94,
-  posted: '2d ago'
+  posted: '2d ago',
+  teamSize: 3,
+  openRoles: 2,
+  responseTime: '< 24h'
 },
 {
   id: '2',
@@ -24,31 +30,43 @@ const projects: Project[] = [
   roles: ['ML Engineer', 'Backend Developer'],
   commitment: 'Full-time',
   matchScore: 88,
-  posted: '4h ago'
+  posted: '4h ago',
+  teamSize: 2,
+  openRoles: 2,
+  responseTime: '< 12h'
 },
 {
   id: '3',
   name: 'E-commerce Mobile App',
   roles: ['React Native Dev'],
-  commitment: '15h/week',
+  commitment: '10-20 hrs/week',
   matchScore: 76,
-  posted: '1d ago'
+  posted: '1d ago',
+  teamSize: 4,
+  openRoles: 1,
+  responseTime: '1-2 days'
 },
 {
   id: '4',
   name: 'Healthcare Patient Portal',
   roles: ['Full Stack Dev', 'Product Manager'],
-  commitment: '30h/week',
+  commitment: '20+ hrs/week',
   matchScore: 62,
-  posted: '3d ago'
+  posted: '3d ago',
+  teamSize: 5,
+  openRoles: 2,
+  responseTime: '2-3 days'
 },
 {
   id: '5',
   name: 'Crypto Wallet Integration',
   roles: ['Blockchain Dev', 'Security Specialist'],
-  commitment: '10h/week',
+  commitment: '5-10 hrs/week',
   matchScore: 45,
-  posted: '5d ago'
+  posted: '5d ago',
+  teamSize: 2,
+  openRoles: 2,
+  responseTime: '3+ days'
 },
 {
   id: '6',
@@ -56,7 +74,10 @@ const projects: Project[] = [
   roles: ['Frontend Developer', 'Copywriter'],
   commitment: 'Project-based',
   matchScore: 91,
-  posted: '12h ago'
+  posted: '12h ago',
+  teamSize: 3,
+  openRoles: 1,
+  responseTime: '< 24h'
 },
 {
   id: '7',
@@ -64,23 +85,32 @@ const projects: Project[] = [
   roles: ['DevOps Engineer'],
   commitment: 'Full-time',
   matchScore: 58,
-  posted: '1w ago'
+  posted: '1w ago',
+  teamSize: 6,
+  openRoles: 1,
+  responseTime: '2-3 days'
 },
 {
   id: '8',
   name: 'Social Media Analytics',
   roles: ['Data Scientist', 'Frontend Developer'],
-  commitment: '25h/week',
+  commitment: '20+ hrs/week',
   matchScore: 82,
-  posted: '2d ago'
+  posted: '2d ago',
+  teamSize: 4,
+  openRoles: 2,
+  responseTime: '< 24h'
 },
 {
   id: '9',
   name: 'Legacy System Refactor',
   roles: ['Backend Developer'],
-  commitment: '40h/week',
+  commitment: '20+ hrs/week',
   matchScore: 35,
-  posted: '4d ago'
+  posted: '4d ago',
+  teamSize: 5,
+  openRoles: 1,
+  responseTime: '3+ days'
 }];
 
 function getScoreColor(score: number) {
@@ -173,19 +203,22 @@ export function ProjectTable({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50 dark:bg-[#0a0a0b] border-b border-gray-200 dark:border-[#27272a]">
-                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[35%]">
+                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[28%]">
                   Project Name
                 </th>
-                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[25%]">
+                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[22%]">
                   Roles Needed
                 </th>
-                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[20%]">
+                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[14%]">
                   Commitment
                 </th>
-                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[15%]">
+                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[14%]">
+                  Team Health
+                </th>
+                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[14%]">
                   Match Score
                 </th>
-                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[5%]"></th>
+                <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[8%]"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-[#27272a]">
@@ -221,6 +254,19 @@ export function ProjectTable({
                     <span className="text-sm text-gray-600 dark:text-gray-300 font-mono">
                       {project.commitment}
                     </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="space-y-1">
+                      <p className="text-xs text-gray-600 dark:text-gray-300 font-mono">
+                        Team: {project.teamSize}
+                      </p>
+                      <p className="text-xs text-gray-600 dark:text-gray-300 font-mono">
+                        Open: {project.openRoles}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                        Reply: {project.responseTime}
+                      </p>
+                    </div>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-3">

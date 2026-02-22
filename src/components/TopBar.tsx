@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, SlidersHorizontal, ChevronDown, Plus, X } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronDown, Plus } from 'lucide-react';
 interface TopBarProps {
   onNewProject?: () => void;
   onFilterChange?: (filters: FilterState) => void;
@@ -156,11 +156,13 @@ export function TopBar({
                       Role
                     </h4>
                     <div className="space-y-2">
-                      {[
+                     {[
                     'Frontend Developer',
                     'Backend Developer',
-                    'Designer',
-                    'Product Manager'].
+                    'Product Designer',
+                    'Product Manager',
+                    'Data Scientist',
+                    'DevOps Engineer'].
                     map((role) =>
                     <label
                       key={role}
@@ -187,9 +189,10 @@ export function TopBar({
                     </h4>
                     <div className="space-y-2">
                       {[
+                    '5-10 hrs/week',
+                    '10-20 hrs/week',
+                    '20+ hrs/week',
                     'Full-time',
-                    'Part-time',
-                    '10-20h/week',
                     'Project-based'].
                     map((commitment) =>
                     <label

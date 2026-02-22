@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Plus, LayoutGrid, List as ListIcon } from 'lucide-react';
 import {
   ListingCard,
@@ -48,6 +48,40 @@ export function MyListingsPage() {
   const [filter, setFilter] = useState<ListingStatus | 'all'>('all');
   const [listings, setListings] = useState<ListingData[]>(MOCK_LISTINGS);
   const [showCreateProject, setShowCreateProject] = useState(false);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem('nexus:listings') || '[]') as Array<{
+      id: string;
+      createdAt: string;
+      data: {
+        projectName?: string;
+        stage?: string;
+        roles?: Array<{name?: string}>;
+      };
+    }>;
+    if (!saved.length) return;
+
+    const mapped: ListingData[] = saved.map((item) => {
+      const created = new Date(item.createdAt);
+      const roleNames = (item.data.roles || [])
+        .map((role) => role.name || '')
+        .filter(Boolean);
+      return {
+        id: item.id,
+        name: item.data.projectName || 'Untitled Project',
+        status: 'active',
+        stage: item.data.stage ? item.data.stage[0].toUpperCase() + item.data.stage.slice(1) : 'Idea',
+        roles: roleNames.length ? roleNames : ['Role not defined'],
+        views: 0,
+        interests: 0,
+        matches: 0,
+        created: created.toLocaleDateString(),
+        updated: 'Just now'
+      };
+    });
+
+    setListings((prev) => [...mapped, ...prev]);
+  }, []);
   const handleAction = (id: string, action: string) => {
     if (action === 'pause') {
       setListings((prev) =>

@@ -6,6 +6,12 @@ interface LayoutProps {
   activeTab: Tab;
   onTabChange: (tab: Tab) => void;
   onNewProject: () => void;
+  showMatchingPulse?: boolean;
+  currentUser?: {
+    name: string;
+    initials: string;
+    role: string;
+  };
   onLogout?: () => void;
   onFilterChange?: (filters: FilterState) => void;
   onSortChange?: (sort: SortOption) => void;
@@ -16,6 +22,8 @@ export function Layout({
   activeTab,
   onTabChange,
   onNewProject,
+  showMatchingPulse,
+  currentUser,
   onLogout,
   onFilterChange,
   onSortChange,
@@ -26,6 +34,8 @@ export function Layout({
       <Sidebar
         activeTab={activeTab}
         onTabChange={onTabChange}
+        showMatchingPulse={showMatchingPulse}
+        currentUser={currentUser}
         onLogout={onLogout} />
 
       <div className="flex-1 ml-[240px] flex flex-col min-w-0">
