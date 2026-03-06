@@ -6,7 +6,7 @@ interface LayoutProps {
   activeTab: Tab;
   onTabChange: (tab: Tab) => void;
   onNewProject: () => void;
-  showMatchingPulse?: boolean;
+  isMatchingActive?: boolean;
   currentUser?: {
     name: string;
     initials: string;
@@ -22,7 +22,7 @@ export function Layout({
   activeTab,
   onTabChange,
   onNewProject,
-  showMatchingPulse,
+  isMatchingActive = false,
   currentUser,
   onLogout,
   onFilterChange,
@@ -34,7 +34,7 @@ export function Layout({
       <Sidebar
         activeTab={activeTab}
         onTabChange={onTabChange}
-        showMatchingPulse={showMatchingPulse}
+        isMatchingActive={isMatchingActive}
         currentUser={currentUser}
         onLogout={onLogout} />
 

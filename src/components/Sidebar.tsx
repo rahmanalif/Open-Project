@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   FolderKanban,
-  Zap,
   Target,
   List,
   Settings,
@@ -13,11 +12,11 @@ import {
   ChevronDown } from
 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
-export type Tab = 'projects' | 'quick-match' | 'matches' | 'listings' | 'settings';
+export type Tab = 'projects' | 'matchmaking' | 'matches' | 'listings' | 'settings';
 interface SidebarProps {
   activeTab: Tab;
   onTabChange: (tab: Tab) => void;
-  showMatchingPulse?: boolean;
+  isMatchingActive?: boolean;
   currentUser?: {
     name: string;
     initials: string;
@@ -32,14 +31,14 @@ type NavItem = {
 };
 const navItems: NavItem[] = [
 {
+  id: 'matchmaking',
+  label: 'Matchmaking',
+  icon: Target
+},
+{
   id: 'projects',
   label: 'Projects',
   icon: FolderKanban
-},
-{
-  id: 'quick-match',
-  label: 'Quick Match',
-  icon: Zap
 },
 {
   id: 'matches',
@@ -57,7 +56,7 @@ const navItems: NavItem[] = [
   icon: Settings
 }];
 
-export function Sidebar({ activeTab, onTabChange, showMatchingPulse, currentUser, onLogout }: SidebarProps) {
+export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, currentUser, onLogout }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const handleLogout = () => {
@@ -87,35 +86,31 @@ export function Sidebar({ activeTab, onTabChange, showMatchingPulse, currentUser
 
       {/* Navigation */}
       <nav className="flex-1 py-4 px-2 space-y-0.5">
-        <div className="px-2 mb-2 text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Workspace
-        </div>
+        
         {navItems.map((item) =>
         <button
           key={item.id}
           onClick={() => onTabChange(item.id)}
           className={`
-              w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200
+              w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200
               ${activeTab === item.id ? 'bg-gray-100 dark:bg-[#27272a] text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1f1f23] hover:text-gray-900 dark:hover:text-white'}
             `}>
-
-            <item.icon
-            size={18}
-            className={
-            activeTab === item.id ?
-            'text-gray-900 dark:text-white' :
-            'text-gray-500 dark:text-gray-400'
-            } />
-
-            <span className="flex items-center gap-2">
-              {item.label}
-              {item.id === 'quick-match' && showMatchingPulse &&
-              <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
-                </span>
-              }
-            </span>
+            <div className="flex items-center gap-3">
+              <item.icon
+                size={18}
+                className={
+                  activeTab === item.id
+                    ? 'text-gray-900 dark:text-white'
+                    : 'text-gray-500 dark:text-gray-400'
+                }
+              />
+              <span className="flex items-center gap-2">{item.label}</span>
+            </div>
+            {item.id === 'matchmaking' && (
+              <div
+                className={`w-2 h-2 rounded-full ${isMatchingActive ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-gray-300 dark:bg-gray-600'}`}
+              />
+            )}
           </button>
         )}
       </nav>

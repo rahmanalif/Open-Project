@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Home,
   CheckSquare,
+  MessageSquare,
   Folder,
   Users,
   Settings,
@@ -10,7 +11,7 @@ import {
   Sun } from
 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
-export type ProjectTab = 'overview' | 'tasks' | 'files' | 'members' | 'settings';
+export type ProjectTab = 'overview' | 'tasks' | 'channels' | 'files' | 'members' | 'settings';
 interface ProjectSidebarProps {
   activeTab: ProjectTab;
   onTabChange: (tab: ProjectTab) => void;
@@ -31,6 +32,12 @@ export function ProjectSidebar({
     label: 'Tasks',
     icon: CheckSquare,
     count: 12
+  },
+  {
+    id: 'channels',
+    label: 'Channels',
+    icon: MessageSquare,
+    count: 3
   },
   {
     id: 'files',
@@ -56,7 +63,11 @@ export function ProjectSidebar({
 
       {/* Navigation */}
       <nav className="flex-1 py-6 px-3 space-y-1">
+        <div className="px-3 mb-3 text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+          Workspace
+        </div>
         {navItems.map((item) =>
+        
         <button
           key={item.id}
           onClick={() => onTabChange(item.id as ProjectTab)}
@@ -92,7 +103,7 @@ export function ProjectSidebar({
         {/* Health Indicator */}
         <div className="bg-white dark:bg-[#1f1f23] p-3 rounded-lg border border-gray-200 dark:border-[#27272a] shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <span className="text-xs  font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               Health
             </span>
             <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">

@@ -4,7 +4,7 @@ import { ProjectTable } from './components/ProjectTable';
 import { MatchesPage } from './pages/MatchesPage';
 import { MyListingsPage } from './pages/MyListingsPage';
 import { SettingsPage } from './pages/SettingsPage';
-import { QuickMatchPage } from './pages/QuickMatchPage';
+import { QuickAutoMatchPage } from './pages/QuickAutoMatchPage';
 import { Tab } from './components/Sidebar';
 import { ProjectCreationModal } from './components/ProjectCreationModal';
 import { ThemeProvider } from './hooks/useTheme';
@@ -12,6 +12,7 @@ import { ProjectWorkspaceLayout } from './components/project-workspace/ProjectWo
 import { ProjectTab } from './components/project-workspace/ProjectSidebar';
 import { ProjectOverview } from './pages/project/ProjectOverview';
 import { ProjectTasks } from './pages/project/ProjectTasks';
+import { ProjectChannels } from './pages/project/ProjectChannels';
 import { ProjectMembers } from './pages/project/ProjectMembers';
 import { ProjectFiles } from './pages/project/ProjectFiles';
 import { ProjectSettings } from './pages/project/ProjectSettings';
@@ -34,7 +35,7 @@ export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authView, setAuthView] = useState<AuthView>(null);
   const [viewMode, setViewMode] = useState<'browse' | 'workspace'>('browse');
-  const [activeTab, setActiveTab] = useState<Tab>('projects');
+  const [activeTab, setActiveTab] = useState<Tab>('matchmaking');
   const [projectTab, setProjectTab] = useState<ProjectTab>('overview');
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
@@ -44,7 +45,6 @@ export function App() {
   });
   const [sortOption, setSortOption] = useState<SortOption>('relevance');
   const [searchQuery, setSearchQuery] = useState('');
-  const [isMatchingActive, setIsMatchingActive] = useState(false);
   const [currentUser, setCurrentUser] = useState<UserProfile>({
     name: 'New Member',
     initials: 'NM',
@@ -64,7 +64,7 @@ export function App() {
     setIsAuthenticated(false);
     setAuthView('login');
     setViewMode('browse');
-    setActiveTab('projects');
+    setActiveTab('matchmaking');
   };
   const handleLogin = () => {
     setIsAuthenticated(true);
@@ -121,6 +121,7 @@ export function App() {
 
           {projectTab === 'overview' && <ProjectOverview />}
           {projectTab === 'tasks' && <ProjectTasks />}
+          {projectTab === 'channels' && <ProjectChannels />}
           {projectTab === 'members' && <ProjectMembers />}
           {projectTab === 'files' && <ProjectFiles />}
           {projectTab === 'settings' && <ProjectSettings />}
@@ -134,7 +135,7 @@ export function App() {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onNewProject={() => setIsCreationModalOpen(true)}
-        showMatchingPulse={isMatchingActive}
+        isMatchingActive={activeTab === 'matchmaking'}
         onLogout={handleLogout}
         currentUser={currentUser}
         onFilterChange={setFilters}
@@ -173,10 +174,7 @@ export function App() {
         }
 
         {activeTab === 'matches' && <MatchesPage />}
-
-        {activeTab === 'quick-match' &&
-        <QuickMatchPage onMatchingStateChange={setIsMatchingActive} />
-        }
+        {activeTab === 'matchmaking' && <QuickAutoMatchPage />}
 
         {activeTab === 'listings' && <MyListingsPage />}
 
