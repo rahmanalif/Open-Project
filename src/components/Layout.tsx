@@ -43,7 +43,8 @@ export function Layout({
           onNewProject={onNewProject}
           onFilterChange={onFilterChange}
           onSortChange={onSortChange}
-          onSearchChange={onSearchChange} />
+          onSearchChange={onSearchChange}
+          showProjectControls={activeTab === 'projects'} />
 
         <main className="flex-1 overflow-auto px-4 py-4 sm:px-6 sm:py-6">
           <div className="max-w-7xl mx-auto">{children}</div>

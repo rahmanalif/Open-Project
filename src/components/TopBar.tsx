@@ -5,6 +5,7 @@ interface TopBarProps {
   onFilterChange?: (filters: FilterState) => void;
   onSortChange?: (sort: SortOption) => void;
   onSearchChange?: (query: string) => void;
+  showProjectControls?: boolean;
 }
 export interface FilterState {
   roles: string[];
@@ -33,7 +34,8 @@ export function TopBar({
   onNewProject,
   onFilterChange,
   onSortChange,
-  onSearchChange
+  onSearchChange,
+  showProjectControls = false
 }: TopBarProps) {
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
@@ -92,7 +94,7 @@ export function TopBar({
   };
   const activeFilterCount = filters.roles.length + filters.commitment.length;
   return (
-    <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur transition-colors duration-200 dark:border-[#27272a] dark:bg-[#141416]/95 sm:px-6 md:py-2">
+    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white px-4 py-3 shadow-sm transition-colors duration-200 dark:border-[#27272a] dark:bg-[#141416] sm:px-6 md:py-2 md:bg-white/95 md:backdrop-blur md:dark:bg-[#141416]/95">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
       {/* Left: Search */}
       <div className="ml-12 flex items-center flex-1 max-w-none md:ml-0 md:max-w-md">
@@ -113,6 +115,7 @@ export function TopBar({
 
       {/* Right: Controls */}
       <div className="flex flex-wrap items-center gap-2 md:justify-end md:gap-3">
+        {showProjectControls &&
         <div className="flex flex-wrap items-center gap-2 md:border-r md:border-gray-200 md:pr-3 md:mr-1 md:dark:border-[#27272a]">
           {/* Filter Button */}
           <div className="relative">
@@ -281,6 +284,7 @@ export function TopBar({
             }
           </div>
         </div>
+        }
 
         <button
           onClick={onNewProject}

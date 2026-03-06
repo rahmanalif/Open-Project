@@ -4,7 +4,6 @@ import {
   Target,
   List,
   Settings,
-  Command,
   Moon,
   Sun,
   LogOut,
@@ -31,6 +30,24 @@ type NavItem = {
   label: string;
   icon: React.ElementType;
 };
+
+const PIXEL_FONT: Record<string, string[]> = {
+  O: ['111', '101', '101', '101', '111'],
+  P: ['110', '101', '110', '100', '100'],
+  E: ['111', '100', '110', '100', '111'],
+  N: ['101', '111', '111', '111', '101'],
+  R: ['110', '101', '110', '101', '101'],
+  J: ['111', '001', '001', '101', '111'],
+  C: ['111', '100', '100', '100', '111'],
+  T: ['111', '010', '010', '010', '010'],
+  ' ': ['000', '000', '000', '000', '000']
+};
+
+const BRAND_TEXT = 'OPEN PROJECT';
+const BRAND_TEXT_ROWS = Array.from({ length: 5 }, (_, rowIndex) =>
+  BRAND_TEXT.split('').map((char) => PIXEL_FONT[char]?.[rowIndex] || PIXEL_FONT[' '][rowIndex]).join('0')
+);
+const BRAND_LOGO = ['11111', '10001', '10101', '10001', '11111'];
 const navItems: NavItem[] = [
 {
   id: 'matchmaking',
@@ -92,14 +109,43 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
 
       <aside className={`w-[240px] h-screen bg-white dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-30 transition-transform duration-200 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Brand / Logo Area */}
-      <div className="h-14 px-4 border-b border-gray-100 dark:border-[#27272a] flex items-center">
-        <div className="flex items-center gap-2.5 text-gray-900 dark:text-white">
-          <div className="w-6 h-6 bg-gray-900 dark:bg-white rounded-md flex items-center justify-center text-white dark:text-gray-900">
-            <Command size={14} />
+      <div className="h-14 px-3 border-b border-gray-100 dark:border-[#27272a] flex items-center overflow-hidden">
+        <div className="flex items-center gap-2 text-gray-900 dark:text-white min-w-0 w-full overflow-hidden">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-[#f3f4f6] p-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-[#f5f5f5] dark:ring-white/10">
+            <div className="grid grid-cols-5 gap-[1.5px]">
+              {BRAND_LOGO.flatMap((row, rowIndex) =>
+              row.split('').map((cell, cellIndex) =>
+              <div
+                key={`logo-${rowIndex}-${cellIndex}`}
+                className={`h-[3px] w-[3px] rounded-[1px] ${cell === '1' ? 'bg-[#111113]' : 'bg-[#c9ccd3]'}`} />
+
+              )
+              )}
+            </div>
           </div>
-          <span className="text-xs font-semibold uppercase tracking-[0.12em]">
-            OPEN PROJECT
-          </span>
+
+          <div className="min-w-0 max-w-full overflow-hidden rounded-[10px] border border-[#2a2d34] bg-[#111113] px-2 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            <div
+              className="grid gap-[1px]"
+              style={{
+                backgroundImage:
+                'radial-gradient(circle, rgba(255,255,255,0.14) 0.7px, transparent 0.7px)',
+                backgroundSize: '4px 4px',
+                backgroundPosition: 'center'
+              }}>
+              {BRAND_TEXT_ROWS.map((row, rowIndex) =>
+              <div key={`text-${rowIndex}`} className="flex gap-[1px]">
+                  {row.split('').map((cell, cellIndex) =>
+                <div
+                  key={`text-${rowIndex}-${cellIndex}`}
+                  className={`h-[2px] w-[2px] rounded-[1px] ${cell === '1' ? 'bg-[#f4f7ff]' : 'bg-transparent'}`} />
+
+                )}
+                </div>
+
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -128,9 +174,9 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
               />
               <span className="flex items-center gap-2">{item.label}</span>
             </div>
-            {item.id === 'matchmaking' && (
+            {activeTab === item.id && (
               <div
-                className={`w-2 h-2 rounded-full ${isMatchingActive ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-gray-300 dark:bg-gray-600'}`}
+                className={`w-2 h-2 rounded-full ${item.id === 'matchmaking' ? (isMatchingActive ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-gray-300 dark:bg-gray-600') : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'}`}
               />
             )}
           </button>
