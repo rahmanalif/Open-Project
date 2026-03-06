@@ -66,6 +66,7 @@ export function ProjectSidebar({
         <div className="px-3 mb-3 text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
           Workspace
         </div>
+        
         {navItems.map((item) =>
         
         <button

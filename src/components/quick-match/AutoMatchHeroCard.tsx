@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Target, Radio, Check, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { MatchState } from './MatchResultsPanel';
 interface AutoMatchHeroCardProps {
@@ -19,6 +19,8 @@ export function AutoMatchHeroCard({
 }: AutoMatchHeroCardProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [resetConfirmVisible, setResetConfirmVisible] = useState(false);
+  const [activeCells, setActiveCells] = useState<Record<string, boolean>>({});
+  const cellTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (matchState === 'searching') {
@@ -31,6 +33,12 @@ export function AutoMatchHeroCard({
     }
     return () => clearInterval(interval);
   }, [matchState]);
+  useEffect(() => {
+    return () => {
+      cellTimeoutsRef.current.forEach((timeoutId) => clearTimeout(timeoutId));
+      cellTimeoutsRef.current.clear();
+    };
+  }, []);
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
@@ -46,6 +54,28 @@ export function AutoMatchHeroCard({
   const handleCancelReset = () => {
     setResetConfirmVisible(false);
   };
+  const handleCellTrail = (cellKey: string) => {
+    setActiveCells((prev) => ({
+      ...prev,
+      [cellKey]: true
+    }));
+
+    const existingTimeout = cellTimeoutsRef.current.get(cellKey);
+    if (existingTimeout) {
+      clearTimeout(existingTimeout);
+    }
+
+    const timeoutId = setTimeout(() => {
+      setActiveCells((prev) => {
+        const next = { ...prev };
+        delete next[cellKey];
+        return next;
+      });
+      cellTimeoutsRef.current.delete(cellKey);
+    }, 10000);
+
+    cellTimeoutsRef.current.set(cellKey, timeoutId);
+  };
   // 6 fields to check for completeness
   const fields = [
   !!profileData.category,
@@ -54,7 +84,32 @@ export function AutoMatchHeroCard({
   !!profileData.availability,
   !!profileData.timeline,
   profileData.skills?.length > 0];
-
+  const circleGridSize = 42;
+  const circleRadius = 20;
+  const circleCells = Array.from({ length: circleGridSize }, (_, rowIndex) =>
+  Array.from({ length: circleGridSize }, (_, columnIndex) => {
+    const offsetX = columnIndex - (circleGridSize - 1) / 2;
+    const offsetY = rowIndex - (circleGridSize - 1) / 2;
+    return offsetX * offsetX + offsetY * offsetY <= circleRadius * circleRadius;
+  })
+  );
+  const highlightedCells = new Set(['8-14', '10-29', '12-32', '15-20', '18-11', '20-34']);
+  const getBaseCellClasses = (rowIndex: number, cellIndex: number) => {
+    const wave = (Math.sin((rowIndex + cellIndex) / 3) + 1) / 2;
+    if (matchState === 'matched') {
+      return wave > 0.55 ?
+      'bg-emerald-300 shadow-[0_0_10px_rgba(110,231,183,0.7)] animate-pulse' :
+      'bg-emerald-400/75 shadow-[0_0_8px_rgba(52,211,153,0.35)]';
+    }
+    if (matchState === 'searching') {
+      return wave > 0.55 ?
+      'bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.75)] animate-pulse' :
+      'bg-blue-400/75 shadow-[0_0_8px_rgba(96,165,250,0.35)]';
+    }
+    return wave > 0.55 ?
+    'bg-blue-300 shadow-[0_0_10px_rgba(147,197,253,0.7)] animate-pulse' :
+    'bg-blue-500/70 shadow-[0_0_8px_rgba(59,130,246,0.3)]';
+  };
   return (
     <div className="bg-[#0a0a0b] border border-[#27272a] rounded-2xl p-8 shadow-[inset_0_0_60px_rgba(0,0,0,0.8)] relative overflow-hidden flex flex-col items-center justify-center min-h-[500px]">
       {/* Circuit board texture background */}
@@ -104,7 +159,7 @@ export function AutoMatchHeroCard({
         <button
           onClick={onStartMatch}
           disabled={matchState === 'searching'}
-          className={`relative group flex flex-col items-center justify-center w-48 h-48 rounded-full transition-all duration-500 ${matchState === 'idle' ? 'bg-[#141416] border border-[#27272a] hover:border-blue-500/50 hover:scale-105 shadow-[0_0_30px_rgba(0,0,0,0.5)] cursor-pointer' : matchState === 'searching' ? 'bg-blue-600/10 border border-blue-500 shadow-[0_0_50px_rgba(37,99,235,0.4)] cursor-default' : 'bg-emerald-500/10 border border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.4)] cursor-default'}`}>
+          className={`relative group flex flex-col items-center justify-center w-56 h-56 rounded-full transition-all duration-500 ${matchState === 'idle' ? 'bg-black border border-[#27272a] hover:border-blue-500/50 hover:scale-105 shadow-[0_0_30px_rgba(0,0,0,0.7)] cursor-pointer' : matchState === 'searching' ? 'bg-blue-600/10 border border-blue-500 shadow-[0_0_50px_rgba(37,99,235,0.4)] cursor-default' : 'bg-emerald-500/10 border border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.4)] cursor-default'}`}>
 
           {/* Idle Rings */}
           {matchState === 'idle' &&
@@ -134,14 +189,35 @@ export function AutoMatchHeroCard({
             </>
           }
 
-          <div
-            className={`transition-transform duration-300 ${matchState === 'idle' ? 'text-blue-500 group-hover:scale-110 group-hover:text-blue-400' : matchState === 'searching' ? 'text-blue-400' : 'text-emerald-400'}`}>
+          <div className="relative flex items-center justify-center">
+            <div className="absolute inset-[1px] rounded-full bg-[#050505] border border-[#111113]" />
+            <div className="relative flex flex-col items-center gap-[1px] transition-transform duration-300 group-hover:scale-105">
+              {circleCells.map((row, rowIndex) =>
+              <div key={rowIndex} className="flex items-center justify-center gap-[1px]">
+                  {row.map((isVisible, cellIndex) =>
+                {
+                  const cellKey = `${rowIndex}-${cellIndex}`;
+                  const isHighlighted = highlightedCells.has(cellKey);
+                  const isActive = activeCells[cellKey];
+                  const isCircleCell = isVisible;
+                  return (
+                <div
+                  key={cellKey}
+                  onMouseEnter={isCircleCell ? () => handleCellTrail(cellKey) : undefined}
+                  className={`transition-all duration-150 ${isCircleCell ? getBaseCellClasses(rowIndex, cellIndex) : 'bg-transparent shadow-none'} ${isHighlighted && isCircleCell ? '!bg-white shadow-[0_0_10px_rgba(255,255,255,0.95)]' : ''} ${isActive && isCircleCell ? '!bg-red-500 !shadow-[0_0_12px_rgba(239,68,68,0.98)]' : ''}`}
+                  style={{
+                    width: '4px',
+                    height: '4px',
+                    animationDelay: `${(rowIndex * 45 + cellIndex * 35) % 1400}ms`
+                  }} />
+                  );
+                }
 
-            {matchState === 'idle' && <Target size={56} strokeWidth={1.5} />}
-            {matchState === 'searching' &&
-            <Radio size={56} strokeWidth={1.5} className="animate-pulse" />
-            }
-            {matchState === 'matched' && <Check size={56} strokeWidth={2} />}
+                )}
+                </div>
+
+              )}
+            </div>
           </div>
         </button>
 
