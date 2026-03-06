@@ -1,6 +1,27 @@
 import React, { useMemo, useState } from 'react';
-import { X, DoorOpen, Rocket, Info } from 'lucide-react';
-import { DOMAIN_OPTIONS, ROLE_OPTIONS } from '../project-steps/constants';
+import {
+  X,
+  DoorOpen,
+  Rocket,
+  Info,
+  BookOpen,
+  Briefcase,
+  Clapperboard,
+  Cpu,
+  Gamepad2,
+  Globe,
+  GraduationCap,
+  Image,
+  Mic2,
+  Smartphone,
+  Sparkles,
+  TrendingUp } from
+'lucide-react';
+import {
+  DEFAULT_ROLE_OPTIONS,
+  DOMAIN_OPTIONS,
+  DOMAIN_ROLE_OPTIONS } from
+'../project-steps/constants';
 interface RequiredFieldsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -16,107 +37,118 @@ const LEGACY_CATEGORY_MAP: Record<string, string> = {
   design: 'Art & Illustration'
 };
 
-const DOMAIN_META: Record<string, { icon: string; desc: string }> = {
-  Games: { icon: '🎮', desc: 'Gameplay, design, and interactive experiences' },
-  'Web App': { icon: '🌐', desc: 'Frontend, backend, and full-stack products' },
-  'Mobile App': { icon: '📱', desc: 'Android, iOS, and cross-platform apps' },
-  'Film & Video': { icon: '🎬', desc: 'Direction, editing, and production' },
-  'Music & Audio': { icon: '🎵', desc: 'Composition, mixing, and sound design' },
-  'Art & Illustration': { icon: '🎨', desc: 'Visual direction, assets, and illustration' },
-  Education: { icon: '🎓', desc: 'Learning products and education tools' },
-  'Marketing & Growth': { icon: '📈', desc: 'Go-to-market, growth, and audience building' },
-  'Open Source': { icon: '🧩', desc: 'Community-driven public software projects' },
-  'Hardware & IoT': { icon: '🔧', desc: 'Devices, sensors, and physical computing' },
-  Other: { icon: '✨', desc: 'Any category outside the listed domains' }
+const DOMAIN_META: Record<string, { icon: React.ComponentType<{size?: number; className?: string;}>; desc: string }> = {
+  Games: { icon: Gamepad2, desc: 'Gameplay, design, and interactive experiences' },
+  'Web App': { icon: Globe, desc: 'Frontend, backend, and full-stack products' },
+  'Mobile App': { icon: Smartphone, desc: 'Android, iOS, and cross-platform apps' },
+  'Film & Video': { icon: Clapperboard, desc: 'Direction, editing, and production' },
+  'Music & Audio': { icon: Mic2, desc: 'Composition, mixing, and sound design' },
+  'Art & Illustration': { icon: Image, desc: 'Visual direction, assets, and illustration' },
+  Education: { icon: GraduationCap, desc: 'Learning products and education tools' },
+  'Marketing & Growth': { icon: TrendingUp, desc: 'Go-to-market, growth, and audience building' },
+  'Open Source': { icon: BookOpen, desc: 'Community-driven public software projects' },
+  'Hardware & IoT': { icon: Cpu, desc: 'Devices, sensors, and physical computing' },
+  Other: { icon: Sparkles, desc: 'Any category outside the listed domains' }
 };
 
 const CATEGORIES = DOMAIN_OPTIONS.map((domain) => ({
   id: domain,
   label: domain,
-  icon: DOMAIN_META[domain]?.icon || '✨',
+  icon: DOMAIN_META[domain]?.icon || Briefcase,
   desc: DOMAIN_META[domain]?.desc || 'Project category'
 }));
-
-const ROLES_BY_CATEGORY: Record<string, string[]> = {
-  Games: [
-  'Programmer',
-  'Game Designer',
-  'Artist and Illustrator',
-  'Animator',
-  'Sound Designer',
-  'Level Designer',
-  'QA Tester'],
-
-  'Web App': [
-  'Frontend Developer',
-  'Backend Developer',
-  'Full-stack Developer',
-  'Mobile Developer',
-  'UI/UX Designer',
-  'Content Writer',
-  'QA Tester'],
-
-  'Mobile App': [
-  'Mobile Developer',
-  'Frontend Developer',
-  'Backend Developer',
-  'UI/UX Designer',
-  'QA Tester'],
-
-  'Film & Video': [
-  'Scriptwriter',
-  'Director',
-  'Camera Operator',
-  'Video Editor',
-  'Sound Engineer',
-  'Actor or Voice Actor',
-  'Production Designer'],
-
-  'Music & Audio': [
-  'Sound Designer',
-  'Composer',
-  'Audio Engineer',
-  'Voice Actor'],
-
-  'Art & Illustration': [
-  '2D or 3D Animator',
-  'Illustrator',
-  'Concept Artist',
-  'Storyboard Artist',
-  'Graphic Designer',
-  'UI/UX Designer'],
-
-  Education: ['Product Manager', 'Content Writer', 'Frontend Developer', 'Backend Developer', 'UI/UX Designer'],
-  'Marketing & Growth': ['Marketing/Growth', 'Product Manager', 'Copywriter', 'UI/UX Designer'],
-  'Open Source': ['Frontend Developer', 'Backend Developer', 'DevOps Engineer', 'Technical Writer', 'QA Tester'],
-  'Hardware & IoT': ['Hardware Engineer', 'Embedded Developer', 'Backend Developer', 'Mobile Developer', 'QA Tester']
-
-};
-const SKILL_CATEGORIES = [
+const DEFAULT_SKILL_CATEGORIES = [
 {
-  label: 'Tech',
-  skills: [
-  'React',
-  'Unity',
-  'Python',
-  'Node.js',
-  'Figma',
-  'Blender',
-  'After Effects']
-
+  label: 'Core',
+  skills: ['Communication', 'Problem Solving', 'Collaboration']
 },
 {
-  label: 'Design',
-  skills: ['UI Design', '3D Modeling', 'Illustration', 'Motion Graphics']
-},
-{
-  label: 'Creative',
-  skills: ['Storytelling', 'Sound Design', 'Voice Acting', 'Scriptwriting']
-},
-{
-  label: 'Business',
-  skills: ['Product Management', 'Marketing', 'Growth']
+  label: 'Delivery',
+  skills: ['Execution', 'Documentation', 'Feedback']
 }];
+
+const ROLE_SKILL_RULES = [
+{
+  matches: ['frontend', 'web', 'react', 'full-stack', 'full stack'],
+  categories: [
+  { label: 'Frontend', skills: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js'] },
+  { label: 'Workflow', skills: ['Responsive Design', 'State Management', 'API Integration'] }]
+},
+{
+  matches: ['backend', 'database', 'api'],
+  categories: [
+  { label: 'Backend', skills: ['Node.js', 'Python', 'SQL', 'REST APIs'] },
+  { label: 'Infra', skills: ['Authentication', 'Database Design', 'System Design'] }]
+},
+{
+  matches: ['mobile', 'ios', 'android', 'react native', 'flutter'],
+  categories: [
+  { label: 'Mobile', skills: ['React Native', 'Flutter', 'Swift', 'Kotlin'] },
+  { label: 'App Delivery', skills: ['Mobile UI', 'API Integration', 'Performance Optimization'] }]
+},
+{
+  matches: ['game', 'level designer'],
+  categories: [
+  { label: 'Game Dev', skills: ['Unity', 'Unreal Engine', 'Gameplay Systems', 'Level Design'] },
+  { label: 'Production', skills: ['Balancing', 'Rapid Prototyping', 'Playtesting'] }]
+},
+{
+  matches: ['ui/ux', 'ui designer', 'designer', 'illustrator', 'artist', 'concept', 'storyboard', 'brand identity', 'graphic designer', '3d modeler', 'technical artist'],
+  categories: [
+  { label: 'Design', skills: ['Figma', 'Visual Design', 'Prototyping', 'Design Systems'] },
+  { label: 'Creative', skills: ['Illustration', 'Composition', 'Storytelling', 'Motion Graphics'] }]
+},
+{
+  matches: ['animator', 'motion graphics'],
+  categories: [
+  { label: 'Animation', skills: ['After Effects', 'Blender', '2D Animation', '3D Animation'] },
+  { label: 'Creative', skills: ['Storyboarding', 'Timing', 'Motion Design'] }]
+},
+{
+  matches: ['sound', 'audio', 'music', 'vocalist', 'singer', 'lyricist', 'podcast', 'foley', 'composer'],
+  categories: [
+  { label: 'Audio', skills: ['Sound Design', 'Mixing', 'Mastering', 'Recording'] },
+  { label: 'Creative', skills: ['Composition', 'Voice Work', 'Audio Editing'] }]
+},
+{
+  matches: ['writer', 'scriptwriter', 'narrative', 'content', 'technical writer', 'voiceover'],
+  categories: [
+  { label: 'Writing', skills: ['Storytelling', 'Copywriting', 'Scriptwriting', 'Editing'] },
+  { label: 'Content', skills: ['Research', 'Documentation', 'Content Strategy'] }]
+},
+{
+  matches: ['marketing', 'seo', 'social media', 'email marketer', 'paid ads', 'growth', 'brand designer'],
+  categories: [
+  { label: 'Growth', skills: ['SEO', 'Content Strategy', 'Paid Ads', 'Analytics'] },
+  { label: 'Brand', skills: ['Messaging', 'Campaign Planning', 'Social Media'] }]
+},
+{
+  matches: ['product manager', 'producer', 'project lead', 'community manager', 'project maintainer', 'curriculum', 'instructional', 'researcher'],
+  categories: [
+  { label: 'Leadership', skills: ['Roadmapping', 'Planning', 'Stakeholder Communication', 'Research'] },
+  { label: 'Execution', skills: ['Prioritization', 'Documentation', 'Facilitation'] }]
+},
+{
+  matches: ['qa', 'security', 'accessibility'],
+  categories: [
+  { label: 'Quality', skills: ['Testing', 'Bug Reporting', 'Automation', 'Accessibility'] },
+  { label: 'Review', skills: ['Quality Assurance', 'Security Review', 'Regression Testing'] }]
+},
+{
+  matches: ['devops', 'firmware', 'embedded', 'hardware', 'pcb'],
+  categories: [
+  { label: 'Systems', skills: ['CI/CD', 'Linux', 'Infrastructure', 'Monitoring'] },
+  { label: 'Engineering', skills: ['Firmware', 'Debugging', 'Hardware Integration'] }]
+}];
+
+function getSkillCategoriesForRole(role: string) {
+  if (!role) return DEFAULT_SKILL_CATEGORIES;
+  const normalizedRole = role.toLowerCase();
+  const matchedRule = ROLE_SKILL_RULES.find((rule) =>
+  rule.matches.some((match) => normalizedRole.includes(match))
+  );
+  return matchedRule?.categories || DEFAULT_SKILL_CATEGORIES;
+}
 
 export function RequiredFieldsModal({
   isOpen,
@@ -137,6 +169,10 @@ export function RequiredFieldsModal({
     timeline: initialData?.timeline || '',
     skills: initialData?.skills || [] as string[]
   });
+  const skillCategories = useMemo(
+    () => getSkillCategoriesForRole(formData.role),
+    [formData.role]
+  );
   const updateField = (field: string, value: any) => {
     setFormData((prev) => {
       const newData = {
@@ -146,6 +182,10 @@ export function RequiredFieldsModal({
       // Reset role if category changes
       if (field === 'category' && prev.category !== value) {
         newData.role = '';
+        newData.skills = [];
+      }
+      if (field === 'role' && prev.role !== value) {
+        newData.skills = [];
       }
       return newData;
     });
@@ -214,13 +254,17 @@ export function RequiredFieldsModal({
               <span className="text-blue-500">*</span>
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {CATEGORIES.map((cat) =>
+              {CATEGORIES.map((cat) => {
+                const Icon = cat.icon;
+                return (
               <button
                 key={cat.id}
                 onClick={() => updateField('category', cat.id)}
                 className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${formData.category === cat.id ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.15)]' : 'border-[#27272a] bg-[#141416] hover:border-[#3f3f46]'}`}>
 
-                  <span className="text-3xl mb-2">{cat.icon}</span>
+                  <div className={`mb-3 rounded-lg p-2 ${formData.category === cat.id ? 'bg-blue-500/15 text-blue-400' : 'bg-[#0f0f10] text-gray-400'}`}>
+                    <Icon size={22} />
+                  </div>
                   <span
                   className={`font-bold mb-1 ${formData.category === cat.id ? 'text-blue-400' : 'text-gray-200'}`}>
 
@@ -228,7 +272,8 @@ export function RequiredFieldsModal({
                   </span>
                   <span className="text-xs text-gray-500">{cat.desc}</span>
                 </button>
-              )}
+              );
+              })}
             </div>
           </div>
 
@@ -281,7 +326,7 @@ export function RequiredFieldsModal({
               </div> :
 
             <div className="flex flex-wrap gap-2">
-                {(ROLES_BY_CATEGORY[formData.category] || ROLE_OPTIONS).map((role) =>
+                {(DOMAIN_ROLE_OPTIONS[formData.category] || DEFAULT_ROLE_OPTIONS).map((role) =>
               <button
                 key={role}
                 onClick={() => updateField('role', role)}
@@ -341,8 +386,12 @@ export function RequiredFieldsModal({
             <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
               6. Your key skills <span className="text-blue-500">*</span>
             </h3>
+            {!formData.role ?
+            <div className="text-sm text-gray-500 italic p-4 border border-[#27272a] border-dashed rounded-lg bg-[#141416]">
+                Please select a role first to see relevant skills.
+              </div> :
             <div className="space-y-6">
-              {SKILL_CATEGORIES.map((category) =>
+              {skillCategories.map((category) =>
               <div key={category.label}>
                   <div className="text-xs font-bold text-gray-500 mb-3">
                     {category.label}
@@ -364,6 +413,7 @@ export function RequiredFieldsModal({
                 </div>
               )}
             </div>
+            }
           </div>
         </div>
 
