@@ -58,8 +58,8 @@ export function LoginPage({
               <Command size={20} className="text-white dark:text-gray-900" />
             </div>
           </div>
-          <div className="mb-4 overflow-hidden">
-            <pre className="mx-auto text-[clamp(3px,0.58vw,5px)] leading-[1.1] font-mono text-gray-900 dark:text-white whitespace-pre">
+          <div className="mb-4 overflow-x-auto">
+            <pre className="mx-auto min-w-max text-[clamp(3px,0.58vw,5px)] leading-[1.1] font-mono text-gray-900 dark:text-white whitespace-pre">
               {blurvisionAscii}
             </pre>
           </div>
@@ -72,7 +72,7 @@ export function LoginPage({
         </div>
 
         {/* Form Card */}
-        <div className="bg-white dark:bg-[#141416] rounded-xl shadow-lg border border-gray-200 dark:border-[#27272a] p-8">
+        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-lg dark:border-[#27272a] dark:bg-[#141416] sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
@@ -140,7 +140,7 @@ export function LoginPage({
             </div>
 
             {/* Remember me & Forgot password */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -155,7 +155,7 @@ export function LoginPage({
               <button
                 type="button"
                 onClick={onForgotPasswordClick}
-                className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                className="text-left text-sm font-medium text-blue-600 hover:underline dark:text-blue-400 sm:text-right">
 
                 Forgot password?
               </button>

@@ -44,17 +44,17 @@ export function QuickAutoMatchPage() {
   };
   return (
     <div className="max-w-7xl mx-auto pb-12">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white tracking-wide flex items-center gap-3">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="flex items-center gap-3 text-2xl font-bold tracking-wide text-white sm:text-3xl">
           <span className="w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse" />
           Quick Auto Match
         </h1>
-        <p className="text-gray-400 mt-2 text-lg font-mono">
+        <p className="mt-2 text-base font-mono text-gray-400 sm:text-lg">
           Find your next collaboration in minutes.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-2 lg:gap-8">
         {/* Left Column */}
         <div className="flex flex-col gap-6">
           <AutoMatchHeroCard

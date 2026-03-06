@@ -144,7 +144,7 @@ export function App() {
 
         {activeTab === 'projects' &&
         <>
-            <div className="mb-6 flex items-end justify-between">
+            <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
                   Open Projects
@@ -153,7 +153,7 @@ export function App() {
                   Browse and filter opportunities that match your skills.
                 </p>
               </div>
-              <div className="flex gap-4 text-sm text-gray-500 dark:text-gray-400 font-mono">
+              <div className="flex flex-col gap-2 text-sm text-gray-500 dark:text-gray-400 font-mono sm:flex-row sm:flex-wrap sm:gap-4">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-blue-500"></span>
                   <span>High Match (80%+)</span>

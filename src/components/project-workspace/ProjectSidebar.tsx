@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Home,
   CheckSquare,
@@ -8,7 +8,9 @@ import {
   Settings,
   Activity,
   Moon,
-  Sun } from
+  Sun,
+  Menu,
+  X } from
 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 export type ProjectTab = 'overview' | 'tasks' | 'channels' | 'files' | 'members' | 'settings';
@@ -21,6 +23,7 @@ export function ProjectSidebar({
   onTabChange
 }: ProjectSidebarProps) {
   const { theme, toggleTheme } = useTheme();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const navItems = [
   {
     id: 'overview',
@@ -57,7 +60,23 @@ export function ProjectSidebar({
   }];
 
   return (
-    <aside className="w-[240px] h-screen bg-[#f8f9fa] dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-20 transition-colors duration-200">
+    <>
+      <button
+        type="button"
+        onClick={() => setIsMobileOpen((prev) => !prev)}
+        className="md:hidden fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-md border border-gray-200 dark:border-[#27272a] bg-white/95 dark:bg-[#141416]/95 p-2 text-gray-700 dark:text-gray-200 shadow-lg backdrop-blur">
+        {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
+      </button>
+
+      {isMobileOpen &&
+      <button
+        type="button"
+        aria-label="Close project sidebar"
+        onClick={() => setIsMobileOpen(false)}
+        className="fixed inset-0 z-20 bg-black/50 md:hidden" />
+      }
+
+      <aside className={`w-[240px] h-screen bg-[#f8f9fa] dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-30 transition-transform duration-200 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Project Identity Placeholder (TopBar covers this visually but we need spacing) */}
       <div className="h-14" />
 
@@ -71,7 +90,10 @@ export function ProjectSidebar({
         
         <button
           key={item.id}
-          onClick={() => onTabChange(item.id as ProjectTab)}
+          onClick={() => {
+            onTabChange(item.id as ProjectTab);
+            setIsMobileOpen(false);
+          }}
           className={`
               w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 group
               ${activeTab === item.id ? 'bg-white dark:bg-[#27272a] text-gray-900 dark:text-white shadow-sm ring-1 ring-gray-200 dark:ring-[#3f3f46]' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23] hover:text-gray-900 dark:hover:text-white'}
@@ -132,6 +154,7 @@ export function ProjectSidebar({
           </span>
         </button>
       </div>
-    </aside>);
+    </aside>
+    </>);
 
 }

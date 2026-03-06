@@ -1,22 +1,3 @@
-export const ROLE_OPTIONS = [
-  'Frontend Developer',
-  'Backend Developer',
-  'UI/UX Designer',
-  'Mobile Developer',
-  'DevOps Engineer',
-  'Product Manager',
-  'Marketing/Growth',
-  'Copywriter',
-  'Sound Designer',
-  '3D Artist',
-  'Filmmaker',
-  'Scriptwriter',
-  'Illustrator',
-  'Composer',
-  'Game Designer',
-  'Other'
-];
-
 export const DOMAIN_OPTIONS = [
   'Games',
   'Web App',
@@ -30,6 +11,146 @@ export const DOMAIN_OPTIONS = [
   'Hardware & IoT',
   'Other'
 ];
+
+export const DOMAIN_ROLE_OPTIONS: Record<string, string[]> = {
+  Games: [
+    'Programmer / Game Developer',
+    'Game Designer',
+    'Artist / Illustrator',
+    'Animator (2D/3D)',
+    'Sound Designer',
+    'Level Designer',
+    'QA Tester',
+    'Narrative Writer',
+    'Technical Artist',
+    'UI Designer (Game UI)',
+    'Producer'
+  ],
+  'Web App': [
+    'Frontend Developer',
+    'Backend Developer',
+    'Full-Stack Developer',
+    'UI/UX Designer',
+    'Product Manager',
+    'Content Writer',
+    'QA Tester',
+    'DevOps Engineer',
+    'Database Administrator',
+    'SEO Specialist'
+  ],
+  'Mobile App': [
+    'Mobile Developer (iOS)',
+    'Mobile Developer (Android)',
+    'React Native Developer',
+    'Flutter Developer',
+    'UI/UX Designer',
+    'Backend Developer',
+    'QA Tester',
+    'Product Manager',
+    'App Store Optimization Specialist'
+  ],
+  'Film & Video': [
+    'Director',
+    'Scriptwriter',
+    'Assistant Director',
+    'Camera Operator',
+    'Video Editor',
+    'Sound Engineer',
+    'Colorist',
+    'Production Designer',
+    'Actor / Voice Actor',
+    'Cinematographer',
+    'Producer'
+  ],
+  'Music & Audio': [
+    'Music Composer',
+    'Sound Designer',
+    'Audio Engineer',
+    'Mixing and Mastering Engineer',
+    'Vocalist / Singer',
+    'Lyricist',
+    'Music Producer',
+    'Podcast Editor',
+    'Foley Artist'
+  ],
+  'Art & Illustration': [
+    'Illustrator',
+    'Concept Artist',
+    'Character Designer',
+    'Background Artist',
+    'Storyboard Artist',
+    'Graphic Designer',
+    'Brand Identity Designer',
+    'Motion Graphics Artist',
+    '3D Modeler'
+  ],
+  Education: [
+    'Curriculum Designer',
+    'Instructional Designer',
+    'Content Writer',
+    'Video Lecturer',
+    'Graphic Designer',
+    'Frontend Developer',
+    'Backend Developer',
+    'Animator',
+    'Researcher',
+    'Voiceover Artist'
+  ],
+  'Marketing & Growth': [
+    'Growth Marketer',
+    'Content Strategist',
+    'Copywriter',
+    'Social Media Manager',
+    'SEO Specialist',
+    'Paid Ads Specialist',
+    'Email Marketer',
+    'Brand Designer',
+    'Data Analyst',
+    'Video Content Creator'
+  ],
+  'Open Source': [
+    'Frontend Developer',
+    'Backend Developer',
+    'Full-Stack Developer',
+    'DevOps Engineer',
+    'Technical Writer',
+    'QA Tester',
+    'Security Researcher',
+    'Accessibility Specialist',
+    'Community Manager',
+    'Project Maintainer'
+  ],
+  'Hardware & IoT': [
+    'Embedded Systems Engineer',
+    'Hardware Designer',
+    'Firmware Engineer',
+    'PCB Designer',
+    'Industrial Designer',
+    'Backend Developer',
+    'Mobile App Developer',
+    'QA Tester',
+    'Technical Writer',
+    'Product Manager'
+  ],
+  Other: [
+    'Project Lead',
+    'Frontend Developer',
+    'Backend Developer',
+    'Designer',
+    'QA Tester',
+    'Content Writer',
+    'Marketing Specialist',
+    'Researcher',
+    'Operations Coordinator',
+    'Other'
+  ]
+};
+
+export const DEFAULT_ROLE_OPTIONS = DOMAIN_ROLE_OPTIONS.Other;
+
+export const ROLE_OPTIONS = Array.from(
+  new Set(Object.values(DOMAIN_ROLE_OPTIONS).flat())
+);
 
 export const GOAL_OPTIONS = [
   {

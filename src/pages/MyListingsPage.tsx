@@ -126,7 +126,7 @@ export function MyListingsPage() {
   filter === 'all' ? listings : listings.filter((l) => l.status === filter);
   return (
     <div className="max-w-5xl mx-auto pb-12">
-      <div className="flex items-end justify-between mb-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
             My Listings
@@ -137,7 +137,7 @@ export function MyListingsPage() {
         </div>
         <button
           onClick={() => setShowCreateProject(true)}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
+          className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 sm:w-auto">
 
           <Plus size={16} />
           New Project
@@ -145,8 +145,8 @@ export function MyListingsPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center justify-between border-b border-gray-200 dark:border-[#27272a] mb-6">
-        <div className="flex gap-6">
+      <div className="mb-6 flex flex-col gap-3 border-b border-gray-200 dark:border-[#27272a] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex gap-4 overflow-x-auto pb-2 sm:gap-6">
           {(['all', 'active', 'paused', 'draft', 'archived'] as const).map(
             (tab) =>
             <button

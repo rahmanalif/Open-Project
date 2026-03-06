@@ -18,12 +18,12 @@ export function ProjectWorkspaceLayout({
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-[#0a0a0b] font-sans text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <ProjectSidebar activeTab={activeTab} onTabChange={onTabChange} />
-      <div className="flex-1 ml-[240px] flex flex-col min-w-0">
+      <div className="flex-1 md:ml-[240px] flex flex-col min-w-0">
         <ProjectTopBar
           onBack={onBack}
           onNavigateToSettings={onNavigateToSettings} />
 
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 overflow-auto px-4 py-4 sm:px-6 sm:py-6">
           <div className="max-w-7xl mx-auto">{children}</div>
         </main>
       </div>

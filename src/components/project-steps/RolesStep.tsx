@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
-import { ROLE_OPTIONS, SCOPE_OPTIONS, EXP_LEVEL_OPTIONS } from './constants';
+import {
+  DOMAIN_ROLE_OPTIONS,
+  DEFAULT_ROLE_OPTIONS,
+  SCOPE_OPTIONS,
+  EXP_LEVEL_OPTIONS
+} from './constants';
 
 interface RolesStepProps {
   data: any;
@@ -18,6 +23,7 @@ type RoleRequirement = {
 export function RolesStep({ data, updateData }: RolesStepProps) {
   const selectedRoles: RoleRequirement[] = data.roles || [];
   const [toolInputs, setToolInputs] = useState<Record<string, string>>({});
+  const roleOptions = DOMAIN_ROLE_OPTIONS[data.domain] || DEFAULT_ROLE_OPTIONS;
 
   const toggleRole = (roleName: string) => {
     if (selectedRoles.some((r) => r.name === roleName)) {
@@ -74,9 +80,16 @@ export function RolesStep({ data, updateData }: RolesStepProps) {
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
           Add one or more roles, then define expectations for each.
         </p>
+        <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+          Showing role suggestions for{' '}
+          <span className="font-medium text-gray-600 dark:text-gray-300">
+            {data.domain || 'Other'}
+          </span>
+          .
+        </p>
 
         <div className="flex flex-wrap gap-2 mb-6 max-h-36 overflow-y-auto pr-1">
-          {ROLE_OPTIONS.map((role) => {
+          {roleOptions.map((role) => {
             const active = selectedRoles.some((r) => r.name === role);
             return (
               <button

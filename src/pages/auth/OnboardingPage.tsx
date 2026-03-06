@@ -63,7 +63,7 @@ export function OnboardingPage({ onContinue }: OnboardingPageProps) {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-[#141416] rounded-xl shadow-lg border border-gray-200 dark:border-[#27272a] p-8 space-y-6">
+        <div className="space-y-6 rounded-xl border border-gray-200 bg-white p-5 shadow-lg dark:border-[#27272a] dark:bg-[#141416] sm:p-8">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               Your skills (choose at least 1)

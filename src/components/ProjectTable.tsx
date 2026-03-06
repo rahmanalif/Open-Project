@@ -200,7 +200,98 @@ export function ProjectTable({
         </div> :
 
       <>
-          <table className="w-full text-left border-collapse">
+          <div className="md:hidden divide-y divide-gray-100 dark:divide-[#27272a]">
+            {filteredAndSortedProjects.map((project) =>
+          <div
+            key={project.id}
+            onClick={() => onProjectClick?.(project.id)}
+            className="p-4 space-y-4 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-[#1f1f23]">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white leading-tight">
+                      {project.name}
+                    </h3>
+                    <p className="mt-1 text-xs text-gray-400 dark:text-gray-500 font-mono">
+                      ID: {project.id.padStart(4, '0')} • {project.posted}
+                    </p>
+                  </div>
+                  <div
+                    className={`shrink-0 flex items-center justify-center min-w-11 h-6 rounded border px-1.5 text-xs font-bold font-mono ${getScoreColor(project.matchScore)}`}>
+                    {project.matchScore}%
+                  </div>
+                </div>
+
+                <div>
+                  <p className="mb-2 text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    Roles Needed
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.roles.map((role) =>
+                <span
+                  key={role}
+                  className="inline-flex items-center rounded border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs font-medium font-mono text-gray-600 dark:border-[#3f3f46] dark:bg-[#27272a] dark:text-gray-300">
+                        {role}
+                      </span>
+                )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      Commitment
+                    </p>
+                    <p className="mt-1 font-mono text-gray-700 dark:text-gray-300">
+                      {project.commitment}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      Response
+                    </p>
+                    <p className="mt-1 font-mono text-gray-700 dark:text-gray-300">
+                      {project.responseTime}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      Team Size
+                    </p>
+                    <p className="mt-1 font-mono text-gray-700 dark:text-gray-300">
+                      {project.teamSize}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      Open Roles
+                    </p>
+                    <p className="mt-1 font-mono text-gray-700 dark:text-gray-300">
+                      {project.openRoles}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex items-center justify-between">
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      Match Strength
+                    </p>
+                    <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
+                      {project.matchScore}%
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-[#27272a]">
+                    <div
+                      className={`h-full rounded-full ${getScoreBarColor(project.matchScore)}`}
+                      style={{ width: `${project.matchScore}%` }} />
+                  </div>
+                </div>
+              </div>
+          )}
+          </div>
+
+          <div className="hidden md:block overflow-x-auto">
+          <table className="w-full min-w-[900px] text-left border-collapse">
             <thead>
               <tr className="bg-gray-50 dark:bg-[#0a0a0b] border-b border-gray-200 dark:border-[#27272a]">
                 <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[28%]">
@@ -294,8 +385,9 @@ export function ProjectTable({
             )}
             </tbody>
           </table>
+          </div>
 
-          <div className="px-4 py-3 border-t border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#0a0a0b] flex items-center justify-between">
+          <div className="flex flex-col gap-3 border-t border-gray-200 bg-gray-50 px-4 py-3 dark:border-[#27272a] dark:bg-[#0a0a0b] sm:flex-row sm:items-center sm:justify-between">
             <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
               Showing {filteredAndSortedProjects.length} of {projects.length}{' '}
               projects

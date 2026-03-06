@@ -62,8 +62,8 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
   };
   if (match.status === 'pending' || match.status === 'micro-commitment') {
     return (
-      <div className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-lg p-6 shadow-sm opacity-75 transition-colors">
-        <div className="flex items-center gap-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm opacity-75 transition-colors dark:border-[#27272a] dark:bg-[#141416] sm:p-6">
+        <div className="flex items-start gap-4 sm:items-center">
           <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
             <Clock size={20} />
           </div>
@@ -85,11 +85,11 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
   return (
     <div className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
       {/* Header Section */}
-      <div className="p-6 border-b border-gray-100 dark:border-[#27272a]">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+      <div className="border-b border-gray-100 p-4 dark:border-[#27272a] sm:p-6">
+        <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <div className="mb-2 flex flex-wrap items-center gap-2 sm:gap-3">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white break-words">
                 {match.projectName}
               </h3>
               <span
@@ -98,20 +98,20 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
                 {match.projectStage}
               </span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <span className="flex items-center gap-1.5 bg-gray-100 dark:bg-[#27272a] px-2 py-1 rounded text-gray-700 dark:text-gray-300 font-medium">
                 <Briefcase size={14} />
                 {match.role}
               </span>
-              <span className="text-gray-400 dark:text-gray-500">•</span>
+              <span className="hidden sm:inline text-gray-400 dark:text-gray-500">•</span>
               <span className="font-mono text-xs">{match.commitment}</span>
-              <span className="text-gray-400 dark:text-gray-500">•</span>
+              <span className="hidden sm:inline text-gray-400 dark:text-gray-500">•</span>
               <span className="font-mono text-xs">{match.duration}</span>
             </div>
           </div>
 
           <div
-            className={`flex flex-col items-center justify-center w-14 h-14 rounded-lg border ${getScoreColor(match.matchScore)}`}>
+            className={`flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-lg border self-start sm:self-auto ${getScoreColor(match.matchScore)}`}>
 
             <span className="text-lg font-bold font-mono leading-none">
               {match.matchScore}%
@@ -123,7 +123,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
         </div>
 
         {/* Why this match */}
-        <div className="bg-blue-50/50 dark:bg-blue-500/5 rounded-lg p-4 border border-blue-100/50 dark:border-blue-500/10">
+        <div className="rounded-lg border border-blue-100/50 bg-blue-50/50 p-4 dark:border-blue-500/10 dark:bg-blue-500/5">
           <div className="flex items-start gap-3">
             <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
             <div>
@@ -145,7 +145,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-2">
+        <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
           <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
             <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
               Skill Fit
@@ -177,7 +177,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
       <div
         className={`bg-gray-50 dark:bg-[#0a0a0b] border-b border-gray-100 dark:border-[#27272a] transition-all duration-300 ease-in-out ${expanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
 
-        <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-3">
           {/* Complementarity */}
           <div>
             <div className="flex items-center gap-2 mb-3 text-gray-900 dark:text-white font-medium text-sm">
@@ -271,10 +271,10 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
       </div>
 
       {/* Actions Footer */}
-      <div className="p-4 bg-white dark:bg-[#141416] flex items-center justify-between">
+      <div className="flex flex-col gap-3 bg-white p-4 dark:bg-[#141416] sm:flex-row sm:items-center sm:justify-between">
         <button
           onClick={() => setExpanded(!expanded)}
-          className="text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-[#27272a] transition-colors">
+          className="flex items-center gap-1 rounded px-2 py-1 text-left text-xs font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-[#27272a] dark:hover:text-white">
 
           {expanded ?
           <>
@@ -287,28 +287,28 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
           }
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap lg:items-center lg:justify-end lg:gap-3">
           <button
             onClick={() => onAction(match.id, 'pass')}
-            className="px-4 py-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+            className="px-4 py-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-left sm:text-center">
 
             Pass
           </button>
           <button
             onClick={() => onAction(match.id, 'maybe')}
-            className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-[#141416] border border-gray-300 dark:border-[#3f3f46] rounded-md hover:bg-gray-50 dark:hover:bg-[#1f1f23] transition-colors shadow-sm">
+            className="rounded-md border border-gray-300 bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 dark:border-[#3f3f46] dark:bg-[#141416] dark:text-gray-300 dark:hover:bg-[#1f1f23] sm:text-center">
 
             Maybe Later
           </button>
           <button
             onClick={() => onAction(match.id, 'micro')}
-            className="px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 rounded-md hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors shadow-sm">
+            className="rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-left text-sm font-medium text-blue-700 shadow-sm transition-colors hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:bg-blue-500/20 sm:text-center">
 
             Try 7-day Micro-Collab
           </button>
           <button
             onClick={() => onAction(match.id, 'interested')}
-            className="px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2">
+            className="flex items-center justify-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">
 
             Interested
           </button>

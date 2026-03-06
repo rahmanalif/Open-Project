@@ -38,14 +38,14 @@ export function Layout({
         currentUser={currentUser}
         onLogout={onLogout} />
 
-      <div className="flex-1 ml-[240px] flex flex-col min-w-0">
+      <div className="flex-1 md:ml-[240px] flex flex-col min-w-0">
         <TopBar
           onNewProject={onNewProject}
           onFilterChange={onFilterChange}
           onSortChange={onSortChange}
           onSearchChange={onSearchChange} />
 
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 overflow-auto px-4 py-4 sm:px-6 sm:py-6">
           <div className="max-w-7xl mx-auto">{children}</div>
         </main>
       </div>

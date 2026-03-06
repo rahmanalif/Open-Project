@@ -9,7 +9,9 @@ import {
   Sun,
   LogOut,
   User,
-  ChevronDown } from
+  ChevronDown,
+  Menu,
+  X } from
 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 export type Tab = 'projects' | 'matchmaking' | 'matches' | 'listings' | 'settings';
@@ -59,6 +61,7 @@ const navItems: NavItem[] = [
 export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, currentUser, onLogout }: SidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const handleLogout = () => {
     if (onLogout) {
       onLogout();
@@ -71,7 +74,23 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
   const displayRole = currentUser?.role || 'Collaborator';
   const displayInitials = currentUser?.initials || 'NM';
   return (
-    <aside className="w-[240px] h-screen bg-white dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-20 transition-colors duration-200">
+    <>
+      <button
+        type="button"
+        onClick={() => setIsMobileOpen((prev) => !prev)}
+        className="md:hidden fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-md border border-gray-200 dark:border-[#27272a] bg-white/95 dark:bg-[#141416]/95 p-2 text-gray-700 dark:text-gray-200 shadow-lg backdrop-blur">
+        {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
+      </button>
+
+      {isMobileOpen &&
+      <button
+        type="button"
+        aria-label="Close sidebar"
+        onClick={() => setIsMobileOpen(false)}
+        className="fixed inset-0 z-20 bg-black/50 md:hidden" />
+      }
+
+      <aside className={`w-[240px] h-screen bg-white dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-30 transition-transform duration-200 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Brand / Logo Area */}
       <div className="h-14 px-4 border-b border-gray-100 dark:border-[#27272a] flex items-center">
         <div className="flex items-center gap-2.5 text-gray-900 dark:text-white">
@@ -90,7 +109,10 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
         {navItems.map((item) =>
         <button
           key={item.id}
-          onClick={() => onTabChange(item.id)}
+          onClick={() => {
+            onTabChange(item.id);
+            setIsMobileOpen(false);
+          }}
           className={`
               w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200
               ${activeTab === item.id ? 'bg-gray-100 dark:bg-[#27272a] text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1f1f23] hover:text-gray-900 dark:hover:text-white'}
@@ -184,6 +206,7 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
           </>
         }
       </div>
-    </aside>);
+    </aside>
+    </>);
 
 }

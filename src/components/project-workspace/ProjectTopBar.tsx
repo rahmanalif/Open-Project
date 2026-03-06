@@ -41,9 +41,10 @@ export function ProjectTopBar({
     setShowMenu(true);
   };
   return (
-    <header className="h-14 bg-white dark:bg-[#141416] border-b border-gray-200 dark:border-[#27272a] sticky top-0 z-30 flex items-center justify-between px-4 transition-colors duration-200">
+    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur transition-colors duration-200 dark:border-[#27272a] dark:bg-[#141416]/95">
       {/* Left: Project Identity */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div className="ml-12 flex min-w-0 items-center gap-3 md:ml-0 md:gap-4">
         <button
           onClick={onBack}
           className="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#27272a] rounded-md transition-colors"
@@ -54,20 +55,20 @@ export function ProjectTopBar({
 
         <div className="h-6 w-px bg-gray-200 dark:bg-[#27272a]" />
 
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <div className="w-8 h-8 rounded bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
             IS
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-sm font-bold text-gray-900 dark:text-white leading-none">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="truncate text-sm font-bold text-gray-900 dark:text-white leading-none">
                 Indie SaaS Analytics
               </h1>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20">
                 Active
               </span>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-none mt-1 truncate max-w-[300px]">
+            <p className="mt-1 max-w-[300px] truncate text-xs text-gray-500 dark:text-gray-400 leading-none sm:max-w-[420px]">
               Building a privacy-focused analytics platform for indie hackers.
             </p>
           </div>
@@ -75,9 +76,9 @@ export function ProjectTopBar({
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-2 md:justify-end md:gap-3">
         {/* Avatars */}
-        <div className="flex -space-x-2 mr-2">
+        <div className="hidden -space-x-2 mr-2 sm:flex">
           {['JD', 'SC', 'MW'].map((initials, i) =>
           <div
             key={i}
@@ -96,10 +97,10 @@ export function ProjectTopBar({
           className="h-8 px-3 flex items-center gap-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
 
           <UserPlus size={14} />
-          <span>Invite</span>
+          <span className="hidden sm:inline">Invite</span>
         </button>
 
-        <div className="h-6 w-px bg-gray-200 dark:bg-[#27272a] mx-1" />
+        <div className="hidden h-6 w-px bg-gray-200 dark:bg-[#27272a] mx-1 sm:block" />
 
         <button
           onClick={() => setShowNotifications(true)}
@@ -120,6 +121,7 @@ export function ProjectTopBar({
 
           <MoreHorizontal size={18} />
         </button>
+      </div>
       </div>
 
       {/* Modals */}

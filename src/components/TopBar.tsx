@@ -92,9 +92,10 @@ export function TopBar({
   };
   const activeFilterCount = filters.roles.length + filters.commitment.length;
   return (
-    <header className="h-14 bg-white dark:bg-[#141416] border-b border-gray-200 dark:border-[#27272a] sticky top-0 z-10 flex items-center justify-between px-6 transition-colors duration-200">
+    <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur transition-colors duration-200 dark:border-[#27272a] dark:bg-[#141416]/95 sm:px-6 md:py-2">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
       {/* Left: Search */}
-      <div className="flex items-center flex-1 max-w-md">
+      <div className="ml-12 flex items-center flex-1 max-w-none md:ml-0 md:max-w-md">
         <div className="relative w-full group">
           <Search
             className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 group-focus-within:text-gray-600 dark:group-focus-within:text-gray-300 transition-colors"
@@ -111,8 +112,8 @@ export function TopBar({
       </div>
 
       {/* Right: Controls */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 border-r border-gray-200 dark:border-[#27272a] pr-3 mr-1">
+      <div className="flex flex-wrap items-center gap-2 md:justify-end md:gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:border-r md:border-gray-200 md:pr-3 md:mr-1 md:dark:border-[#27272a]">
           {/* Filter Button */}
           <div className="relative">
             <button
@@ -135,7 +136,7 @@ export function TopBar({
                 className="fixed inset-0 z-10"
                 onClick={() => setShowFilter(false)} />
 
-                <div className="absolute right-0 top-10 w-80 bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#3f3f46] rounded-lg shadow-lg z-20 p-4 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 top-10 z-20 w-[min(20rem,calc(100vw-2rem))] rounded-lg border border-gray-200 bg-white p-4 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 dark:border-[#3f3f46] dark:bg-[#1f1f23]">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                       Filters
@@ -265,7 +266,7 @@ export function TopBar({
                 className="fixed inset-0 z-10"
                 onClick={() => setShowSort(false)} />
 
-                <div className="absolute right-0 top-10 w-48 bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#3f3f46] rounded-lg shadow-lg z-20 py-1 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 top-10 z-20 w-48 max-w-[calc(100vw-2rem)] rounded-lg border border-gray-200 bg-white py-1 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 dark:border-[#3f3f46] dark:bg-[#1f1f23]">
                   {SORT_OPTIONS.map((option) =>
                 <button
                   key={option.value}
@@ -286,8 +287,10 @@ export function TopBar({
           className="h-8 px-3 flex items-center gap-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
 
           <Plus size={14} />
-          <span>New Project</span>
+          <span className="hidden sm:inline">New Project</span>
+          <span className="sm:hidden">New</span>
         </button>
+      </div>
       </div>
     </header>);
 
