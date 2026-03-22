@@ -125,45 +125,48 @@ export function MyListingsPage() {
   const filteredListings =
   filter === 'all' ? listings : listings.filter((l) => l.status === filter);
   return (
-    <div className="max-w-5xl mx-auto pb-12">
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mx-auto max-w-5xl pb-12">
+      <div className="premium-panel premium-grid mb-8 rounded-[34px] px-6 py-8 sm:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
+          <p className="premium-kicker mb-2">Project Pipeline</p>
+          <h1 className="font-display text-4xl text-[var(--text)]">
             My Listings
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Manage your projects and track interest.
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--text-muted)]">
+            Manage active opportunities, watch interest build, and keep your project openings credible and current.
           </p>
         </div>
         <button
           onClick={() => setShowCreateProject(true)}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 sm:w-auto">
+          className="premium-button inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition-all sm:w-auto">
 
           <Plus size={16} />
           New Project
         </button>
       </div>
+      </div>
 
       {/* Filter Tabs */}
-      <div className="mb-6 flex flex-col gap-3 border-b border-gray-200 dark:border-[#27272a] sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-3 border-b border-[var(--border)] sm:flex-row sm:items-center sm:justify-between">
         <div className="flex gap-4 overflow-x-auto pb-2 sm:gap-6">
           {(['all', 'active', 'paused', 'draft', 'archived'] as const).map(
             (tab) =>
             <button
               key={tab}
               onClick={() => setFilter(tab)}
-              className={`pb-3 text-sm font-medium border-b-2 transition-colors capitalize ${filter === tab ? 'border-gray-900 dark:border-white text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'}`}>
+              className={`border-b-2 pb-3 text-sm font-medium capitalize transition-colors ${filter === tab ? 'border-[var(--accent)] text-[var(--text)]' : 'border-transparent text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]'}`}>
 
                 {tab}
               </button>
 
           )}
         </div>
-        <div className="flex items-center gap-2 pb-2 text-gray-400 dark:text-gray-500">
-          <button className="p-1 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#27272a] rounded">
+        <div className="flex items-center gap-2 pb-2 text-[var(--text-muted)]">
+          <button className="premium-button-secondary rounded-xl p-2">
             <LayoutGrid size={18} />
           </button>
-          <button className="p-1 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#27272a] rounded">
+          <button className="premium-button-secondary rounded-xl p-2">
             <ListIcon size={18} />
           </button>
         </div>
@@ -181,19 +184,19 @@ export function MyListingsPage() {
         )}
         </div> :
 
-      <div className="text-center py-20 bg-white dark:bg-[#141416] rounded-xl border border-dashed border-gray-300 dark:border-[#3f3f46]">
-          <div className="w-12 h-12 bg-gray-50 dark:bg-[#27272a] rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 dark:text-gray-500">
+      <div className="premium-panel rounded-[30px] border-dashed py-20 text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-[var(--accent)]">
             <LayoutGrid size={24} />
           </div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+          <h3 className="text-lg font-medium text-[var(--text)]">
             No {filter !== 'all' ? filter : ''} listings found
           </h3>
-          <p className="text-gray-500 dark:text-gray-400 mt-1 mb-6">
+          <p className="mb-6 mt-1 text-[var(--text-muted)]">
             Create a new project to start finding collaborators.
           </p>
           <button
           onClick={() => setShowCreateProject(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
+          className="premium-button inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-medium transition-all">
 
             <Plus size={16} />
             Create Project

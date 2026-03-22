@@ -90,20 +90,20 @@ export function ActivityFeed() {
     }
   };
   return (
-    <div className="bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-gray-100 dark:border-[#27272a] flex items-center justify-between">
-        <h3 className="font-semibold text-gray-900 dark:text-white">
+    <div className="premium-panel overflow-hidden rounded-[30px]">
+      <div className="flex items-center justify-between border-b border-[var(--border)] px-5 py-4">
+        <h3 className="font-semibold text-[var(--text)]">
           Recent Activity
         </h3>
-        <button className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline">
+        <button className="text-xs font-medium text-[var(--accent)] hover:underline">
           View all
         </button>
       </div>
-      <div className="divide-y divide-gray-50 dark:divide-[#27272a]">
+      <div className="divide-y divide-[var(--border)]">
         {MOCK_ACTIVITY.map((item) =>
         <div
           key={item.id}
-          className="px-5 py-3 flex gap-3 hover:bg-gray-50 dark:hover:bg-[#27272a] transition-colors">
+          className="flex gap-3 px-5 py-4 transition-colors hover:bg-[color:var(--bg-muted)]">
 
             <div
             className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-medium text-white mt-0.5"
@@ -114,20 +114,20 @@ export function ActivityFeed() {
               {item.user.initials}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm text-gray-900 dark:text-gray-200">
+              <p className="text-sm text-[var(--text)]">
                 <span className="font-medium">{item.user.name}</span>{' '}
-                <span className="text-gray-500 dark:text-gray-400">
+                <span className="text-[var(--text-muted)]">
                   {item.text}
                 </span>{' '}
                 {item.target &&
-              <span className="font-medium text-gray-900 dark:text-white truncate">
+              <span className="truncate font-medium text-[var(--text)]">
                     {item.target}
                   </span>
               }
               </p>
               <div className="flex items-center gap-2 mt-1">
                 {getIcon(item.type)}
-                <span className="text-xs text-gray-400 dark:text-gray-500">
+                <span className="text-xs text-[var(--text-muted)]">
                   {item.time}
                 </span>
               </div>

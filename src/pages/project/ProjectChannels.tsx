@@ -293,25 +293,25 @@ export function ProjectChannels() {
   };
 
   return (
-    <div className="h-[calc(100vh-148px)] min-h-[700px] rounded-xl border border-gray-200 dark:border-[#27272a] bg-white dark:bg-[#0a0a0b] shadow-sm overflow-hidden">
-      <div className="h-full grid grid-cols-[220px_1fr]">
-        <aside className="border-r border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#0f1013] flex flex-col">
-          <div className="p-3 border-b border-gray-200 dark:border-[#27272a]">
+    <div className="premium-panel h-[calc(100vh-148px)] min-h-[700px] overflow-hidden rounded-[32px]">
+      <div className="grid h-full grid-cols-[240px_1fr]">
+        <aside className="flex flex-col border-r border-[var(--border)] bg-[rgba(255,255,255,0.04)]">
+          <div className="border-b border-[var(--border)] p-3">
             <div className="relative">
-              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
+              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search conversations..."
-                className="w-full pl-8 pr-3 py-2 text-xs rounded-md border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#141416] text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="premium-input w-full rounded-2xl py-2 pl-8 pr-3 text-xs"
               />
             </div>
           </div>
 
           <div className="flex-1 overflow-y-auto p-3 space-y-5">
             <section>
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
+              <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
                 <Users size={13} />
                 Team Chat
               </div>
@@ -322,10 +322,10 @@ export function ProjectChannels() {
                     <button
                       key={conversation.id}
                       onClick={() => setActiveConversationId(conversation.id)}
-                      className={`w-full text-left p-2.5 rounded-md border transition-colors ${
+                      className={`w-full rounded-2xl border p-2.5 text-left transition-colors ${
                         isActive
-                          ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30'
-                          : 'bg-white dark:bg-[#141416] border-gray-200 dark:border-[#27272a] hover:border-gray-300 dark:hover:border-[#3f3f46]'
+                          ? 'border-[var(--border)] bg-[color:var(--accent-soft)]'
+                          : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:bg-[color:var(--bg-muted)]'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
@@ -336,7 +336,7 @@ export function ProjectChannels() {
                             return (
                               <div
                                 key={`${conversation.id}-${member.id}`}
-                                className={`w-5 h-5 rounded-full ring-2 ring-white dark:ring-[#141416] flex items-center justify-center text-[9px] text-white font-semibold ${member.color}`}
+                                className={`flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-semibold text-white ring-2 ring-[color:var(--bg-panel)] ${member.color}`}
                               >
                                 {member.initials}
                               </div>
@@ -344,11 +344,11 @@ export function ProjectChannels() {
                           })}
                         </div>
                         {conversation.unread > 0 && (
-                          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-600 text-white font-semibold">{conversation.unread}</span>
+                          <span className="rounded-full bg-[var(--accent)] px-1.5 py-0.5 text-[10px] font-semibold text-white">{conversation.unread}</span>
                         )}
                       </div>
-                      <p className="mt-1 text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{conversation.name}</p>
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">{conversation.preview}</p>
+                      <p className="mt-1 truncate text-xs font-medium text-[var(--text)]">{conversation.name}</p>
+                      <p className="truncate text-[11px] text-[var(--text-muted)]">{conversation.preview}</p>
                     </button>
                   );
                 })}
@@ -356,7 +356,7 @@ export function ProjectChannels() {
               <button
                 type="button"
                 onClick={() => setShowCreateGroupModal(true)}
-                className="mt-2 inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                className="mt-2 inline-flex items-center gap-1 text-xs text-[var(--accent)] hover:text-[var(--accent-strong)]"
               >
                 <Plus size={12} />
                 Create Group
@@ -364,7 +364,7 @@ export function ProjectChannels() {
             </section>
 
             <section>
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
+              <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
                 <AtSign size={13} />
                 Direct Messages
               </div>
@@ -377,10 +377,10 @@ export function ProjectChannels() {
                     <button
                       key={conversation.id}
                       onClick={() => setActiveConversationId(conversation.id)}
-                      className={`w-full text-left p-2.5 rounded-md border transition-colors ${
+                      className={`w-full rounded-2xl border p-2.5 text-left transition-colors ${
                         isActive
-                          ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30'
-                          : 'bg-white dark:bg-[#141416] border-gray-200 dark:border-[#27272a] hover:border-gray-300 dark:hover:border-[#3f3f46]'
+                          ? 'border-[var(--border)] bg-[color:var(--accent-soft)]'
+                          : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:bg-[color:var(--bg-muted)]'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2">
@@ -389,15 +389,15 @@ export function ProjectChannels() {
                             <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-semibold text-white ${dmMember.color}`}>
                               {dmMember.initials}
                             </div>
-                            <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-white dark:border-[#141416] ${getPresenceDot(dmMember.presence)}`} />
+                            <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-[color:var(--bg-panel)] ${getPresenceDot(dmMember.presence)}`} />
                           </div>
-                          <p className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{dmMember.name}</p>
+                          <p className="truncate text-xs font-medium text-[var(--text)]">{dmMember.name}</p>
                         </div>
                         {conversation.unread > 0 && (
-                          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-600 text-white font-semibold">{conversation.unread}</span>
+                          <span className="rounded-full bg-[var(--accent)] px-1.5 py-0.5 text-[10px] font-semibold text-white">{conversation.unread}</span>
                         )}
                       </div>
-                      <p className="text-[11px] mt-1 text-gray-500 dark:text-gray-400 truncate">{conversation.preview}</p>
+                      <p className="mt-1 truncate text-[11px] text-[var(--text-muted)]">{conversation.preview}</p>
                     </button>
                   );
                 })}
@@ -405,7 +405,7 @@ export function ProjectChannels() {
               <button
                 type="button"
                 onClick={() => setShowOpenDmModal(true)}
-                className="mt-2 inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                className="mt-2 inline-flex items-center gap-1 text-xs text-[var(--accent)] hover:text-[var(--accent-strong)]"
               >
                 <UserPlus size={12} />
                 Open DM
@@ -413,18 +413,18 @@ export function ProjectChannels() {
             </section>
           </div>
 
-          <div className="p-3 border-t border-gray-200 dark:border-[#27272a] bg-white dark:bg-[#121317]">
+          <div className="border-t border-[var(--border)] bg-[color:var(--bg-panel)] p-3">
             <div className="flex items-center gap-2.5">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold text-white ${currentUser.color}`}>{currentUser.initials}</div>
               <div className="min-w-0">
-                <p className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{currentUser.name}</p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400">{getPresenceLabel(currentUser.presence)}</p>
+                <p className="truncate text-xs font-medium text-[var(--text)]">{currentUser.name}</p>
+                <p className="text-[11px] text-[var(--text-muted)]">{getPresenceLabel(currentUser.presence)}</p>
               </div>
               <div className="ml-auto flex items-center gap-1">
-                <button className="p-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]">
+                <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]">
                   <Mic size={14} />
                 </button>
-                <button className="p-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]">
+                <button className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]">
                   <Headphones size={14} />
                 </button>
               </div>
@@ -432,8 +432,8 @@ export function ProjectChannels() {
           </div>
         </aside>
 
-        <section className="relative flex flex-col min-w-0 bg-white dark:bg-[#0b0c10]">
-          <header className="h-14 px-4 border-b border-gray-200 dark:border-[#27272a] flex items-center justify-between">
+        <section className="relative flex min-w-0 flex-col bg-[color:var(--bg-panel)]">
+          <header className="flex h-14 items-center justify-between border-b border-[var(--border)] px-4">
             <div className="min-w-0">
               {isGroupConversation ? (
                 <div className="flex items-center gap-2">
@@ -444,14 +444,14 @@ export function ProjectChannels() {
                       return (
                         <div
                           key={`header-${member.id}`}
-                          className={`w-6 h-6 rounded-full ring-2 ring-white dark:ring-[#0b0c10] flex items-center justify-center text-[9px] text-white font-semibold ${member.color}`}
+                          className={`flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-semibold text-white ring-2 ring-[color:var(--bg-panel)] ${member.color}`}
                         >
                           {member.initials}
                         </div>
                       );
                     })}
                   </div>
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{activeConversation.name}</h2>
+                  <h2 className="text-sm font-semibold text-[var(--text)]">{activeConversation.name}</h2>
                 </div>
               ) : (
                 (() => {
@@ -459,10 +459,10 @@ export function ProjectChannels() {
                   if (!dmMember) return null;
                   return (
                     <div className="flex items-center gap-2">
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold text-white ${dmMember.color}`}>{dmMember.initials}</div>
+                      <div className={`flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold text-white ${dmMember.color}`}>{dmMember.initials}</div>
                       <div>
-                        <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{dmMember.name}</h2>
-                        <p className="text-[11px] text-gray-500 dark:text-gray-400">{getPresenceLabel(dmMember.presence)}</p>
+                        <h2 className="text-sm font-semibold text-[var(--text)]">{dmMember.name}</h2>
+                        <p className="text-[11px] text-[var(--text-muted)]">{getPresenceLabel(dmMember.presence)}</p>
                       </div>
                     </div>
                   );
@@ -475,7 +475,7 @@ export function ProjectChannels() {
                   setCallMode('voice');
                   setScreenShareOn(false);
                 }}
-                className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]"
+                className="rounded-xl p-2 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]"
               >
                 <Phone size={16} />
               </button>
@@ -484,7 +484,7 @@ export function ProjectChannels() {
                   setCallMode('video');
                   setScreenShareOn(false);
                 }}
-                className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]"
+                className="rounded-xl p-2 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]"
               >
                 <Video size={16} />
               </button>
@@ -493,8 +493,8 @@ export function ProjectChannels() {
                   if (callMode === 'none') setCallMode('video');
                   setScreenShareOn((prev) => !prev);
                 }}
-                className={`p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#1f1f23] ${
-                  screenShareOn ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'
+                className={`rounded-xl p-2 hover:bg-[color:var(--bg-muted)] ${
+                  screenShareOn ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'
                 }`}
               >
                 <ScreenShare size={16} />
@@ -502,7 +502,7 @@ export function ProjectChannels() {
               {isGroupConversation && (
                 <button
                   onClick={() => setShowGroupMembersPanel((prev) => !prev)}
-                  className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]"
+                  className="rounded-xl p-2 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]"
                 >
                   <Users size={16} />
                 </button>
@@ -511,9 +511,9 @@ export function ProjectChannels() {
           </header>
 
           {showPinnedBanner && (
-            <div className="px-4 py-2 border-b border-gray-200 dark:border-[#27272a] bg-amber-50 dark:bg-amber-500/10 text-xs text-amber-700 dark:text-amber-300 flex items-center justify-between">
+            <div className="flex items-center justify-between border-b border-[var(--border)] bg-[rgba(180,83,9,0.08)] px-4 py-2 text-xs text-[var(--danger)]">
               <span>📌 Pinned: Design review call — Friday 5pm</span>
-              <button onClick={() => setShowPinnedBanner(false)} className="p-0.5 rounded hover:bg-amber-100 dark:hover:bg-amber-500/20">
+              <button onClick={() => setShowPinnedBanner(false)} className="rounded p-0.5 hover:bg-[rgba(180,83,9,0.12)]">
                 <X size={12} />
               </button>
             </div>
@@ -535,7 +535,7 @@ export function ProjectChannels() {
               return (
                 <div key={section.label} className="space-y-3">
                   <div className="flex items-center justify-center">
-                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 dark:bg-[#1f1f23] text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-[#27272a]">
+                    <span className="rounded-full border border-[var(--border)] bg-[color:var(--bg-muted)] px-2 py-0.5 text-[11px] text-[var(--text-muted)]">
                       {section.label}
                     </span>
                   </div>
@@ -545,25 +545,25 @@ export function ProjectChannels() {
                     if (!sender) return null;
                     return (
                       <div key={`${section.label}-${entry.items[0].id}`} className="flex gap-3">
-                        <div className={`w-8 h-8 mt-0.5 rounded-full flex items-center justify-center text-[10px] font-semibold text-white ${sender.color}`}>{sender.initials}</div>
+                        <div className={`mt-0.5 flex h-8 w-8 items-center justify-center rounded-full text-[10px] font-semibold text-white ${sender.color}`}>{sender.initials}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{sender.name}</p>
-                            <p className="text-[11px] text-gray-500 dark:text-gray-400">{entry.time}</p>
+                            <p className="text-sm font-semibold text-[var(--text)]">{sender.name}</p>
+                            <p className="text-[11px] text-[var(--text-muted)]">{entry.time}</p>
                           </div>
                           <div className="space-y-2">
                             {entry.items.map((message) => (
                               <div key={message.id} className="group relative">
-                                <div className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{renderMessageText(message.text)}</div>
+                                <div className="text-sm leading-relaxed text-[var(--text)]">{renderMessageText(message.text)}</div>
                                 <div className="absolute -top-2 right-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <div className="flex items-center gap-1 rounded-md border border-gray-200 dark:border-[#3f3f46] bg-white dark:bg-[#141416] shadow-sm px-1 py-0.5">
-                                    <button className="p-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                  <div className="flex items-center gap-1 rounded-md border border-[var(--border)] bg-[color:var(--bg-panel)] px-1 py-0.5 shadow-sm">
+                                    <button className="p-1 text-[var(--text-muted)] hover:text-[var(--accent)]">
                                       <Smile size={13} />
                                     </button>
-                                    <button className="p-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <button className="p-1 text-[var(--text-muted)] hover:text-[var(--accent)]">
                                       <Reply size={13} />
                                     </button>
-                                    <button className="p-1 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                                    <button className="p-1 text-[var(--text-muted)] hover:text-[var(--accent)]">
                                       <Ellipsis size={13} />
                                     </button>
                                   </div>
@@ -574,7 +574,7 @@ export function ProjectChannels() {
                                       <button
                                         key={`${message.id}-${reaction.emoji}`}
                                         title={reaction.users.join(', ')}
-                                        className="px-2 py-0.5 rounded-full text-xs border border-gray-200 dark:border-[#3f3f46] bg-gray-100 dark:bg-[#1f1f23] text-gray-700 dark:text-gray-300"
+                                        className="rounded-full border border-[var(--border)] bg-[color:var(--bg-muted)] px-2 py-0.5 text-xs text-[var(--text)]"
                                       >
                                         {reaction.emoji} {reaction.count}
                                       </button>
@@ -593,18 +593,18 @@ export function ProjectChannels() {
             })}
           </div>
 
-          <div className="border-t border-gray-200 dark:border-[#27272a] p-4 relative">
+          <div className="relative border-t border-[var(--border)] p-4">
             {(showMentionMenu || showSlashMenu) && (
-              <div className="absolute bottom-[76px] left-4 right-4 rounded-lg border border-gray-200 dark:border-[#3f3f46] bg-white dark:bg-[#141416] shadow-lg overflow-hidden">
+              <div className="premium-panel absolute bottom-[76px] left-4 right-4 overflow-hidden rounded-2xl">
                 {showMentionMenu &&
                   mentionMembers.map((member) => (
                     <button
                       key={`mention-${member.id}`}
                       onClick={() => handleMentionPick(member)}
-                      className="w-full px-3 py-2 text-left flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-[#1f1f23]"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-[color:var(--bg-muted)]"
                     >
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-semibold text-white ${member.color}`}>{member.initials}</div>
-                      <span className="text-sm text-gray-900 dark:text-gray-100">{member.name}</span>
+                      <span className="text-sm text-[var(--text)]">{member.name}</span>
                     </button>
                   ))}
                 {showSlashMenu &&
@@ -612,15 +612,15 @@ export function ProjectChannels() {
                     <button
                       key={`action-${action}`}
                       onClick={() => handleActionPick(action)}
-                      className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#1f1f23]"
+                      className="w-full px-3 py-2 text-left text-sm text-[var(--text)] hover:bg-[color:var(--bg-muted)]"
                     >
                       {action}
                     </button>
                   ))}
               </div>
             )}
-            <div className="w-full rounded-xl border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#141416] flex items-center gap-2 px-2.5 py-2">
-              <button className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]">
+            <div className="premium-input flex w-full items-center gap-2 rounded-[24px] px-2.5 py-2">
+              <button className="rounded-xl p-2 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]">
                 <Plus size={16} />
               </button>
               <input
@@ -628,12 +628,12 @@ export function ProjectChannels() {
                 value={inputValue}
                 onChange={(event) => setInputValue(event.target.value)}
                 placeholder={isGroupConversation ? `Message ${activeConversation.name}...` : `Message ${activeConversation.name}...`}
-                className="flex-1 bg-transparent text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-500 focus:outline-none"
+                className="flex-1 bg-transparent text-sm text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none"
               />
-              <button className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23]">
+              <button className="rounded-xl p-2 text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)]">
                 <Smile size={16} />
               </button>
-              <button className="p-2 rounded-md text-white bg-blue-600 hover:bg-blue-500">
+              <button className="premium-button rounded-xl p-2">
                 <Send size={15} />
               </button>
             </div>
@@ -802,4 +802,3 @@ export function ProjectChannels() {
     </div>
   );
 }
-

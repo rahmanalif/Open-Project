@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, SlidersHorizontal, ChevronDown, Plus } from 'lucide-react';
+
 interface TopBarProps {
   onNewProject?: () => void;
   onFilterChange?: (filters: FilterState) => void;
@@ -7,28 +8,20 @@ interface TopBarProps {
   onSearchChange?: (query: string) => void;
   showProjectControls?: boolean;
 }
+
 export interface FilterState {
   roles: string[];
   commitment: string[];
   matchScore: number[];
 }
+
 export type SortOption = 'relevance' | 'match-score' | 'recent';
-const SORT_OPTIONS: {
-  value: SortOption;
-  label: string;
-}[] = [
-{
-  value: 'relevance',
-  label: 'Relevance'
-},
-{
-  value: 'match-score',
-  label: 'Match Score'
-},
-{
-  value: 'recent',
-  label: 'Most Recent'
-}];
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: 'relevance', label: 'Relevance' },
+  { value: 'match-score', label: 'Match Score' },
+  { value: 'recent', label: 'Most Recent' }
+];
 
 export function TopBar({
   onNewProject,
@@ -46,41 +39,41 @@ export function TopBar({
     commitment: [],
     matchScore: [0, 100]
   });
+
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
-    if (onSearchChange) {
-      onSearchChange(value);
-    }
+    onSearchChange?.(value);
   };
+
   const handleSortSelect = (sort: SortOption) => {
     setCurrentSort(sort);
     setShowSort(false);
-    if (onSortChange) {
-      onSortChange(sort);
-    }
+    onSortChange?.(sort);
   };
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
+
+  const handleFilterChange = (key: keyof FilterState, value: string[] | number[]) => {
     const newFilters = {
       ...filters,
       [key]: value
     };
     setFilters(newFilters);
-    if (onFilterChange) {
-      onFilterChange(newFilters);
-    }
+    onFilterChange?.(newFilters);
   };
+
   const toggleRole = (role: string) => {
-    const newRoles = filters.roles.includes(role) ?
-    filters.roles.filter((r) => r !== role) :
-    [...filters.roles, role];
+    const newRoles = filters.roles.includes(role)
+      ? filters.roles.filter((r) => r !== role)
+      : [...filters.roles, role];
     handleFilterChange('roles', newRoles);
   };
+
   const toggleCommitment = (commitment: string) => {
-    const newCommitment = filters.commitment.includes(commitment) ?
-    filters.commitment.filter((c) => c !== commitment) :
-    [...filters.commitment, commitment];
-    handleFilterChange('commitment', newCommitment);
+    const newCommitments = filters.commitment.includes(commitment)
+      ? filters.commitment.filter((c) => c !== commitment)
+      : [...filters.commitment, commitment];
+    handleFilterChange('commitment', newCommitments);
   };
+
   const clearFilters = () => {
     const emptyFilters = {
       roles: [],
@@ -88,214 +81,170 @@ export function TopBar({
       matchScore: [0, 100]
     };
     setFilters(emptyFilters);
-    if (onFilterChange) {
-      onFilterChange(emptyFilters);
-    }
+    onFilterChange?.(emptyFilters);
   };
+
   const activeFilterCount = filters.roles.length + filters.commitment.length;
+
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white px-4 py-3 shadow-sm transition-colors duration-200 dark:border-[#27272a] dark:bg-[#141416] sm:px-6 md:py-2 md:bg-white/95 md:backdrop-blur md:dark:bg-[#141416]/95">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      {/* Left: Search */}
-      <div className="ml-12 flex items-center flex-1 max-w-none md:ml-0 md:max-w-md">
-        <div className="relative w-full group">
-          <Search
-            className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 group-focus-within:text-gray-600 dark:group-focus-within:text-gray-300 transition-colors"
-            size={16} />
-
-          <input
-            type="text"
-            placeholder="Search projects..."
-            value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full h-9 pl-9 pr-4 bg-gray-50 dark:bg-[#0a0a0b] border border-transparent dark:border-[#27272a] rounded-md text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:bg-white dark:focus:bg-[#1f1f23] focus:border-gray-300 dark:focus:border-[#3f3f46] focus:outline-none focus:ring-0 transition-all font-sans" />
-
-        </div>
-      </div>
-
-      {/* Right: Controls */}
-      <div className="flex flex-wrap items-center gap-2 md:justify-end md:gap-3">
-        {showProjectControls &&
-        <div className="flex flex-wrap items-center gap-2 md:border-r md:border-gray-200 md:pr-3 md:mr-1 md:dark:border-[#27272a]">
-          {/* Filter Button */}
-          <div className="relative">
-            <button
-              onClick={() => setShowFilter(!showFilter)}
-              className="h-8 px-3 flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#1f1f23] rounded-md transition-colors border border-gray-200 dark:border-[#27272a] bg-white dark:bg-[#141416]">
-
-              <SlidersHorizontal size={14} />
-              <span>Filter</span>
-              {activeFilterCount > 0 &&
-              <span className="ml-1 px-1.5 py-0.5 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 text-xs font-medium rounded-full">
-                  {activeFilterCount}
-                </span>
-              }
-            </button>
-
-            {/* Filter Dropdown */}
-            {showFilter &&
-            <>
-                <div
-                className="fixed inset-0 z-10"
-                onClick={() => setShowFilter(false)} />
-
-                <div className="absolute right-0 top-10 z-20 w-[min(20rem,calc(100vw-2rem))] rounded-lg border border-gray-200 bg-white p-4 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 dark:border-[#3f3f46] dark:bg-[#1f1f23]">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                      Filters
-                    </h3>
-                    {activeFilterCount > 0 &&
-                  <button
-                    onClick={clearFilters}
-                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
-
-                        Clear all
-                      </button>
-                  }
-                  </div>
-
-                  {/* Roles */}
-                  <div>
-                    <h4 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Role
-                    </h4>
-                    <div className="space-y-2">
-                     {[
-                    'Frontend Developer',
-                    'Backend Developer',
-                    'Product Designer',
-                    'Product Manager',
-                    'Data Scientist',
-                    'DevOps Engineer'].
-                    map((role) =>
-                    <label
-                      key={role}
-                      className="flex items-center gap-2 cursor-pointer">
-
-                          <input
-                        type="checkbox"
-                        checked={filters.roles.includes(role)}
-                        onChange={() => toggleRole(role)}
-                        className="w-4 h-4 text-blue-600 border-gray-300 dark:border-[#3f3f46] rounded focus:ring-blue-500" />
-
-                          <span className="text-sm text-gray-600 dark:text-gray-300">
-                            {role}
-                          </span>
-                        </label>
-                    )}
-                    </div>
-                  </div>
-
-                  {/* Commitment */}
-                  <div>
-                    <h4 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Commitment
-                    </h4>
-                    <div className="space-y-2">
-                      {[
-                    '5-10 hrs/week',
-                    '10-20 hrs/week',
-                    '20+ hrs/week',
-                    'Full-time',
-                    'Project-based'].
-                    map((commitment) =>
-                    <label
-                      key={commitment}
-                      className="flex items-center gap-2 cursor-pointer">
-
-                          <input
-                        type="checkbox"
-                        checked={filters.commitment.includes(commitment)}
-                        onChange={() => toggleCommitment(commitment)}
-                        className="w-4 h-4 text-blue-600 border-gray-300 dark:border-[#3f3f46] rounded focus:ring-blue-500" />
-
-                          <span className="text-sm text-gray-600 dark:text-gray-300">
-                            {commitment}
-                          </span>
-                        </label>
-                    )}
-                    </div>
-                  </div>
-
-                  {/* Match Score */}
-                  <div>
-                    <h4 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Minimum Match Score
-                    </h4>
-                    <div className="flex items-center gap-3">
-                      <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="10"
-                      value={filters.matchScore[0]}
-                      onChange={(e) =>
-                      handleFilterChange('matchScore', [
-                      parseInt(e.target.value),
-                      100]
-                      )
-                      }
-                      className="flex-1 h-2 bg-gray-200 dark:bg-[#27272a] rounded-lg appearance-none cursor-pointer accent-blue-600" />
-
-                      <span className="text-sm font-mono font-medium text-gray-900 dark:text-white w-12 text-right">
-                        {filters.matchScore[0]}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </>
-            }
+    <header className="sticky top-0 z-30 px-4 pt-4 sm:px-6">
+      <div className="premium-panel flex flex-col gap-3 rounded-[28px] px-4 py-3 md:flex-row md:items-center md:justify-between">
+        <div className="ml-12 flex max-w-none flex-1 items-center md:ml-0 md:max-w-xl">
+          <div className="group relative w-full">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] transition-colors group-focus-within:text-[var(--accent)]"
+              size={16}
+            />
+            <input
+              type="text"
+              placeholder="Search projects, roles, or collaborators..."
+              value={searchQuery}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="premium-input h-11 w-full rounded-2xl pl-10 pr-4 text-sm"
+            />
           </div>
+        </div>
 
-          {/* Sort Button */}
-          <div className="relative">
-            <button
-              onClick={() => setShowSort(!showSort)}
-              className="h-8 px-3 flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#1f1f23] rounded-md transition-colors border border-gray-200 dark:border-[#27272a] bg-white dark:bg-[#141416]">
-
-              <span>
-                Sort: {SORT_OPTIONS.find((s) => s.value === currentSort)?.label}
-              </span>
-              <ChevronDown
-                size={14}
-                className="text-gray-400 dark:text-gray-500" />
-
-            </button>
-
-            {/* Sort Dropdown */}
-            {showSort &&
-            <>
-                <div
-                className="fixed inset-0 z-10"
-                onClick={() => setShowSort(false)} />
-
-                <div className="absolute right-0 top-10 z-20 w-48 max-w-[calc(100vw-2rem)] rounded-lg border border-gray-200 bg-white py-1 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 dark:border-[#3f3f46] dark:bg-[#1f1f23]">
-                  {SORT_OPTIONS.map((option) =>
+        <div className="flex flex-wrap items-center gap-2 md:justify-end md:gap-3">
+          {showProjectControls && (
+            <div className="flex flex-wrap items-center gap-2 md:mr-1 md:border-r md:border-[var(--border)] md:pr-4">
+              <div className="relative">
                 <button
-                  key={option.value}
-                  onClick={() => handleSortSelect(option.value)}
-                  className={`w-full text-left px-4 py-2 text-sm transition-colors ${currentSort === option.value ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#27272a]'}`}>
+                  onClick={() => setShowFilter((prev) => !prev)}
+                  className="premium-button-secondary flex h-10 items-center gap-2 rounded-2xl px-4 text-sm font-medium transition-colors"
+                >
+                  <SlidersHorizontal size={14} />
+                  <span>Filter</span>
+                  {activeFilterCount > 0 && (
+                    <span className="ml-1 rounded-full bg-[color:var(--accent-soft)] px-1.5 py-0.5 text-xs font-semibold text-[var(--accent)]">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </button>
 
-                      {option.label}
-                    </button>
+                {showFilter && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setShowFilter(false)} />
+                    <div className="premium-panel absolute right-0 top-12 z-20 w-[min(21rem,calc(100vw-2rem))] rounded-[24px] p-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="mb-3 flex items-center justify-between">
+                        <h3 className="text-sm font-semibold text-[var(--text)]">Filters</h3>
+                        {activeFilterCount > 0 && (
+                          <button onClick={clearFilters} className="text-xs text-[var(--accent)] hover:underline">
+                            Clear all
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="mb-2 text-xs font-medium text-[var(--text-muted)]">Role</h4>
+                          <div className="space-y-2">
+                            {[
+                              'Frontend Developer',
+                              'Backend Developer',
+                              'Product Designer',
+                              'Product Manager',
+                              'Data Scientist',
+                              'DevOps Engineer'
+                            ].map((role) => (
+                              <label key={role} className="flex cursor-pointer items-center gap-2 text-[var(--text)]">
+                                <input
+                                  type="checkbox"
+                                  checked={filters.roles.includes(role)}
+                                  onChange={() => toggleRole(role)}
+                                  className="h-4 w-4 rounded border-[var(--border-strong)] text-[var(--accent)] focus:ring-[var(--accent)]"
+                                />
+                                <span className="text-sm">{role}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="mb-2 text-xs font-medium text-[var(--text-muted)]">Commitment</h4>
+                          <div className="space-y-2">
+                            {['5-10 hrs/week', '10-20 hrs/week', '20+ hrs/week', 'Full-time', 'Project-based'].map(
+                              (commitment) => (
+                                <label key={commitment} className="flex cursor-pointer items-center gap-2 text-[var(--text)]">
+                                  <input
+                                    type="checkbox"
+                                    checked={filters.commitment.includes(commitment)}
+                                    onChange={() => toggleCommitment(commitment)}
+                                    className="h-4 w-4 rounded border-[var(--border-strong)] text-[var(--accent)] focus:ring-[var(--accent)]"
+                                  />
+                                  <span className="text-sm">{commitment}</span>
+                                </label>
+                              )
+                            )}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="mb-2 text-xs font-medium text-[var(--text-muted)]">Minimum Match Score</h4>
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              step="10"
+                              value={filters.matchScore[0]}
+                              onChange={(e) => handleFilterChange('matchScore', [parseInt(e.target.value, 10), 100])}
+                              className="h-2 flex-1 cursor-pointer appearance-none rounded-lg bg-[color:var(--bg-muted)] accent-[var(--accent)]"
+                            />
+                            <span className="w-12 text-right text-sm font-semibold text-[var(--text)]">
+                              {filters.matchScore[0]}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 )}
-                </div>
-              </>
-            }
-          </div>
+              </div>
+
+              <div className="relative">
+                <button
+                  onClick={() => setShowSort((prev) => !prev)}
+                  className="premium-button-secondary flex h-10 items-center gap-2 rounded-2xl px-4 text-sm font-medium transition-colors"
+                >
+                  <span>Sort: {SORT_OPTIONS.find((s) => s.value === currentSort)?.label}</span>
+                  <ChevronDown size={14} className="text-[var(--text-muted)]" />
+                </button>
+
+                {showSort && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setShowSort(false)} />
+                    <div className="premium-panel absolute right-0 top-12 z-20 w-48 max-w-[calc(100vw-2rem)] rounded-[22px] py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                      {SORT_OPTIONS.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => handleSortSelect(option.value)}
+                          className={`w-full px-4 py-2 text-left text-sm transition-colors ${
+                            currentSort === option.value
+                              ? 'bg-[color:var(--accent-soft)] font-medium text-[var(--accent)]'
+                              : 'text-[var(--text)] hover:bg-[color:var(--bg-muted)]'
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          <button
+            onClick={onNewProject}
+            className="premium-button flex h-11 items-center gap-2 rounded-2xl px-4 text-sm font-semibold transition-all"
+          >
+            <Plus size={14} />
+            <span className="hidden sm:inline">New Project</span>
+            <span className="sm:hidden">New</span>
+          </button>
         </div>
-        }
-
-        <button
-          onClick={onNewProject}
-          className="h-8 px-3 flex items-center gap-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
-
-          <Plus size={14} />
-          <span className="hidden sm:inline">New Project</span>
-          <span className="sm:hidden">New</span>
-        </button>
       </div>
-      </div>
-    </header>);
-
+    </header>
+  );
 }

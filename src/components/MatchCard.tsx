@@ -43,35 +43,35 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
   const [expanded, setExpanded] = useState(false);
   const getScoreColor = (score: number) => {
     if (score >= 90)
-    return 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20';
+    return 'text-[var(--success)] bg-[rgba(91,191,167,0.12)] border-[rgba(91,191,167,0.18)]';
     if (score >= 80)
-    return 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-blue-100 dark:border-blue-500/20';
-    return 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border-amber-100 dark:border-amber-500/20';
+    return 'text-[var(--accent)] bg-[color:var(--accent-soft)] border-[color:var(--border)]';
+    return 'text-[var(--danger)] bg-[rgba(180,83,9,0.08)] border-[rgba(180,83,9,0.18)]';
   };
   const getStageColor = (stage: string) => {
     switch (stage) {
       case 'Idea':
-        return 'bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-100 dark:border-purple-500/20';
+        return 'bg-[rgba(180,83,9,0.08)] text-[var(--danger)] border-[rgba(180,83,9,0.18)]';
       case 'Prototype':
-        return 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border-indigo-100 dark:border-indigo-500/20';
+        return 'bg-[color:var(--accent-soft)] text-[var(--accent)] border-[color:var(--border)]';
       case 'Active Development':
-        return 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20';
+        return 'bg-[rgba(91,191,167,0.12)] text-[var(--success)] border-[rgba(91,191,167,0.18)]';
       default:
         return 'bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-500/20';
     }
   };
   if (match.status === 'pending' || match.status === 'micro-commitment') {
     return (
-      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm opacity-75 transition-colors dark:border-[#27272a] dark:bg-[#141416] sm:p-6">
+      <div className="premium-soft-panel rounded-[28px] p-4 opacity-80 transition-colors sm:p-6">
         <div className="flex items-start gap-4 sm:items-center">
-          <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-[var(--accent)]">
             <Clock size={20} />
           </div>
           <div>
-            <h3 className="font-medium text-gray-900 dark:text-white">
+            <h3 className="font-medium text-[var(--text)]">
               {match.status === 'micro-commitment' ? 'Micro-Collab Requested' : 'Interest Expressed'}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-[var(--text-muted)]">
               {match.status === 'micro-commitment' ?
               `Waiting for ${match.projectName} to confirm a 7-day trial sprint.` :
               `Waiting for ${match.projectName} to review your profile.`
@@ -83,13 +83,13 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
 
   }
   return (
-    <div className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+    <div className="premium-panel overflow-hidden rounded-[30px] transition-all duration-200">
       {/* Header Section */}
-      <div className="border-b border-gray-100 p-4 dark:border-[#27272a] sm:p-6">
+      <div className="border-b border-[var(--border)] p-5 sm:p-6">
         <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
             <div className="mb-2 flex flex-wrap items-center gap-2 sm:gap-3">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white break-words">
+              <h3 className="text-xl font-semibold text-[var(--text)] break-words">
                 {match.projectName}
               </h3>
               <span
@@ -98,22 +98,22 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
                 {match.projectStage}
               </span>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-              <span className="flex items-center gap-1.5 bg-gray-100 dark:bg-[#27272a] px-2 py-1 rounded text-gray-700 dark:text-gray-300 font-medium">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
+              <span className="flex items-center gap-1.5 rounded-full bg-[color:var(--bg-muted)] px-3 py-1 text-[var(--text)] font-medium">
                 <Briefcase size={14} />
                 {match.role}
               </span>
-              <span className="hidden sm:inline text-gray-400 dark:text-gray-500">•</span>
-              <span className="font-mono text-xs">{match.commitment}</span>
-              <span className="hidden sm:inline text-gray-400 dark:text-gray-500">•</span>
-              <span className="font-mono text-xs">{match.duration}</span>
+              <span className="hidden sm:inline text-[var(--border-strong)]">•</span>
+              <span className="text-xs font-medium">{match.commitment}</span>
+              <span className="hidden sm:inline text-[var(--border-strong)]">•</span>
+              <span className="text-xs font-medium">{match.duration}</span>
             </div>
           </div>
 
           <div
-            className={`flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-lg border self-start sm:self-auto ${getScoreColor(match.matchScore)}`}>
+            className={`flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-[22px] border self-start sm:self-auto ${getScoreColor(match.matchScore)}`}>
 
-            <span className="text-lg font-bold font-mono leading-none">
+            <span className="text-lg font-bold leading-none">
               {match.matchScore}%
             </span>
             <span className="text-[10px] font-medium uppercase mt-1">
@@ -123,20 +123,20 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
         </div>
 
         {/* Why this match */}
-        <div className="rounded-lg border border-blue-100/50 bg-blue-50/50 p-4 dark:border-blue-500/10 dark:bg-blue-500/5">
+        <div className="rounded-[24px] border border-[var(--border)] bg-[rgba(208,164,106,0.08)] p-4">
           <div className="flex items-start gap-3">
-            <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+            <Zap className="mt-0.5 h-5 w-5 flex-shrink-0 text-[var(--accent)]" />
             <div>
-              <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
+              <h4 className="mb-2 text-sm font-semibold text-[var(--text)]">
                 Why this match
               </h4>
               <ul className="space-y-1.5">
                 {match.reasoning.map((reason, idx) =>
                 <li
                   key={idx}
-                  className="text-sm text-blue-800 dark:text-blue-300/80 flex items-start gap-2">
+                  className="flex items-start gap-2 text-sm text-[var(--text-muted)]">
 
-                    <span className="w-1 h-1 rounded-full bg-blue-400 dark:bg-blue-500 mt-2 flex-shrink-0" />
+                    <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-[var(--accent)]" />
                     {reason}
                   </li>
                 )}
@@ -146,27 +146,27 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+          <div className="rounded-[20px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-3">
+            <p className="text-[11px] uppercase tracking-wide text-[var(--text-muted)]">
               Skill Fit
             </p>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-semibold text-[var(--text)]">
               {match.breakdown.skillFit}%
             </p>
           </div>
-          <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+          <div className="rounded-[20px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-3">
+            <p className="text-[11px] uppercase tracking-wide text-[var(--text-muted)]">
               Availability
             </p>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-semibold text-[var(--text)]">
               {match.breakdown.availabilityFit}%
             </p>
           </div>
-          <div className="rounded-md bg-gray-50 dark:bg-[#0a0a0b] border border-gray-200 dark:border-[#27272a] p-2">
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+          <div className="rounded-[20px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-3">
+            <p className="text-[11px] uppercase tracking-wide text-[var(--text-muted)]">
               Style Fit
             </p>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+            <p className="text-sm font-semibold text-[var(--text)]">
               {match.breakdown.styleFit}%
             </p>
           </div>
@@ -175,15 +175,15 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
 
       {/* Detailed Breakdown (Expandable) */}
       <div
-        className={`bg-gray-50 dark:bg-[#0a0a0b] border-b border-gray-100 dark:border-[#27272a] transition-all duration-300 ease-in-out ${expanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+        className={`border-b border-[var(--border)] bg-[rgba(255,255,255,0.02)] transition-all duration-300 ease-in-out ${expanded ? 'max-h-[500px] opacity-100' : 'max-h-0 overflow-hidden opacity-0'}`}>
 
         <div className="grid grid-cols-1 gap-6 p-4 sm:p-6 md:grid-cols-3">
           {/* Complementarity */}
           <div>
-            <div className="flex items-center gap-2 mb-3 text-gray-900 dark:text-white font-medium text-sm">
+            <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[var(--text)]">
               <Target
                 size={16}
-                className="text-purple-500 dark:text-purple-400" />
+                className="text-[var(--accent)]" />
 
               Skill Complementarity
             </div>
@@ -191,11 +191,11 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
               {match.complementarity.map((item, idx) =>
               <li
                 key={idx}
-                className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-2 bg-white dark:bg-[#141416] p-2 rounded border border-gray-200 dark:border-[#27272a]">
+                className="flex items-start gap-2 rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-2 text-xs text-[var(--text-muted)]">
 
                   <CheckCircle2
                   size={12}
-                  className="text-purple-500 dark:text-purple-400 mt-0.5 flex-shrink-0" />
+                  className="mt-0.5 flex-shrink-0 text-[var(--accent)]" />
 
                   {item}
                 </li>
@@ -205,7 +205,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
 
           {/* Intent */}
           <div>
-            <div className="flex items-center gap-2 mb-3 text-gray-900 dark:text-white font-medium text-sm">
+            <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[var(--text)]">
               <Users size={16} className="text-amber-500 dark:text-amber-400" />
               Intent Alignment
             </div>
@@ -213,7 +213,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
               {match.intentAlignment.map((item, idx) =>
               <li
                 key={idx}
-                className="text-xs text-gray-600 dark:text-gray-400 flex items-start gap-2 bg-white dark:bg-[#141416] p-2 rounded border border-gray-200 dark:border-[#27272a]">
+                className="flex items-start gap-2 rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-2 text-xs text-[var(--text-muted)]">
 
                   <CheckCircle2
                   size={12}
@@ -227,7 +227,7 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
 
           {/* Working Style */}
           <div>
-            <div className="flex items-center gap-2 mb-3 text-gray-900 dark:text-white font-medium text-sm">
+            <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[var(--text)]">
               <MessageSquare
                 size={16}
                 className="text-emerald-500 dark:text-emerald-400" />
@@ -235,11 +235,11 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
               Working Style
             </div>
             <div className="space-y-2">
-              <div className="flex items-center justify-between bg-white dark:bg-[#141416] p-2 rounded border border-gray-200 dark:border-[#27272a]">
-                <span className="text-xs text-gray-600 dark:text-gray-400">
+              <div className="flex items-center justify-between rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-2">
+                <span className="text-xs text-[var(--text-muted)]">
                   Communication
                 </span>
-                <span className="text-xs font-medium text-gray-900 dark:text-white flex items-center gap-1">
+                <span className="flex items-center gap-1 text-xs font-medium text-[var(--text)]">
                   {match.workingStyle.async ?
                   <Globe size={12} /> :
 
@@ -248,20 +248,20 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
                   {match.workingStyle.async ? 'Async-first' : 'Synchronous'}
                 </span>
               </div>
-              <div className="flex items-center justify-between bg-white dark:bg-[#141416] p-2 rounded border border-gray-200 dark:border-[#27272a]">
-                <span className="text-xs text-gray-600 dark:text-gray-400">
+              <div className="flex items-center justify-between rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-2">
+                <span className="text-xs text-[var(--text-muted)]">
                   Timezone Overlap
                 </span>
-                <span className="text-xs font-medium text-gray-900 dark:text-white flex items-center gap-1">
+                <span className="flex items-center gap-1 text-xs font-medium text-[var(--text)]">
                   <Clock size={12} />
                   {match.workingStyle.timezoneOverlap} hours
                 </span>
               </div>
-              <div className="flex items-center justify-between bg-white dark:bg-[#141416] p-2 rounded border border-gray-200 dark:border-[#27272a]">
-                <span className="text-xs text-gray-600 dark:text-gray-400">
+              <div className="flex items-center justify-between rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-2">
+                <span className="text-xs text-[var(--text-muted)]">
                   Meetings
                 </span>
-                <span className="text-xs font-medium text-gray-900 dark:text-white">
+                <span className="text-xs font-medium text-[var(--text)]">
                   {match.workingStyle.meetings}
                 </span>
               </div>
@@ -271,10 +271,10 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
       </div>
 
       {/* Actions Footer */}
-      <div className="flex flex-col gap-3 bg-white p-4 dark:bg-[#141416] sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1 rounded px-2 py-1 text-left text-xs font-medium text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-[#27272a] dark:hover:text-white">
+          className="flex items-center gap-1 rounded-full px-3 py-2 text-left text-xs font-medium text-[var(--text-muted)] transition-colors hover:bg-[color:var(--bg-muted)] hover:text-[var(--text)]">
 
           {expanded ?
           <>
@@ -290,25 +290,25 @@ export function MatchCard({ match, onAction }: MatchCardProps) {
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap lg:items-center lg:justify-end lg:gap-3">
           <button
             onClick={() => onAction(match.id, 'pass')}
-            className="px-4 py-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-left sm:text-center">
+            className="px-4 py-2 text-left text-sm font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)] sm:text-center">
 
             Pass
           </button>
           <button
             onClick={() => onAction(match.id, 'maybe')}
-            className="rounded-md border border-gray-300 bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 dark:border-[#3f3f46] dark:bg-[#141416] dark:text-gray-300 dark:hover:bg-[#1f1f23] sm:text-center">
+            className="premium-button-secondary rounded-2xl px-4 py-2 text-left text-sm font-medium shadow-sm transition-colors sm:text-center">
 
             Maybe Later
           </button>
           <button
             onClick={() => onAction(match.id, 'micro')}
-            className="rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-left text-sm font-medium text-blue-700 shadow-sm transition-colors hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300 dark:hover:bg-blue-500/20 sm:text-center">
+            className="rounded-2xl border border-[var(--border)] bg-[rgba(91,191,167,0.12)] px-4 py-2 text-left text-sm font-medium text-[var(--success)] shadow-sm transition-colors hover:bg-[rgba(91,191,167,0.18)] sm:text-center">
 
             Try 7-day Micro-Collab
           </button>
           <button
             onClick={() => onAction(match.id, 'interested')}
-            className="flex items-center justify-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">
+            className="premium-button flex items-center justify-center gap-2 rounded-2xl px-4 py-2 text-sm font-medium transition-all">
 
             Interested
           </button>

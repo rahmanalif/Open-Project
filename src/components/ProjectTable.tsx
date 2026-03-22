@@ -115,14 +115,14 @@ const projects: Project[] = [
 
 function getScoreColor(score: number) {
   if (score >= 80)
-  return 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-blue-100 dark:border-blue-500/20';
+  return 'text-[var(--accent)] bg-[color:var(--accent-soft)] border-[color:var(--border)]';
   if (score >= 50)
-  return 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border-amber-100 dark:border-amber-500/20';
+  return 'text-[var(--danger)] bg-[rgba(180,83,9,0.08)] border-[rgba(180,83,9,0.18)]';
   return 'text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-500/10 border-gray-200 dark:border-gray-500/20';
 }
 function getScoreBarColor(score: number) {
-  if (score >= 80) return 'bg-blue-600 dark:bg-blue-500';
-  if (score >= 50) return 'bg-amber-500 dark:bg-amber-400';
+  if (score >= 80) return 'bg-[var(--accent)]';
+  if (score >= 50) return 'bg-[var(--danger)]';
   return 'bg-gray-400 dark:bg-gray-500';
 }
 interface ProjectTableProps {

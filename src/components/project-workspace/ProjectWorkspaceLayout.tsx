@@ -16,15 +16,15 @@ export function ProjectWorkspaceLayout({
   onNavigateToSettings
 }: ProjectWorkspaceLayoutProps) {
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-[#0a0a0b] font-sans text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <div className="premium-shell flex min-h-screen text-[var(--text)] transition-colors duration-300">
       <ProjectSidebar activeTab={activeTab} onTabChange={onTabChange} />
-      <div className="flex-1 md:ml-[240px] flex flex-col min-w-0">
+      <div className="flex min-w-0 flex-1 flex-col md:ml-[264px]">
         <ProjectTopBar
           onBack={onBack}
           onNavigateToSettings={onNavigateToSettings} />
 
-        <main className="flex-1 overflow-auto px-4 py-4 sm:px-6 sm:py-6">
-          <div className="max-w-7xl mx-auto">{children}</div>
+        <main className="flex-1 overflow-auto px-4 pb-6 pt-4 sm:px-6 sm:pb-8 sm:pt-6">
+          <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>
     </div>);

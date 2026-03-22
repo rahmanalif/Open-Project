@@ -22,8 +22,9 @@ import { ForgotPasswordPage } from './pages/auth/ForgotPasswordPage';
 import { VerificationPage } from './pages/auth/VerificationPage';
 import { OnboardingPage } from './pages/auth/OnboardingPage';
 import { FilterState, SortOption } from './components/TopBar';
+import { LandingPage } from './pages/LandingPage';
 
-type AuthView = 'login' | 'register' | 'forgot-password' | 'verification' | 'onboarding' | null;
+type AuthView = 'landing' | 'login' | 'register' | 'forgot-password' | 'verification' | 'onboarding' | null;
 
 type UserProfile = {
   name: string;
@@ -33,7 +34,7 @@ type UserProfile = {
 
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authView, setAuthView] = useState<AuthView>(null);
+  const [authView, setAuthView] = useState<AuthView>('landing');
   const [viewMode, setViewMode] = useState<'browse' | 'workspace'>('browse');
   const [activeTab, setActiveTab] = useState<Tab>('matchmaking');
   const [projectTab, setProjectTab] = useState<ProjectTab>('overview');
@@ -62,7 +63,7 @@ export function App() {
   };
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setAuthView('login');
+    setAuthView('landing');
     setViewMode('browse');
     setActiveTab('matchmaking');
   };
@@ -87,6 +88,11 @@ export function App() {
   if (!isAuthenticated) {
     return (
       <ThemeProvider>
+        {(authView === 'landing' || authView === null) &&
+        <LandingPage
+          onGetStarted={() => setAuthView('register')}
+          onSignIn={() => setAuthView('login')} />
+        }
         {authView === 'register' &&
         <RegisterPage
           onSignInClick={() => setAuthView('login')}
@@ -101,7 +107,7 @@ export function App() {
         {authView === 'onboarding' &&
         <OnboardingPage onContinue={handleOnboardingComplete} />
         }
-        {(authView === 'login' || authView === null) &&
+        {authView === 'login' &&
         <LoginPage
           onLoginSuccess={handleLogin}
           onRegisterClick={() => setAuthView('register')}
@@ -146,20 +152,21 @@ export function App() {
         <>
             <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
+                <p className="premium-kicker mb-2">Discover</p>
+                <h1 className="font-display text-3xl text-[var(--text)] sm:text-4xl">
                   Open Projects
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Browse and filter opportunities that match your skills.
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--text-muted)] sm:text-base">
+                  Browse serious collaboration opportunities matched to your skills, availability, and working style.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 text-sm text-gray-500 dark:text-gray-400 font-mono sm:flex-row sm:flex-wrap sm:gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+              <div className="premium-soft-panel flex flex-col gap-2 rounded-[24px] px-4 py-3 text-sm sm:flex-row sm:flex-wrap sm:gap-4">
+                <div className="flex items-center gap-2 text-[var(--text-muted)]">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--success)] shadow-[0_0_10px_rgba(91,191,167,0.8)]"></span>
                   <span>High Match (80%+)</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                <div className="flex items-center gap-2 text-[var(--text-muted)]">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--danger)] shadow-[0_0_10px_rgba(242,168,75,0.55)]"></span>
                   <span>Medium Match (50-79%)</span>
                 </div>
               </div>

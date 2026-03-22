@@ -60,10 +60,10 @@ export function NextActionsPanel({ onActionClick }: NextActionsPanelProps) {
     }
   };
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white dark:from-blue-900/10 dark:to-[#1f1f23] border border-blue-100 dark:border-blue-500/20 rounded-xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-blue-100 dark:border-blue-500/20 flex items-center gap-2">
-        <Sparkles size={18} className="text-blue-600 dark:text-blue-400" />
-        <h3 className="font-semibold text-blue-900 dark:text-blue-100">
+    <div className="premium-panel overflow-hidden rounded-[30px]">
+      <div className="flex items-center gap-2 border-b border-[var(--border)] bg-[rgba(208,164,106,0.08)] px-5 py-4">
+        <Sparkles size={18} className="text-[var(--accent)]" />
+        <h3 className="font-semibold text-[var(--text)]">
           Your Next Steps
         </h3>
       </div>
@@ -72,25 +72,25 @@ export function NextActionsPanel({ onActionClick }: NextActionsPanelProps) {
         <button
           key={action.id}
           onClick={() => handleClick(action.action)}
-          className="w-full text-left p-3 rounded-lg hover:bg-white dark:hover:bg-[#27272a] hover:shadow-sm transition-all flex items-center justify-between group border border-transparent hover:border-blue-100 dark:hover:border-blue-500/20">
+          className="group flex w-full items-center justify-between rounded-[22px] border border-transparent p-3 text-left transition-all hover:border-[var(--border)] hover:bg-[color:var(--bg-muted)]">
 
             <div className="flex items-center gap-3">
               {getIcon(action.type)}
               <span
-              className={`text-sm ${action.urgent ? 'font-medium text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-300'}`}>
+              className={`text-sm ${action.urgent ? 'font-medium text-[var(--text)]' : 'text-[var(--text-muted)]'}`}>
 
                 {action.text}
               </span>
             </div>
             <ArrowRight
             size={14}
-            className="text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+            className="translate-x-0 text-[var(--text-muted)] opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" />
 
           </button>
         )}
       </div>
-      <div className="px-5 py-3 bg-blue-50/50 dark:bg-blue-900/5 text-center border-t border-blue-100 dark:border-blue-500/20">
-        <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+      <div className="border-t border-[var(--border)] bg-[rgba(208,164,106,0.06)] px-5 py-3 text-center">
+        <p className="text-xs font-medium text-[var(--accent)]">
           Updated just now
         </p>
       </div>

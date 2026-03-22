@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Command, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { useTheme } from '../../hooks/useTheme';
+import { Command, Mail, Lock, Eye, EyeOff, ShieldCheck } from 'lucide-react';
 type LoginPageProps = {
   onForgotPasswordClick?: () => void;
   onRegisterClick?: () => void;
@@ -49,42 +48,56 @@ export function LoginPage({
     onLoginSuccess?.();
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#0a0a0b] dark:to-[#141416] flex items-center justify-center p-4 transition-colors duration-200">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-gray-900 dark:bg-white rounded-lg flex items-center justify-center">
-              <Command size={20} className="text-white dark:text-gray-900" />
+    <div className="premium-shell flex min-h-screen items-center justify-center p-4 transition-colors duration-200">
+      <div className="grid w-full max-w-6xl gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="hidden lg:block">
+          <p className="premium-kicker mb-3">Welcome Back</p>
+          <h1 className="max-w-2xl font-display text-6xl leading-none text-[var(--text)]">
+            Serious collaboration starts with a calmer first step.
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-8 text-[var(--text-muted)]">
+            Open Project helps creative and technical builders find aligned teammates without the noise, pressure, or performative pitch culture.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <div className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium">
+              <ShieldCheck size={16} className="text-[var(--success)]" />
+              Trustworthy matching
+            </div>
+            <div className="premium-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium">
+              <Command size={16} className="text-[var(--accent)]" />
+              Practical workspace tools
             </div>
           </div>
-          <div className="mb-4 overflow-x-auto">
-            <pre className="mx-auto min-w-max text-[clamp(3px,0.58vw,5px)] leading-[1.1] font-mono text-gray-900 dark:text-white whitespace-pre">
+          <div className="mt-8 overflow-x-auto">
+            <pre className="min-w-max text-[clamp(3px,0.42vw,5px)] leading-[1.1] font-mono text-[color:var(--text-muted)] whitespace-pre">
               {blurvisionAscii}
             </pre>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome back
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Sign in to your account to continue
-          </p>
         </div>
 
-        {/* Form Card */}
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-lg dark:border-[#27272a] dark:bg-[#141416] sm:p-8">
+        <div className="premium-panel w-full rounded-[34px] p-5 sm:p-8">
+          <div className="mb-8 text-center lg:text-left">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[color:var(--accent-soft)] text-[var(--accent)]">
+              <Command size={22} />
+            </div>
+            <h1 className="font-display text-4xl text-[var(--text)]">Sign in</h1>
+            <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
+              Continue into your collaboration dashboard.
+            </p>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                className="mb-2 block text-sm font-medium text-[var(--text)]">
 
                 Email address
               </label>
               <div className="relative">
                 <Mail
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]"
                   size={18} />
 
                 <input
@@ -92,12 +105,12 @@ export function LoginPage({
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`w-full pl-10 pr-4 py-2.5 border rounded-lg bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-[#3f3f46]'}`}
+                  className={`premium-input w-full rounded-2xl py-3 pl-10 pr-4 transition-colors ${errors.email ? '!border-red-500' : ''}`}
                   placeholder="you@example.com" />
 
               </div>
               {errors.email &&
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1 text-sm text-[var(--danger)]">
                   {errors.email}
                 </p>
               }
@@ -107,13 +120,13 @@ export function LoginPage({
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                className="mb-2 block text-sm font-medium text-[var(--text)]">
 
                 Password
               </label>
               <div className="relative">
                 <Lock
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]"
                   size={18} />
 
                 <input
@@ -121,19 +134,19 @@ export function LoginPage({
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full pl-10 pr-12 py-2.5 border rounded-lg bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.password ? 'border-red-500' : 'border-gray-300 dark:border-[#3f3f46]'}`}
+                  className={`premium-input w-full rounded-2xl py-3 pl-10 pr-12 transition-colors ${errors.password ? '!border-red-500' : ''}`}
                   placeholder="••••••••" />
 
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text)]">
 
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
               {errors.password &&
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+              <p className="mt-1 text-sm text-[var(--danger)]">
                   {errors.password}
                 </p>
               }
@@ -146,16 +159,16 @@ export function LoginPage({
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 dark:border-[#3f3f46] rounded focus:ring-blue-500 bg-white dark:bg-[#0a0a0b]" />
+                  className="h-4 w-4 rounded border-[var(--border-strong)] bg-white text-[var(--accent)] focus:ring-[var(--accent)]" />
 
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-[var(--text-muted)]">
                   Remember me
                 </span>
               </label>
               <button
                 type="button"
                 onClick={onForgotPasswordClick}
-                className="text-left text-sm font-medium text-blue-600 hover:underline dark:text-blue-400 sm:text-right">
+                className="text-left text-sm font-medium text-[var(--accent)] hover:underline sm:text-right">
 
                 Forgot password?
               </button>
@@ -164,19 +177,19 @@ export function LoginPage({
             {/* Submit */}
             <button
               type="submit"
-              className="w-full py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-sm">
+              className="premium-button w-full rounded-2xl py-3 font-medium transition-all">
 
               Sign in
             </button>
           </form>
 
           {/* Sign up link */}
-          <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="mt-6 text-center text-sm text-[var(--text-muted)]">
             Don't have an account?{' '}
             <button
               type="button"
               onClick={onRegisterClick}
-              className="font-medium text-blue-600 dark:text-blue-400 hover:underline">
+              className="font-medium text-[var(--accent)] hover:underline">
 
               Sign up
             </button>

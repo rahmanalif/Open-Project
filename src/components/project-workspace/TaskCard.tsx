@@ -39,24 +39,24 @@ export function TaskCard({ task }: TaskCardProps) {
     }
   };
   return (
-    <div className="bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#27272a] rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+    <div className="premium-soft-panel group cursor-pointer rounded-[24px] p-4 transition-shadow">
       <div className="flex justify-between items-start mb-2">
         <span
-          className={`text-[10px] font-medium px-1.5 py-0.5 rounded border uppercase tracking-wider ${getPriorityColor(task.priority)}`}>
+          className={`rounded-full border px-2 py-1 text-[10px] font-medium uppercase tracking-wider ${getPriorityColor(task.priority)}`}>
 
           {task.priority}
         </span>
-        <button className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button className="text-[var(--text-muted)] opacity-0 transition-opacity group-hover:opacity-100 hover:text-[var(--text)]">
           <MoreHorizontal size={14} />
         </button>
       </div>
 
-      <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3 leading-snug">
+      <h4 className="mb-3 text-sm font-medium leading-snug text-[var(--text)]">
         {task.title}
       </h4>
 
       <div className="flex items-center justify-between mt-3">
-        <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-3 text-xs text-[var(--text-muted)]">
           {task.dueDate &&
           <div className="flex items-center gap-1">
               <Calendar size={12} />
@@ -81,7 +81,7 @@ export function TaskCard({ task }: TaskCardProps) {
 
         {task.assignee ?
         <div
-          className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium text-white ring-2 ring-white dark:ring-[#1f1f23]"
+          className="h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-medium text-white ring-2 ring-[color:var(--bg-panel)]"
           style={{
             backgroundColor: task.assignee.color
           }}
@@ -90,7 +90,7 @@ export function TaskCard({ task }: TaskCardProps) {
             {task.assignee.initials}
           </div> :
 
-        <div className="w-6 h-6 rounded-full bg-gray-100 dark:bg-[#27272a] border border-gray-200 dark:border-[#3f3f46] border-dashed flex items-center justify-center text-gray-400 dark:text-gray-500">
+        <div className="flex h-7 w-7 items-center justify-center rounded-full border border-dashed border-[var(--border-strong)] bg-[color:var(--bg-muted)] text-[var(--text-muted)]">
             <span className="text-[10px]">+</span>
           </div>
         }

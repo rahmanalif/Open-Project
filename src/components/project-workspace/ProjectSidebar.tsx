@@ -10,151 +10,126 @@ import {
   Moon,
   Sun,
   Menu,
-  X } from
-'lucide-react';
+  X
+} from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
+
 export type ProjectTab = 'overview' | 'tasks' | 'channels' | 'files' | 'members' | 'settings';
+
 interface ProjectSidebarProps {
   activeTab: ProjectTab;
   onTabChange: (tab: ProjectTab) => void;
 }
-export function ProjectSidebar({
-  activeTab,
-  onTabChange
-}: ProjectSidebarProps) {
+
+export function ProjectSidebar({ activeTab, onTabChange }: ProjectSidebarProps) {
   const { theme, toggleTheme } = useTheme();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
   const navItems = [
-  {
-    id: 'overview',
-    label: 'Overview',
-    icon: Home
-  },
-  {
-    id: 'tasks',
-    label: 'Tasks',
-    icon: CheckSquare,
-    count: 12
-  },
-  {
-    id: 'channels',
-    label: 'Channels',
-    icon: MessageSquare,
-    count: 3
-  },
-  {
-    id: 'files',
-    label: 'Files',
-    icon: Folder
-  },
-  {
-    id: 'members',
-    label: 'Members',
-    icon: Users,
-    count: 4
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: Settings
-  }];
+    { id: 'overview', label: 'Overview', icon: Home },
+    { id: 'tasks', label: 'Tasks', icon: CheckSquare, count: 12 },
+    { id: 'channels', label: 'Channels', icon: MessageSquare, count: 3 },
+    { id: 'files', label: 'Files', icon: Folder },
+    { id: 'members', label: 'Members', icon: Users, count: 4 },
+    { id: 'settings', label: 'Settings', icon: Settings }
+  ];
 
   return (
     <>
       <button
         type="button"
         onClick={() => setIsMobileOpen((prev) => !prev)}
-        className="md:hidden fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-md border border-gray-200 dark:border-[#27272a] bg-white/95 dark:bg-[#141416]/95 p-2 text-gray-700 dark:text-gray-200 shadow-lg backdrop-blur">
+        className="premium-soft-panel fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-xl p-2 text-[var(--text)] md:hidden"
+      >
         {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
       </button>
 
-      {isMobileOpen &&
-      <button
-        type="button"
-        aria-label="Close project sidebar"
-        onClick={() => setIsMobileOpen(false)}
-        className="fixed inset-0 z-20 bg-black/50 md:hidden" />
-      }
-
-      <aside className={`w-[240px] h-screen bg-[#f8f9fa] dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-30 transition-transform duration-200 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-      {/* Project Identity Placeholder (TopBar covers this visually but we need spacing) */}
-      <div className="h-14" />
-
-      {/* Navigation */}
-      <nav className="flex-1 py-6 px-3 space-y-1">
-        <div className="px-3 mb-3 text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-          Workspace
-        </div>
-        
-        {navItems.map((item) =>
-        
+      {isMobileOpen && (
         <button
-          key={item.id}
-          onClick={() => {
-            onTabChange(item.id as ProjectTab);
-            setIsMobileOpen(false);
-          }}
-          className={`
-              w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 group
-              ${activeTab === item.id ? 'bg-white dark:bg-[#27272a] text-gray-900 dark:text-white shadow-sm ring-1 ring-gray-200 dark:ring-[#3f3f46]' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23] hover:text-gray-900 dark:hover:text-white'}
-            `}>
+          type="button"
+          aria-label="Close project sidebar"
+          onClick={() => setIsMobileOpen(false)}
+          className="fixed inset-0 z-20 bg-black/50 md:hidden"
+        />
+      )}
 
-            <div className="flex items-center gap-3">
-              <item.icon
-              size={18}
-              className={
-              activeTab === item.id ?
-              'text-blue-600 dark:text-blue-400' :
-              'text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300'
-              } />
+      <aside
+        className={`premium-soft-panel premium-grid scrollbar-hidden fixed left-0 top-0 z-30 flex h-screen w-[264px] flex-col overflow-y-auto border-r transition-transform duration-300 md:translate-x-0 ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="border-b border-[var(--border)] px-4 py-5">
+          <p className="premium-kicker">Workspace</p>
+          <h2 className="mt-2 font-display text-2xl leading-none text-[var(--text)]">Project Hub</h2>
+          <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+            Keep the team aligned across delivery, decisions, and momentum.
+          </p>
+        </div>
 
-              {item.label}
+        <nav className="flex-1 space-y-1 px-3 py-4">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                onTabChange(item.id as ProjectTab);
+                setIsMobileOpen(false);
+              }}
+              className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                activeTab === item.id
+                  ? 'bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_16px_30px_rgba(0,0,0,0.08)]'
+                  : 'text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)] hover:text-[var(--text)]'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <item.icon
+                  size={18}
+                  className={activeTab === item.id ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}
+                />
+                {item.label}
+              </div>
+              {item.count ? (
+                <span
+                  className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                    activeTab === item.id
+                      ? 'bg-[rgba(255,248,239,0.72)] text-[var(--accent)]'
+                      : 'bg-[color:var(--bg-muted)] text-[var(--text-muted)]'
+                  }`}
+                >
+                  {item.count}
+                </span>
+              ) : activeTab === item.id ? (
+                <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent)] shadow-[0_0_16px_rgba(208,164,106,0.5)]" />
+              ) : null}
+            </button>
+          ))}
+        </nav>
+
+        <div className="space-y-3 border-t border-[var(--border)] p-3">
+          <div className="rounded-[24px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Health</span>
+              <span className="text-xs font-semibold text-[var(--success)]">On Track</span>
             </div>
-            {item.count &&
-          <span
-            className={`text-xs px-2 py-0.5 rounded-full ${activeTab === item.id ? 'bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-[#27272a] text-gray-500 dark:text-gray-400'}`}>
+            <div className="mb-3 flex items-center gap-2 text-[var(--text)]">
+              <Activity size={16} className="text-[var(--success)]" />
+              <span className="text-sm font-medium">Strong delivery rhythm this week</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-[color:var(--bg-muted)]">
+              <div className="h-full rounded-full bg-[var(--success)]" style={{ width: '85%' }} />
+            </div>
+          </div>
 
-                {item.count}
-              </span>
-          }
+            <button
+            onClick={toggleTheme}
+            className="premium-button-secondary flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-colors"
+          >
+            <span className="flex items-center gap-3">
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            </span>
           </button>
-        )}
-      </nav>
-
-      {/* Bottom Section */}
-      <div className="p-4 border-t border-gray-200 dark:border-[#27272a] space-y-4">
-        {/* Health Indicator */}
-        <div className="bg-white dark:bg-[#1f1f23] p-3 rounded-lg border border-gray-200 dark:border-[#27272a] shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs  font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Health
-            </span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
-              On Track
-            </span>
-          </div>
-          <div className="w-full h-1.5 bg-gray-100 dark:bg-[#27272a] rounded-full overflow-hidden">
-            <div
-              className="h-full bg-emerald-500 rounded-full"
-              style={{
-                width: '85%'
-              }} />
-
-          </div>
         </div>
-
-        {/* Theme Toggle */}
-        <button
-          onClick={toggleTheme}
-          className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1f1f23] rounded-md transition-colors">
-
-          <span className="flex items-center gap-3">
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-          </span>
-        </button>
-      </div>
-    </aside>
-    </>);
-
+      </aside>
+    </>
+  );
 }

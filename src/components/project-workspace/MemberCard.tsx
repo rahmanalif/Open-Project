@@ -37,7 +37,7 @@ export function MemberCard({ member }: MemberCardProps) {
     }
   };
   return (
-    <div className="bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#27272a] rounded-lg p-4 flex items-center gap-4 group hover:border-gray-300 dark:hover:border-[#3f3f46] transition-colors">
+    <div className="premium-soft-panel group flex items-center gap-4 rounded-[26px] p-4 transition-colors hover:border-[var(--border-strong)]">
       <div className="relative">
         <div
           className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium text-white"
@@ -48,13 +48,13 @@ export function MemberCard({ member }: MemberCardProps) {
           {member.initials}
         </div>
         <div
-          className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-[#1f1f23] ${getStatusColor(member.status)}`} />
+          className={`absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[color:var(--bg-panel)] ${getStatusColor(member.status)}`} />
 
       </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
-          <h4 className="font-semibold text-gray-900 dark:text-white truncate">
+          <h4 className="truncate font-semibold text-[var(--text)]">
             {member.name}
           </h4>
           <span
@@ -63,12 +63,12 @@ export function MemberCard({ member }: MemberCardProps) {
             {member.role}
           </span>
         </div>
-        <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+        <p className="truncate text-sm text-[var(--text-muted)]">
           {member.title}
         </p>
       </div>
 
-      <button className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#27272a] rounded opacity-0 group-hover:opacity-100 transition-all">
+      <button className="rounded-xl p-1.5 text-[var(--text-muted)] opacity-0 transition-all group-hover:opacity-100 hover:bg-[color:var(--bg-muted)] hover:text-[var(--text)]">
         <MoreHorizontal size={16} />
       </button>
     </div>);

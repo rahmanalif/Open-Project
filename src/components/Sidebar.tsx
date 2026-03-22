@@ -95,7 +95,7 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
       <button
         type="button"
         onClick={() => setIsMobileOpen((prev) => !prev)}
-        className="md:hidden fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-md border border-gray-200 dark:border-[#27272a] bg-white/95 dark:bg-[#141416]/95 p-2 text-gray-700 dark:text-gray-200 shadow-lg backdrop-blur">
+        className="premium-soft-panel fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-xl p-2 text-[var(--text)] md:hidden">
         {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
       </button>
 
@@ -107,29 +107,29 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
         className="fixed inset-0 z-20 bg-black/50 md:hidden" />
       }
 
-      <aside className={`w-[240px] h-screen bg-white dark:bg-[#141416] border-r border-gray-200 dark:border-[#27272a] flex flex-col fixed left-0 top-0 z-30 transition-transform duration-200 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`premium-soft-panel premium-grid fixed left-0 top-0 z-30 flex h-screen w-[264px] flex-col border-r transition-transform duration-300 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Brand / Logo Area */}
-      <div className="h-14 px-3 border-b border-gray-100 dark:border-[#27272a] flex items-center overflow-hidden">
-        <div className="flex items-center gap-2 text-gray-900 dark:text-white min-w-0 w-full overflow-hidden">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-[#f3f4f6] p-1.5 shadow-sm ring-1 ring-gray-200 dark:bg-[#f5f5f5] dark:ring-white/10">
+      <div className="flex h-20 items-center overflow-hidden border-b border-[var(--border)] px-4">
+        <div className="flex min-w-0 w-full items-center gap-3 overflow-hidden text-[var(--text)]">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[color:var(--accent-soft)] p-2 shadow-[0_10px_24px_rgba(0,0,0,0.14)] ring-1 ring-[var(--border)]">
             <div className="grid grid-cols-5 gap-[1.5px]">
               {BRAND_LOGO.flatMap((row, rowIndex) =>
               row.split('').map((cell, cellIndex) =>
               <div
                 key={`logo-${rowIndex}-${cellIndex}`}
-                className={`h-[3px] w-[3px] rounded-[1px] ${cell === '1' ? 'bg-[#111113]' : 'bg-[#c9ccd3]'}`} />
+                className={`h-[3px] w-[3px] rounded-[1px] ${cell === '1' ? 'bg-[var(--text)]' : 'bg-[color:var(--border-strong)]'}`} />
 
               )
               )}
             </div>
           </div>
 
-          <div className="min-w-0 max-w-full overflow-hidden rounded-[10px] border border-[#2a2d34] bg-[#111113] px-2 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <div className="min-w-0 max-w-full overflow-hidden rounded-2xl border border-[var(--border)] bg-[color:var(--bg-panel)] px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
             <div
               className="grid gap-[1px]"
               style={{
                 backgroundImage:
-                'radial-gradient(circle, rgba(255,255,255,0.14) 0.7px, transparent 0.7px)',
+                'radial-gradient(circle, rgba(208,164,106,0.18) 0.7px, transparent 0.7px)',
                 backgroundSize: '4px 4px',
                 backgroundPosition: 'center'
               }}>
@@ -138,7 +138,7 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
                   {row.split('').map((cell, cellIndex) =>
                 <div
                   key={`text-${rowIndex}-${cellIndex}`}
-                  className={`h-[2px] w-[2px] rounded-[1px] ${cell === '1' ? 'bg-[#f4f7ff]' : 'bg-transparent'}`} />
+                  className={`h-[2px] w-[2px] rounded-[1px] ${cell === '1' ? 'bg-[var(--text)]' : 'bg-transparent'}`} />
 
                 )}
                 </div>
@@ -150,8 +150,13 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 px-2 space-y-0.5">
-        
+      <nav className="flex-1 space-y-1 px-3 py-5">
+        <div className="px-3 pb-3">
+          <p className="premium-kicker">Navigate</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
+            Find collaborators, review aligned projects, and keep active work moving.
+          </p>
+        </div>
         {navItems.map((item) =>
         <button
           key={item.id}
@@ -160,23 +165,23 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
             setIsMobileOpen(false);
           }}
           className={`
-              w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200
-              ${activeTab === item.id ? 'bg-gray-100 dark:bg-[#27272a] text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1f1f23] hover:text-gray-900 dark:hover:text-white'}
+              flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300
+              ${activeTab === item.id ? 'bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_16px_30px_rgba(0,0,0,0.08)]' : 'text-[var(--text-muted)] hover:bg-[color:var(--bg-muted)] hover:text-[var(--text)]'}
             `}>
             <div className="flex items-center gap-3">
               <item.icon
                 size={18}
                 className={
                   activeTab === item.id
-                    ? 'text-gray-900 dark:text-white'
-                    : 'text-gray-500 dark:text-gray-400'
+                    ? 'text-[var(--accent)]'
+                    : 'text-[var(--text-muted)]'
                 }
               />
               <span className="flex items-center gap-2">{item.label}</span>
             </div>
             {activeTab === item.id && (
               <div
-                className={`w-2 h-2 rounded-full ${item.id === 'matchmaking' ? (isMatchingActive ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-gray-300 dark:bg-gray-600') : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'}`}
+                className={`h-2.5 w-2.5 rounded-full ${item.id === 'matchmaking' ? (isMatchingActive ? 'bg-[var(--success)] shadow-[0_0_16px_rgba(91,191,167,0.7)]' : 'bg-[color:var(--border-strong)]') : 'bg-[var(--accent)] shadow-[0_0_16px_rgba(208,164,106,0.5)]'}`}
               />
             )}
           </button>
@@ -184,10 +189,10 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
       </nav>
 
       {/* Theme Toggle */}
-      <div className="px-4 py-3 border-t border-gray-100 dark:border-[#27272a]">
+      <div className="border-t border-[var(--border)] px-4 py-4">
         <button
           onClick={toggleTheme}
-          className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1f1f23] hover:text-gray-900 dark:hover:text-white rounded-md transition-colors">
+          className="premium-button-secondary flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-colors">
 
           <span className="flex items-center gap-3">
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -197,25 +202,25 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
       </div>
 
       {/* User Profile with Dropdown */}
-      <div className="p-4 border-t border-gray-100 dark:border-[#27272a] relative">
+      <div className="relative border-t border-[var(--border)] p-4">
         <button
           onClick={() => setShowProfileMenu(!showProfileMenu)}
-          className="w-full flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#1f1f23] rounded-md p-2 -m-2 transition-colors group">
+          className="flex w-full items-center gap-3 rounded-2xl p-3 transition-colors hover:bg-[color:var(--bg-muted)]">
 
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-xs font-medium text-white">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,var(--accent),var(--success))] text-xs font-semibold text-[#fff8ef] shadow-[0_18px_30px_rgba(0,0,0,0.2)]">
             {displayInitials}
           </div>
           <div className="flex-1 flex flex-col text-left">
-            <span className="text-sm font-medium text-gray-900 dark:text-white">
+            <span className="text-sm font-semibold text-[var(--text)]">
               {displayName}
             </span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
+            <span className="text-xs text-[var(--text-muted)]">
               {displayRole}
             </span>
           </div>
           <ChevronDown
             size={16}
-            className={`text-gray-400 dark:text-gray-500 transition-transform ${showProfileMenu ? 'rotate-180' : ''}`} />
+            className={`text-[var(--text-muted)] transition-transform ${showProfileMenu ? 'rotate-180' : ''}`} />
 
         </button>
 
@@ -226,24 +231,24 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
             className="fixed inset-0 z-10"
             onClick={() => setShowProfileMenu(false)} />
 
-            <div className="absolute bottom-full left-4 right-4 mb-2 bg-white dark:bg-[#1f1f23] border border-gray-200 dark:border-[#3f3f46] rounded-lg shadow-lg z-20 py-1 animate-in fade-in slide-in-from-bottom-2 duration-200">
+            <div className="premium-panel absolute bottom-full left-4 right-4 z-20 mb-2 rounded-2xl py-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
               <button
               onClick={() => {
                 onTabChange('settings');
                 setShowProfileMenu(false);
               }}
-              className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#27272a] flex items-center gap-3 transition-colors">
+              className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-[var(--text)] transition-colors hover:bg-[color:var(--bg-muted)]">
 
                 <User size={16} />
                 View Profile
               </button>
-              <div className="h-px bg-gray-100 dark:bg-[#27272a] my-1" />
+              <div className="my-1 h-px bg-[var(--border)]" />
               <button
               onClick={() => {
                 setShowProfileMenu(false);
                 handleLogout();
               }}
-              className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors">
+              className="flex w-full items-center gap-3 px-4 py-2 text-left text-sm text-[var(--danger)] transition-colors hover:bg-[rgba(180,83,9,0.08)]">
 
                 <LogOut size={16} />
                 Logout
