@@ -95,7 +95,9 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
       <button
         type="button"
         onClick={() => setIsMobileOpen((prev) => !prev)}
-        className="premium-soft-panel fixed left-4 top-3 z-40 inline-flex items-center justify-center rounded-xl p-2 text-[var(--text)] md:hidden">
+        className={`premium-soft-panel fixed top-3 z-[60] inline-flex items-center justify-center rounded-xl p-2 text-[var(--text)] transition-all md:hidden ${
+          isMobileOpen ? 'right-3 left-auto' : 'left-3 right-auto'
+        }`}>
         {isMobileOpen ? <X size={18} /> : <Menu size={18} />}
       </button>
 
@@ -104,10 +106,10 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
         type="button"
         aria-label="Close sidebar"
         onClick={() => setIsMobileOpen(false)}
-        className="fixed inset-0 z-20 bg-black/50 md:hidden" />
+        className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden" />
       }
 
-      <aside className={`premium-soft-panel premium-grid fixed left-0 top-0 z-30 flex h-screen w-[264px] flex-col border-r transition-transform duration-300 md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`premium-soft-panel premium-grid fixed left-0 top-0 z-50 flex h-screen w-[min(20rem,calc(100vw-0.75rem))] max-w-[320px] flex-col border-r transition-transform duration-300 md:w-[264px] md:max-w-none md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       {/* Brand / Logo Area */}
       <div className="flex h-20 items-center overflow-hidden border-b border-[var(--border)] px-4">
         <div className="flex min-w-0 w-full items-center gap-3 overflow-hidden text-[var(--text)]">
@@ -150,7 +152,7 @@ export function Sidebar({ activeTab, onTabChange, isMatchingActive = false, curr
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-3 py-5">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-5">
         <div className="px-3 pb-3">
           <p className="premium-kicker">Navigate</p>
           <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">

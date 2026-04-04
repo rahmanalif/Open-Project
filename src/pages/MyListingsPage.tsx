@@ -149,7 +149,7 @@ export function MyListingsPage() {
 
       {/* Filter Tabs */}
       <div className="mb-6 flex flex-col gap-3 border-b border-[var(--border)] sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex gap-4 overflow-x-auto pb-2 sm:gap-6">
+        <div className="scrollbar-hidden flex gap-4 overflow-x-auto pb-2 sm:gap-6">
           {(['all', 'active', 'paused', 'draft', 'archived'] as const).map(
             (tab) =>
             <button
@@ -162,7 +162,7 @@ export function MyListingsPage() {
 
           )}
         </div>
-        <div className="flex items-center gap-2 pb-2 text-[var(--text-muted)]">
+        <div className="flex items-center justify-end gap-2 pb-2 text-[var(--text-muted)]">
           <button className="premium-button-secondary rounded-xl p-2">
             <LayoutGrid size={18} />
           </button>
@@ -174,7 +174,7 @@ export function MyListingsPage() {
 
       {/* Grid */}
       {filteredListings.length > 0 ?
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
           {filteredListings.map((listing) =>
         <ListingCard
           key={listing.id}

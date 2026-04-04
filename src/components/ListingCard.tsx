@@ -55,16 +55,16 @@ export function ListingCard({ listing, onAction }: ListingCardProps) {
     }
   };
   return (
-    <div className="premium-panel group relative rounded-[30px] p-6 transition-all duration-200">
+    <div className="premium-panel group relative flex h-full flex-col rounded-[28px] p-5 transition-all duration-200 sm:rounded-[30px] sm:p-6">
       {/* Header */}
-      <div className="flex justify-between items-start mb-4">
-        <div>
+      <div className="mb-4 flex min-h-[5.75rem] items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-xl font-semibold text-[var(--text)]">
+            <h3 className="text-lg font-semibold text-[var(--text)] sm:text-xl">
               {listing.name}
             </h3>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium border capitalize ${getStatusColor(listing.status)}`}>
 
@@ -158,7 +158,7 @@ export function ListingCard({ listing, onAction }: ListingCardProps) {
       </div>
 
       {/* Roles */}
-      <div className="mb-6">
+      <div className="mb-6 min-h-[4.75rem]">
         <div className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">
           Missing Roles
         </div>
@@ -217,7 +217,7 @@ export function ListingCard({ listing, onAction }: ListingCardProps) {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
+      <div className="mt-auto flex flex-col gap-2 text-xs text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-1">
           <Calendar size={12} />
           Created {listing.created}

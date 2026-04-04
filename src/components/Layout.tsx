@@ -30,7 +30,7 @@ export function Layout({
   onSearchChange
 }: LayoutProps) {
   return (
-    <div className="premium-shell flex min-h-screen text-[var(--text)] transition-colors duration-300">
+    <div className="premium-shell flex min-h-screen overflow-x-hidden text-[var(--text)] transition-colors duration-300">
       <Sidebar
         activeTab={activeTab}
         onTabChange={onTabChange}
@@ -46,7 +46,7 @@ export function Layout({
           onSearchChange={onSearchChange}
           showProjectControls={activeTab === 'projects'} />
 
-        <main className="flex-1 overflow-auto px-4 pb-6 pt-4 sm:px-6 sm:pb-8 sm:pt-6">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto px-3 pb-6 pt-4 sm:px-6 sm:pb-8 sm:pt-6">
           <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>

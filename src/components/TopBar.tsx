@@ -87,9 +87,9 @@ export function TopBar({
   const activeFilterCount = filters.roles.length + filters.commitment.length;
 
   return (
-    <header className="sticky top-0 z-30 px-4 pt-4 sm:px-6">
-      <div className="premium-panel flex flex-col gap-3 rounded-[28px] px-4 py-3 md:flex-row md:items-center md:justify-between">
-        <div className="ml-12 flex max-w-none flex-1 items-center md:ml-0 md:max-w-xl">
+    <header className="sticky top-0 z-30 px-3 pt-3 sm:px-6 sm:pt-4">
+      <div className="premium-panel flex flex-col gap-3 rounded-[24px] px-3 py-3 sm:rounded-[28px] sm:px-4 md:flex-row md:items-center md:justify-between">
+        <div className="ml-11 flex min-w-0 max-w-none flex-1 items-center md:ml-0 md:max-w-xl">
           <div className="group relative w-full">
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] transition-colors group-focus-within:text-[var(--accent)]"
@@ -105,13 +105,13 @@ export function TopBar({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 md:justify-end md:gap-3">
+        <div className="flex w-full flex-wrap items-center gap-2 md:w-auto md:justify-end md:gap-3">
           {showProjectControls && (
-            <div className="flex flex-wrap items-center gap-2 md:mr-1 md:border-r md:border-[var(--border)] md:pr-4">
+            <div className="flex w-full flex-wrap items-center gap-2 md:mr-1 md:w-auto md:border-r md:border-[var(--border)] md:pr-4">
               <div className="relative">
                 <button
                   onClick={() => setShowFilter((prev) => !prev)}
-                  className="premium-button-secondary flex h-10 items-center gap-2 rounded-2xl px-4 text-sm font-medium transition-colors"
+                  className="premium-button-secondary flex h-10 flex-1 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-medium transition-colors md:flex-none"
                 >
                   <SlidersHorizontal size={14} />
                   <span>Filter</span>
@@ -205,7 +205,7 @@ export function TopBar({
               <div className="relative">
                 <button
                   onClick={() => setShowSort((prev) => !prev)}
-                  className="premium-button-secondary flex h-10 items-center gap-2 rounded-2xl px-4 text-sm font-medium transition-colors"
+                  className="premium-button-secondary flex h-10 flex-1 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-medium transition-colors md:flex-none"
                 >
                   <span>Sort: {SORT_OPTIONS.find((s) => s.value === currentSort)?.label}</span>
                   <ChevronDown size={14} className="text-[var(--text-muted)]" />
@@ -237,7 +237,7 @@ export function TopBar({
 
           <button
             onClick={onNewProject}
-            className="premium-button flex h-11 items-center gap-2 rounded-2xl px-4 text-sm font-semibold transition-all"
+            className="premium-button flex h-11 w-full items-center justify-center gap-2 rounded-2xl px-4 text-sm font-semibold transition-all sm:w-auto"
           >
             <Plus size={14} />
             <span className="hidden sm:inline">New Project</span>
