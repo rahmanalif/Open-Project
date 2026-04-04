@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import {
+  Check,
   X,
   DoorOpen,
   Rocket,
@@ -57,6 +58,35 @@ const CATEGORIES = DOMAIN_OPTIONS.map((domain) => ({
   icon: DOMAIN_META[domain]?.icon || Briefcase,
   desc: DOMAIN_META[domain]?.desc || 'Project category'
 }));
+
+const MATCH_MODE_OPTIONS = [
+  {
+    value: 'join',
+    label: 'Join Existing Project',
+    description: 'Find an active team that already needs your contribution.',
+    icon: DoorOpen
+  },
+  {
+    value: 'start',
+    label: 'Start New Project',
+    description: 'Look for collaborators to build a new idea with you.',
+    icon: Rocket
+  }
+];
+
+const AVAILABILITY_OPTIONS = [
+  { value: '1-5 hrs', label: '1-5 hrs', description: 'Light contribution window' },
+  { value: '5-10 hrs', label: '5-10 hrs', description: 'Steady weekly support' },
+  { value: '10-20 hrs', label: '10-20 hrs', description: 'Strong hands-on involvement' },
+  { value: '20+ hrs', label: '20+ hrs', description: 'High-commitment build mode' }
+];
+
+const TIMELINE_OPTIONS = [
+  { value: 'Short experiment', label: 'Short experiment' },
+  { value: 'Medium-term build', label: 'Medium-term build' },
+  { value: 'Long-term venture', label: 'Long-term venture' }
+];
+
 const DEFAULT_SKILL_CATEGORIES = [
 {
   label: 'Core',
@@ -212,188 +242,313 @@ export function RequiredFieldsModal({
     return missing;
   }, [formData]);
   const progress = (6 - missingFields.length) / 6 * 100;
+  const completedCount = 6 - missingFields.length;
   const isComplete = missingFields.length === 0;
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-      <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+      <div className="absolute inset-0 bg-[rgba(8,8,10,0.82)] backdrop-blur-md" onClick={onClose} />
 
+      <div className="premium-panel premium-grid relative flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-[32px] animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(208,164,106,0.15),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(243,237,226,0.06),transparent_32%)]" />
 
-      <div className="relative w-full max-w-3xl max-h-[90vh] bg-[#0a0a0b] border border-[#27272a] rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        {/* Progress Bar */}
-        <div className="h-1 w-full bg-[#141416]">
-          <div
-            className="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)] transition-all duration-300 ease-out"
-            style={{
-              width: `${progress}%`
-            }} />
+        <div className="relative border-b border-[var(--border)] px-5 py-5 sm:px-7 sm:py-6">
+          <div className="flex items-start justify-between gap-4">
+            <div className="max-w-3xl">
+              <p className="premium-kicker mb-2">Match Setup</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="font-display text-3xl text-[var(--text)] sm:text-4xl">Required Fields</h2>
+                <div className="rounded-full border border-[var(--border)] bg-[color:var(--bg-elevated)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                  {completedCount}/6 complete
+                </div>
+              </div>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--text-muted)] sm:text-base">
+                Give the matcher enough signal to suggest collaborators that fit your role, pace, and project intent.
+              </p>
+            </div>
 
+            <button
+              onClick={onClose}
+              className="rounded-full border border-[var(--border)] bg-[color:var(--bg-panel)] p-2.5 text-[var(--text-muted)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--text)]"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <div className="mt-5 h-2 overflow-hidden rounded-full bg-[color:var(--bg-muted)]">
+            <div
+              className="h-full rounded-full bg-[linear-gradient(90deg,var(--accent-strong),var(--accent),var(--success))] transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
 
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#27272a] bg-[#141416]">
-          <h2 className="text-lg font-bold text-white tracking-wide">
-            Required Fields
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-white p-1 rounded-md hover:bg-[#27272a] transition-colors">
+        <div className="relative grid min-h-0 flex-1 gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
+          <aside className="border-b border-[var(--border)] bg-[color:var(--bg-elevated)] p-5 sm:p-6 lg:min-h-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
+            <div className="space-y-5 lg:sticky lg:top-0">
+              <div className="rounded-[28px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-5">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Profile readiness</p>
+                    <p className="mt-2 text-3xl font-semibold text-[var(--text)]">{Math.round(progress)}%</p>
+                  </div>
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-full border ${
+                      isComplete
+                        ? 'border-[color:var(--success)] bg-[rgba(91,191,167,0.12)] text-[var(--success)]'
+                        : 'border-[var(--border)] bg-[color:var(--bg-muted)] text-[var(--accent)]'
+                    }`}
+                  >
+                    {isComplete ? <Check size={18} /> : <Info size={18} />}
+                  </div>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+                  {isComplete
+                    ? 'Everything needed for higher-confidence matching is in place.'
+                    : 'Complete the remaining signals so the system can rank better-fit projects.'}
+                </p>
+              </div>
 
-            <X size={20} />
-          </button>
-        </div>
+              <div className="rounded-[28px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">Still needed</p>
+                {missingFields.length === 0 ? (
+                  <div className="mt-3 rounded-2xl border border-[rgba(91,191,167,0.22)] bg-[rgba(91,191,167,0.08)] px-4 py-3 text-sm font-medium text-[var(--success)]">
+                    Ready to save and start matching.
+                  </div>
+                ) : (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {missingFields.map((field) => (
+                      <span
+                        key={field}
+                        className="rounded-full border border-[var(--border)] bg-[color:var(--bg-muted)] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
+                      >
+                        {field}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-10 custom-scrollbar">
-          {/* 1. Category */}
-          <div>
-            <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
-              1. What kind of project do you want to join?{' '}
-              <span className="text-blue-500">*</span>
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="rounded-[28px] border border-[var(--border)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--bg-panel)_92%,transparent),color-mix(in_srgb,var(--accent-soft)_38%,transparent))] p-5">
+                <p className="text-sm font-semibold text-[var(--text)]">What the matcher uses</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">
+                  Role fit, project type, time commitment, and the skills you want to contribute all shape the recommendations.
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          <div className="min-h-0 overflow-y-auto px-5 py-5 sm:px-7 sm:py-6">
+            <div className="space-y-5 pb-24">
+              <section className="premium-soft-panel rounded-[28px] p-5 sm:p-6">
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                      <span>01</span>
+                      <span>Project type</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-[var(--text)]">What kind of project do you want to join?</h3>
+                  </div>
+                  {formData.category && (
+                    <span className="rounded-full border border-[rgba(91,191,167,0.22)] bg-[rgba(91,191,167,0.08)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--success)]">
+                      Selected
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {CATEGORIES.map((cat) => {
                 const Icon = cat.icon;
                 return (
               <button
                 key={cat.id}
                 onClick={() => updateField('category', cat.id)}
-                className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${formData.category === cat.id ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.15)]' : 'border-[#27272a] bg-[#141416] hover:border-[#3f3f46]'}`}>
+                className={`group flex min-h-[144px] flex-col items-start rounded-[24px] border p-4 text-left transition-all duration-200 ${
+                  formData.category === cat.id
+                    ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_18px_40px_rgba(0,0,0,0.18)]'
+                    : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:-translate-y-0.5 hover:border-[var(--border-strong)]'
+                }`}>
 
-                  <div className={`mb-3 rounded-lg p-2 ${formData.category === cat.id ? 'bg-blue-500/15 text-blue-400' : 'bg-[#0f0f10] text-gray-400'}`}>
+                  <div className={`mb-4 rounded-2xl p-3 transition-colors ${
+                    formData.category === cat.id
+                      ? 'bg-[rgba(255,248,239,0.16)] text-[var(--accent)]'
+                      : 'bg-[color:var(--bg-muted)] text-[var(--text-muted)] group-hover:text-[var(--text)]'
+                  }`}>
                     <Icon size={22} />
                   </div>
                   <span
-                  className={`font-bold mb-1 ${formData.category === cat.id ? 'text-blue-400' : 'text-gray-200'}`}>
+                  className={`mb-1 text-base font-semibold ${formData.category === cat.id ? 'text-[var(--text)]' : 'text-[var(--text)]'}`}>
 
                     {cat.label}
                   </span>
-                  <span className="text-xs text-gray-500">{cat.desc}</span>
+                  <span className="text-sm leading-6 text-[var(--text-muted)]">{cat.desc}</span>
                 </button>
               );
               })}
-            </div>
-          </div>
+                </div>
+              </section>
 
-          {/* 2. Match Mode */}
-          <div>
-            <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
-              2. What do you want to do?{' '}
-              <span className="text-blue-500">*</span>
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button
-                onClick={() => updateField('matchMode', 'join')}
-                className={`flex flex-col items-center justify-center p-6 rounded-xl border transition-all ${formData.matchMode === 'join' ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.15)] text-blue-400' : 'border-[#27272a] bg-[#141416] hover:border-[#3f3f46] text-gray-400'}`}>
+              <section className="premium-soft-panel rounded-[28px] p-5 sm:p-6">
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                      <span>02</span>
+                      <span>Intent</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-[var(--text)]">What do you want to do right now?</h3>
+                  </div>
+                  {formData.matchMode && (
+                    <span className="rounded-full border border-[rgba(91,191,167,0.22)] bg-[rgba(91,191,167,0.08)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--success)]">
+                      Selected
+                    </span>
+                  )}
+                </div>
 
-                <DoorOpen size={32} className="mb-3" />
-                <span className="font-bold text-gray-200 mb-1">
-                  Join Existing Project
-                </span>
-                <span className="text-xs text-center">
-                  Find a project that needs your skills
-                </span>
-              </button>
-              <button
-                onClick={() => updateField('matchMode', 'start')}
-                className={`flex flex-col items-center justify-center p-6 rounded-xl border transition-all ${formData.matchMode === 'start' ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.15)] text-blue-400' : 'border-[#27272a] bg-[#141416] hover:border-[#3f3f46] text-gray-400'}`}>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {MATCH_MODE_OPTIONS.map((option) => {
+                    const Icon = option.icon;
+                    const isSelected = formData.matchMode === option.value;
+                    return (
+                      <button
+                        key={option.value}
+                        onClick={() => updateField('matchMode', option.value)}
+                        className={`group flex min-h-[164px] flex-col justify-between rounded-[24px] border p-5 text-left transition-all duration-200 ${
+                          isSelected
+                            ? 'border-[color:var(--accent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--accent-soft)_80%,transparent),color-mix(in_srgb,var(--bg-panel)_96%,transparent))] shadow-[0_18px_40px_rgba(0,0,0,0.18)]'
+                            : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:-translate-y-0.5 hover:border-[var(--border-strong)]'
+                        }`}
+                      >
+                        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
+                          isSelected ? 'bg-[rgba(255,248,239,0.16)] text-[var(--accent)]' : 'bg-[color:var(--bg-muted)] text-[var(--text-muted)]'
+                        }`}>
+                          <Icon size={24} />
+                        </div>
+                        <div>
+                          <p className="text-base font-semibold text-[var(--text)]">{option.label}</p>
+                          <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{option.description}</p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
 
-                <Rocket size={32} className="mb-3" />
-                <span className="font-bold text-gray-200 mb-1">
-                  Start New Project
-                </span>
-                <span className="text-xs text-center">
-                  Build something new with the right team
-                </span>
-              </button>
-            </div>
-          </div>
+              <section
+                className={`premium-soft-panel rounded-[28px] p-5 sm:p-6 ${!formData.category ? 'opacity-60' : ''}`}
+              >
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                      <span>03</span>
+                      <span>Role</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-[var(--text)]">What is your role?</h3>
+                  </div>
+                  {formData.role && (
+                    <span className="rounded-full border border-[rgba(91,191,167,0.22)] bg-[rgba(91,191,167,0.08)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--success)]">
+                      Selected
+                    </span>
+                  )}
+                </div>
 
-          {/* 3. Role */}
-          <div
-            className={
-            !formData.category ? 'opacity-50 pointer-events-none' : ''
-            }>
+                {!formData.category ?
+            <div className="rounded-[22px] border border-dashed border-[var(--border-strong)] bg-[color:var(--bg-panel)] px-4 py-4 text-sm italic text-[var(--text-muted)]">
+                    Select a project type first to unlock role suggestions.
+                  </div> :
 
-            <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
-              3. What is your role? <span className="text-blue-500">*</span>
-            </h3>
-            {!formData.category ?
-            <div className="text-sm text-gray-500 italic p-4 border border-[#27272a] border-dashed rounded-lg bg-[#141416]">
-                Please select a category first to see available roles.
-              </div> :
-
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5">
                 {(DOMAIN_ROLE_OPTIONS[formData.category] || DEFAULT_ROLE_OPTIONS).map((role) =>
               <button
                 key={role}
                 onClick={() => updateField('role', role)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all ${formData.role === role ? 'border-blue-500 bg-blue-500/20 text-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.2)]' : 'border-[#27272a] bg-[#141416] text-gray-400 hover:border-[#3f3f46] hover:text-gray-200'}`}>
+                className={`rounded-full border px-4 py-2.5 text-sm font-medium transition-all ${
+                  formData.role === role
+                    ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_10px_24px_rgba(0,0,0,0.16)]'
+                    : 'border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]'
+                }`}>
 
                     {role}
                   </button>
               )}
               </div>
             }
-          </div>
+              </section>
 
-          {/* 4. Availability */}
-          <div>
-            <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
-              4. How many hours per week?{' '}
-              <span className="text-blue-500">*</span>
-            </h3>
-            <div className="flex bg-[#141416] p-1 rounded-lg border border-[#27272a]">
-              {['1-5 hrs', '5-10 hrs', '10-20 hrs', '20+ hrs'].map((opt) =>
+              <section className="premium-soft-panel rounded-[28px] p-5 sm:p-6">
+                <div className="mb-5">
+                  <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                    <span>04</span>
+                    <span>Availability</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">How many hours per week can you give?</h3>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  {AVAILABILITY_OPTIONS.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => updateField('availability', option.value)}
+                      className={`rounded-[22px] border p-4 text-left transition-all ${
+                        formData.availability === option.value
+                          ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_14px_32px_rgba(0,0,0,0.16)]'
+                          : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:border-[var(--border-strong)]'
+                      }`}
+                    >
+                      <p className="text-base font-semibold text-[var(--text)]">{option.label}</p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">{option.description}</p>
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <section className="premium-soft-panel rounded-[28px] p-5 sm:p-6">
+                <div className="mb-5">
+                  <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                    <span>05</span>
+                    <span>Timeline</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-[var(--text)]">How long are you available?</h3>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {TIMELINE_OPTIONS.map((option) =>
               <button
-                key={opt}
-                onClick={() => updateField('availability', opt)}
-                className={`flex-1 py-2.5 text-sm font-medium rounded-md transition-all ${formData.availability === opt ? 'bg-[#27272a] text-white shadow-sm' : 'text-gray-500 hover:text-gray-300'}`}>
+                key={option.value}
+                onClick={() => updateField('timeline', option.value)}
+                className={`rounded-full border px-5 py-2.5 text-sm font-medium transition-all ${
+                  formData.timeline === option.value
+                    ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_10px_24px_rgba(0,0,0,0.16)]'
+                    : 'border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]'
+                }`}>
 
-                  {opt}
-                </button>
-              )}
-            </div>
-          </div>
+                      {option.label}
+                    </button>
+                  )}
+                </div>
+              </section>
 
-          {/* 5. Timeline */}
-          <div>
-            <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
-              5. How long are you available?{' '}
-              <span className="text-blue-500">*</span>
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              {[
-              'Short experiment',
-              'Medium-term build',
-              'Long-term venture'].
-              map((opt) =>
-              <button
-                key={opt}
-                onClick={() => updateField('timeline', opt)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all ${formData.timeline === opt ? 'border-blue-500 bg-blue-500/10 text-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.15)]' : 'border-[#27272a] bg-[#141416] text-gray-400 hover:border-[#3f3f46] hover:text-gray-200'}`}>
+              <section className="premium-soft-panel rounded-[28px] p-5 sm:p-6">
+                <div className="mb-5 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                      <span>06</span>
+                      <span>Skills</span>
+                    </div>
+                    <h3 className="text-lg font-semibold text-[var(--text)]">Your key skills</h3>
+                  </div>
+                  {formData.skills.length > 0 && (
+                    <span className="rounded-full border border-[rgba(91,191,167,0.22)] bg-[rgba(91,191,167,0.08)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--success)]">
+                      {formData.skills.length} selected
+                    </span>
+                  )}
+                </div>
 
-                  {opt}
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* 6. Skills */}
-          <div>
-            <h3 className="text-sm font-mono text-gray-400 uppercase tracking-wider mb-4">
-              6. Your key skills <span className="text-blue-500">*</span>
-            </h3>
-            {!formData.role ?
-            <div className="text-sm text-gray-500 italic p-4 border border-[#27272a] border-dashed rounded-lg bg-[#141416]">
-                Please select a role first to see relevant skills.
-              </div> :
+                {!formData.role ?
+            <div className="rounded-[22px] border border-dashed border-[var(--border-strong)] bg-[color:var(--bg-panel)] px-4 py-4 text-sm italic text-[var(--text-muted)]">
+                    Select a role first to unlock suggested skills.
+                  </div> :
             <div className="space-y-6">
               {skillCategories.map((category) =>
               <div key={category.label}>
-                  <div className="text-xs font-bold text-gray-500 mb-3">
+                  <div className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
                     {category.label}
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -403,7 +558,7 @@ export function RequiredFieldsModal({
                       <button
                         key={skill}
                         onClick={() => toggleSkill(skill)}
-                        className={`px-3 py-1.5 rounded-md text-sm transition-all border ${isSelected ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_10px_rgba(37,99,235,0.4)]' : 'bg-[#141416] border-[#27272a] text-gray-400 hover:border-[#3f3f46] hover:text-gray-200'}`}>
+                        className={`rounded-full border px-3.5 py-2 text-sm transition-all ${isSelected ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_10px_24px_rgba(0,0,0,0.14)]' : 'border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]'}`}>
 
                           {skill}
                         </button>);
@@ -414,41 +569,55 @@ export function RequiredFieldsModal({
               )}
             </div>
             }
+              </section>
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-[#27272a] bg-[#141416] flex items-center justify-between">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+        <div className="relative flex flex-col gap-3 border-t border-[var(--border)] bg-[color:var(--bg-elevated)] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+          <div className="text-sm text-[var(--text-muted)]">
+            {isComplete ? 'Everything looks good. You can start matching now.' : `${missingFields.length} field${missingFields.length === 1 ? '' : 's'} still needed before matching.`}
+          </div>
 
-            Cancel
-          </button>
-
-          <div className="relative group">
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => isComplete && onSave(formData)}
-              disabled={!isComplete}
-              className={`px-6 py-2.5 rounded-lg text-sm font-bold tracking-wide transition-all ${isComplete ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'bg-[#27272a] text-gray-500 cursor-not-allowed'}`}>
-
-              Save and Start Matching
+              onClick={onClose}
+              className="premium-button-secondary rounded-full px-5 py-2.5 text-sm font-medium"
+            >
+              Cancel
             </button>
 
-            {!isComplete &&
-            <div className="absolute bottom-full right-0 mb-3 w-48 p-3 bg-[#27272a] text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 border border-[#3f3f46]">
-                <div className="font-bold mb-2 flex items-center gap-1.5 text-amber-400">
-                  <Info size={14} /> Missing fields:
+            <div className="relative group">
+              <button
+                onClick={() => isComplete && onSave(formData)}
+                disabled={!isComplete}
+                className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+                  isComplete
+                    ? 'premium-button'
+                    : 'cursor-not-allowed border border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)] opacity-70'
+                }`}
+              >
+                Save and Start Matching
+              </button>
+
+              {!isComplete &&
+            <div className="pointer-events-none absolute bottom-full right-0 mb-3 w-56 rounded-[20px] border border-[var(--border)] bg-[color:var(--surface-0)] p-3 text-xs shadow-[var(--shadow-md)] opacity-0 transition-opacity group-hover:opacity-100 dark:bg-[color:var(--bg-panel)]">
+                  <div className="mb-2 flex items-center gap-1.5 font-semibold text-[var(--accent)]">
+                    <Info size={14} /> Finish these first
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {missingFields.map((field) => (
+                      <span
+                        key={field}
+                        className="rounded-full bg-[color:var(--bg-muted)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]"
+                      >
+                        {field}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <ul className="list-disc pl-5 space-y-1 text-gray-300">
-                  {missingFields.map((f) =>
-                <li key={f}>{f}</li>
-                )}
-                </ul>
-                {/* Tooltip arrow */}
-                <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-[#27272a] border-b border-r border-[#3f3f46] transform rotate-45"></div>
-              </div>
             }
+            </div>
           </div>
         </div>
       </div>
