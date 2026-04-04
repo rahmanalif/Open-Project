@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Save, Sparkles } from 'lucide-react';
 import { StepIndicator } from './StepIndicator';
 import { IntentStep } from './project-steps/IntentStep';
 import { RolesStep } from './project-steps/RolesStep';
@@ -135,15 +135,60 @@ export function ProjectCreationWizard({ onClose }: ProjectCreationWizardProps) {
     }
   };
 
+  const completedSteps = STEPS.reduce((count, _, index) => {
+    const stepNumber = index + 1;
+    if (stepNumber >= currentStep) return count;
+    return count + 1;
+  }, 0);
+
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-[#141416]">
+    <div className="flex h-full flex-col bg-transparent">
       <StepIndicator
         currentStep={currentStep}
         totalSteps={STEPS.length}
         labels={STEPS} />
 
-      <div className="flex-1 overflow-y-auto p-8 bg-white dark:bg-[#141416]">
-        <div className="max-w-3xl mx-auto">
+      <div className="grid min-h-0 flex-1 gap-0 2xl:grid-cols-[300px_minmax(0,1fr)]">
+        <aside className="hidden border-b border-[var(--border)] bg-[color:var(--bg-elevated)] p-5 sm:p-6 2xl:block 2xl:min-h-0 2xl:overflow-y-auto 2xl:border-b-0 2xl:border-r">
+          <div className="space-y-5 xl:sticky xl:top-0">
+            <div className="rounded-[28px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Progress</p>
+                  <p className="mt-2 text-3xl font-semibold text-[var(--text)]">{completedSteps}/{STEPS.length}</p>
+                </div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-[color:var(--accent-soft)] text-[var(--accent)]">
+                  <Sparkles size={18} />
+                </div>
+              </div>
+              <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
+                Build trust fast by making the opportunity clear, realistic, and easy to understand.
+              </p>
+            </div>
+
+            <div className="rounded-[28px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-5">
+              <p className="text-sm font-semibold text-[var(--text)]">Current step</p>
+              <p className="mt-2 text-base font-medium text-[var(--accent)]">{STEPS[currentStep - 1]}</p>
+            </div>
+          </div>
+        </aside>
+
+        <div className="min-h-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-5 lg:px-7 lg:py-6">
+          <div className="mx-auto max-w-5xl">
+          <div className="mb-4 grid gap-3 2xl:hidden md:grid-cols-[minmax(0,1fr)_auto]">
+            <div className="rounded-[22px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Current step</p>
+                  <p className="mt-1 text-base font-semibold text-[var(--text)]">{STEPS[currentStep - 1]}</p>
+                </div>
+                <div className="rounded-full border border-[var(--border)] bg-[color:var(--bg-elevated)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                  {completedSteps}/{STEPS.length}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {currentStep === 1 &&
           <IntentStep data={formData} updateData={updateData} />
           }
@@ -159,58 +204,58 @@ export function ProjectCreationWizard({ onClose }: ProjectCreationWizardProps) {
           {currentStep === 5 &&
           <div className="space-y-6">
               <MatchingVisibilityStep data={formData} updateData={updateData} />
-              <div className="rounded-lg border border-gray-200 dark:border-[#27272a] p-4 bg-gray-50 dark:bg-[#0a0a0b]">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              <div className="rounded-[28px] border border-[var(--border)] bg-[color:var(--bg-panel)] p-5">
+                <h3 className="text-sm font-semibold text-[var(--text)] mb-3">
                   Quick Review
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">Domain:</span>{' '}
+                <div className="grid grid-cols-1 gap-3 text-sm md:grid-cols-2">
+                  <p className="text-[var(--text-muted)]">
+                    <span className="font-medium text-[var(--text)]">Domain:</span>{' '}
                     {formData.domain || 'Not set'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">Stage:</span>{' '}
+                  <p className="text-[var(--text-muted)]">
+                    <span className="font-medium text-[var(--text)]">Stage:</span>{' '}
                     {formData.stage || 'Not set'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">Roles:</span>{' '}
+                  <p className="text-[var(--text-muted)]">
+                    <span className="font-medium text-[var(--text)]">Roles:</span>{' '}
                     {(formData.roles || []).length}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">Commitment:</span>{' '}
+                  <p className="text-[var(--text-muted)]">
+                    <span className="font-medium text-[var(--text)]">Commitment:</span>{' '}
                     {formData.hours || 'Not set'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">Timeline:</span>{' '}
+                  <p className="text-[var(--text-muted)]">
+                    <span className="font-medium text-[var(--text)]">Timeline:</span>{' '}
                     {formData.timeline || 'Not set'}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">Matching:</span>{' '}
+                  <p className="text-[var(--text-muted)]">
+                    <span className="font-medium text-[var(--text)]">Matching:</span>{' '}
                     {formData.matchingMode || 'Not set'}
                   </p>
                 </div>
               </div>
             </div>
           }
+          </div>
         </div>
       </div>
 
-      <div className="border-t border-gray-200 dark:border-[#27272a] p-4 bg-white dark:bg-[#141416] flex items-center justify-between">
+      <div className="border-t border-[var(--border)] bg-[color:var(--bg-elevated)] px-4 py-3 sm:px-6 lg:px-7">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <button
           onClick={handleBack}
           disabled={currentStep === 1}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors ${currentStep === 1 ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#27272a]'}`}>
-
+          className={`flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-colors sm:w-auto ${currentStep === 1 ? 'cursor-not-allowed text-[var(--text-muted)] opacity-45' : 'premium-button-secondary'}`}>
           <ChevronLeft size={16} />
           Back
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
           {currentStep === STEPS.length &&
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#27272a] rounded-md transition-colors">
-
+            className="premium-button-secondary flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium sm:w-auto">
               <Save size={16} />
               Save as Draft
             </button>
@@ -219,13 +264,13 @@ export function ProjectCreationWizard({ onClose }: ProjectCreationWizardProps) {
           <button
             onClick={handleNext}
             disabled={!isStepValid()}
-            className={`flex items-center gap-2 px-6 py-2 text-sm font-medium rounded-md transition-all shadow-sm ${!isStepValid() ? 'bg-gray-100 dark:bg-[#27272a] text-gray-400 dark:text-gray-600 cursor-not-allowed' : 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100'}`}>
-
+            className={`flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all sm:w-auto ${!isStepValid() ? 'cursor-not-allowed border border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)] opacity-70' : 'premium-button'}`}>
             {currentStep === STEPS.length ? 'Publish Project' : 'Next'}
             {currentStep !== STEPS.length && <ChevronRight size={16} />}
           </button>
         </div>
+        </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }

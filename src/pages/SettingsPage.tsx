@@ -220,6 +220,19 @@ function getInitials(displayName: string, fullName: string) {
   return tokens.slice(0, 2).map((token) => token[0].toUpperCase()).join('');
 }
 
+const sectionClass = 'premium-panel overflow-hidden rounded-[30px]';
+const sectionHeaderClass = 'flex items-center gap-2 border-b border-[var(--border)] bg-[color:var(--bg-elevated)] px-5 py-4 sm:px-6';
+const sectionBodyClass = 'space-y-6 px-5 py-5 sm:px-6 sm:py-6';
+const labelClass = 'mb-2 block text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]';
+const inputClass = 'premium-input w-full rounded-[18px] px-4 py-3 text-sm';
+const textareaClass = 'premium-input w-full rounded-[22px] px-4 py-3 text-sm leading-6';
+const selectClass = 'premium-input w-full rounded-[18px] px-4 py-3 text-sm';
+const helperClass = 'mt-2 text-xs text-[var(--text-muted)]';
+const errorClass = 'mt-2 text-xs text-[var(--danger)]';
+const saveButtonClass = 'premium-button inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold';
+const chipSelectedClass = 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_10px_24px_rgba(0,0,0,0.14)]';
+const chipDefaultClass = 'border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-[var(--text)]';
+
 export function SettingsPage() {
   const [form, setForm] = useState<FormState>({
     displayName: 'JohnD',
@@ -483,27 +496,31 @@ export function SettingsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-12">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
+    <div className="mx-auto max-w-5xl pb-12">
+      <div className="premium-panel premium-grid relative mb-8 overflow-hidden rounded-[34px] px-6 py-7 sm:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(208,164,106,0.14),transparent_28%)]" />
+        <div className="relative">
+          <p className="premium-kicker mb-2">Account Center</p>
+          <h1 className="font-display text-4xl text-[var(--text)] sm:text-5xl">
           Settings
-        </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Manage your profile, preferences, and account.
-        </p>
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--text-muted)] sm:text-base">
+            Manage your profile, preferences, trust signals, and account controls in one place.
+          </p>
+        </div>
       </div>
 
       <div className="space-y-10">
-        <section className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b] flex items-center gap-2">
-            <User size={18} className="text-gray-500 dark:text-gray-400" />
-            <h2 className="font-semibold text-gray-900 dark:text-white">
+        <section className={sectionClass}>
+          <div className={sectionHeaderClass}>
+            <User size={18} className="text-[var(--accent)]" />
+            <h2 className="font-semibold text-[var(--text)]">
               Section 1 - Profile
             </h2>
           </div>
-          <div className="p-6 space-y-6">
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full bg-gray-200 dark:bg-[#27272a] flex items-center justify-center text-xl font-medium text-gray-600 dark:text-gray-300 border-2 border-white dark:border-[#141416] shadow-sm overflow-hidden">
+          <div className={sectionBodyClass}>
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
+              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-[var(--border)] bg-[color:var(--bg-panel)] text-xl font-medium text-[var(--text)] shadow-[var(--shadow-md)]">
                 {photoPreview ?
                 <img src={photoPreview} alt="Profile preview" className="w-full h-full object-cover" /> :
 
@@ -511,7 +528,7 @@ export function SettingsPage() {
                 }
               </div>
               <div>
-                <label className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-[#1f1f23] border border-gray-300 dark:border-[#3f3f46] rounded-md hover:bg-gray-50 dark:hover:bg-[#27272a] transition-colors shadow-sm cursor-pointer inline-block">
+                <label className="premium-button-secondary inline-block cursor-pointer rounded-full px-4 py-2.5 text-sm font-medium">
                   Upload Photo
                   <input
                     type="file"
@@ -520,11 +537,11 @@ export function SettingsPage() {
                     onChange={handlePhotoUpload} />
 
                 </label>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                <p className={helperClass}>
                   JPG, PNG or GIF. Max 1MB.
                 </p>
                 {photoError &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {photoError}
                   </p>
                 }
@@ -533,7 +550,7 @@ export function SettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Display Name *
                 </label>
                 <input
@@ -541,19 +558,19 @@ export function SettingsPage() {
                   maxLength={30}
                   value={form.displayName}
                   onChange={(e) => setField('displayName', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  className={inputClass} />
 
-                <div className="text-right text-xs text-gray-400 dark:text-gray-500 mt-1">
+                <div className={`${helperClass} text-right`}>
                   {form.displayName.length}/30
                 </div>
                 {errors.displayName &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.displayName}
                   </p>
                 }
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Full Name *
                 </label>
                 <input
@@ -561,13 +578,13 @@ export function SettingsPage() {
                   maxLength={60}
                   value={form.fullName}
                   onChange={(e) => setField('fullName', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  className={inputClass} />
 
-                <div className="text-right text-xs text-gray-400 dark:text-gray-500 mt-1">
+                <div className={`${helperClass} text-right`}>
                   {form.fullName.length}/60
                 </div>
                 {errors.fullName &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.fullName}
                   </p>
                 }
@@ -576,13 +593,13 @@ export function SettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Primary Role *
                 </label>
                 <select
                   value={form.primaryRole}
                   onChange={(e) => setField('primaryRole', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                  className={selectClass}>
 
                   <option value="">Select role</option>
                   {PRIMARY_ROLE_OPTIONS.map((role) =>
@@ -592,19 +609,19 @@ export function SettingsPage() {
                   )}
                 </select>
                 {errors.primaryRole &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.primaryRole}
                   </p>
                 }
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Primary Working Language *
                 </label>
                 <select
                   value={form.primaryLanguage}
                   onChange={(e) => setField('primaryLanguage', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                  className={selectClass}>
 
                   <option value="">Select language</option>
                   {LANGUAGE_OPTIONS.map((language) =>
@@ -614,7 +631,7 @@ export function SettingsPage() {
                   )}
                 </select>
                 {errors.primaryLanguage &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.primaryLanguage}
                   </p>
                 }
@@ -622,7 +639,7 @@ export function SettingsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className={labelClass}>
                 Bio
               </label>
               <textarea
@@ -631,16 +648,16 @@ export function SettingsPage() {
                 value={form.bio}
                 onChange={(e) => setField('bio', e.target.value)}
                 placeholder="Tell collaborators who you are and what you're working toward."
-                className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                className={textareaClass} />
 
-              <div className="text-right text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <div className={`${helperClass} text-right`}>
                 {form.bio.length}/200
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Location
                 </label>
                 <input
@@ -648,11 +665,11 @@ export function SettingsPage() {
                   value={form.location}
                   onChange={(e) => setField('location', e.target.value)}
                   placeholder="Dhaka, Bangladesh"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  className={inputClass} />
 
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Portfolio or Website
                 </label>
                 <input
@@ -660,10 +677,10 @@ export function SettingsPage() {
                   value={form.portfolioUrl}
                   onChange={(e) => setField('portfolioUrl', e.target.value)}
                   placeholder="https://yourportfolio.com"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  className={inputClass} />
 
                 {errors.portfolioUrl &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.portfolioUrl}
                   </p>
                 }
@@ -673,7 +690,7 @@ export function SettingsPage() {
             <div className="flex justify-end pt-2">
               <button
                 onClick={() => saveSection('profile', validateProfileSection())}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
+                className={saveButtonClass}>
 
                 {saveLabel('profile')}
                 {saveState.profile === 'saved' && <CheckCircle2 size={16} />}
@@ -682,23 +699,23 @@ export function SettingsPage() {
           </div>
         </section>
 
-        <section className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b] flex items-center gap-2">
-            <Briefcase size={18} className="text-gray-500 dark:text-gray-400" />
-            <h2 className="font-semibold text-gray-900 dark:text-white">
+        <section className={sectionClass}>
+          <div className={sectionHeaderClass}>
+            <Briefcase size={18} className="text-[var(--accent)]" />
+            <h2 className="font-semibold text-[var(--text)]">
               Section 2 - Skills & Experience
             </h2>
           </div>
-          <div className="p-6 space-y-6">
+          <div className={sectionBodyClass}>
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className={labelClass}>
                 Primary Skills
               </label>
               <div className="flex flex-wrap gap-2 mb-3">
                 {form.primarySkills.map((skill) =>
                 <span
                   key={skill}
-                  className="px-3 py-1 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 text-sm rounded-full border border-blue-100 dark:border-blue-500/20 flex items-center gap-2">
+                  className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[color:var(--accent-soft)] px-3 py-1 text-sm text-[var(--text)]">
 
                     {skill}
                     <button
@@ -722,22 +739,22 @@ export function SettingsPage() {
                   }
                 }}
                 placeholder="Type a skill and press Enter"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                className={inputClass} />
 
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              <p className={helperClass}>
                 Optional but strongly recommended. Suggested display cap: 10.
               </p>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className={labelClass}>
                 Tools & Stack
               </label>
               <div className="flex flex-wrap gap-2 mb-3">
                 {form.toolsStack.map((tool) =>
                 <span
                   key={tool}
-                  className="px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-sm rounded-full border border-indigo-100 dark:border-indigo-500/20 flex items-center gap-2">
+                  className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-[color:var(--bg-muted)] px-3 py-1 text-sm text-[var(--text)]">
 
                     {tool}
                     <button
@@ -761,22 +778,22 @@ export function SettingsPage() {
                   }
                 }}
                 placeholder="Type a tool or technology and press Enter"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                className={inputClass} />
 
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              <p className={helperClass}>
                 Optional but strongly recommended. Suggested display cap: 15.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Experience Level *
                 </label>
                 <select
                   value={form.experienceLevel}
                   onChange={(e) => setField('experienceLevel', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                  className={selectClass}>
 
                   <option value="">Select level</option>
                   {EXPERIENCE_LEVEL_OPTIONS.map((option) =>
@@ -786,13 +803,13 @@ export function SettingsPage() {
                   )}
                 </select>
                 {errors.experienceLevel &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.experienceLevel}
                   </p>
                 }
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Years of Experience *
                 </label>
                 <input
@@ -806,10 +823,10 @@ export function SettingsPage() {
                     e.target.value === '' ? '' : Number(e.target.value)
                   )
                   }
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  className={inputClass} />
 
                 {errors.yearsExperience &&
-                <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                <p className={errorClass}>
                     {errors.yearsExperience}
                   </p>
                 }
@@ -817,7 +834,7 @@ export function SettingsPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className={labelClass}>
                 Domain Interests *
               </label>
               <div className="flex flex-wrap gap-2">
@@ -825,21 +842,21 @@ export function SettingsPage() {
                 <button
                   key={option}
                   onClick={() => toggleMultiValue('domainInterests', option)}
-                  className={`px-3 py-1.5 rounded-full text-sm border transition-all ${form.domainInterests.includes(option) ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300' : 'bg-white dark:bg-[#1f1f23] border-gray-300 dark:border-[#3f3f46] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#27272a]'}`}>
+                  className={`rounded-full border px-3 py-1.5 text-sm transition-all ${form.domainInterests.includes(option) ? chipSelectedClass : chipDefaultClass}`}>
 
                   {option}
                 </button>
                 )}
               </div>
               {errors.domainInterests &&
-              <p className="text-xs text-red-600 dark:text-red-400 mt-2">
+              <p className={errorClass}>
                   {errors.domainInterests}
                 </p>
               }
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className={labelClass}>
                 Goal Alignment *
               </label>
               <div className="flex flex-wrap gap-2">
@@ -847,14 +864,14 @@ export function SettingsPage() {
                 <button
                   key={option}
                   onClick={() => toggleMultiValue('goalAlignment', option)}
-                  className={`px-3 py-1.5 rounded-full text-sm border transition-all ${form.goalAlignment.includes(option) ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300' : 'bg-white dark:bg-[#1f1f23] border-gray-300 dark:border-[#3f3f46] text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#27272a]'}`}>
+                  className={`rounded-full border px-3 py-1.5 text-sm transition-all ${form.goalAlignment.includes(option) ? chipSelectedClass : chipDefaultClass}`}>
 
                   {option}
                 </button>
                 )}
               </div>
               {errors.goalAlignment &&
-              <p className="text-xs text-red-600 dark:text-red-400 mt-2">
+              <p className={errorClass}>
                   {errors.goalAlignment}
                 </p>
               }
@@ -863,7 +880,7 @@ export function SettingsPage() {
             <div className="flex justify-end pt-2">
               <button
                 onClick={() => saveSection('skills', validateSkillsSection())}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
+                className={saveButtonClass}>
 
                 {saveLabel('skills')}
                 {saveState.skills === 'saved' && <CheckCircle2 size={16} />}
@@ -872,16 +889,16 @@ export function SettingsPage() {
           </div>
         </section>
 
-        <section className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b] flex items-center gap-2">
-            <Globe size={18} className="text-gray-500 dark:text-gray-400" />
-            <h2 className="font-semibold text-gray-900 dark:text-white">
+        <section className={sectionClass}>
+          <div className={sectionHeaderClass}>
+            <Globe size={18} className="text-[var(--accent)]" />
+            <h2 className="font-semibold text-[var(--text)]">
               Section 3 - Preferences
             </h2>
           </div>
-          <div className="p-6 space-y-6">
+          <div className={sectionBodyClass}>
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-3">
+              <label className={labelClass}>
                 Active Status *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -889,14 +906,14 @@ export function SettingsPage() {
                 <button
                   key={option.value}
                   onClick={() => setField('activeStatus', option.value)}
-                  className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${form.activeStatus === option.value ? option.tone : 'bg-white dark:bg-[#1f1f23] border-gray-300 dark:border-[#3f3f46] text-gray-600 dark:text-gray-300'}`}>
+                  className={`rounded-[20px] border px-3 py-3 text-sm font-medium transition-all ${form.activeStatus === option.value ? option.tone : chipDefaultClass}`}>
 
                   {option.value}
                 </button>
                 )}
               </div>
               {errors.activeStatus &&
-              <p className="text-xs text-red-600 dark:text-red-400 mt-2">
+              <p className={errorClass}>
                   {errors.activeStatus}
                 </p>
               }
@@ -1118,14 +1135,14 @@ export function SettingsPage() {
           </div>
         </section>
 
-        <section className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b] flex items-center gap-2">
-            <LinkIcon size={18} className="text-gray-500 dark:text-gray-400" />
-            <h2 className="font-semibold text-gray-900 dark:text-white">
+        <section className={sectionClass}>
+          <div className={sectionHeaderClass}>
+            <LinkIcon size={18} className="text-[var(--accent)]" />
+            <h2 className="font-semibold text-[var(--text)]">
               Section 4 - Trust & Presence
             </h2>
           </div>
-          <div className="p-6 space-y-6">
+          <div className={sectionBodyClass}>
             {[
             {
               key: 'githubUrl',
@@ -1153,7 +1170,7 @@ export function SettingsPage() {
             }].
             map((item) =>
             <div key={item.key}>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   {item.label}
                 </label>
                 <input
@@ -1163,10 +1180,10 @@ export function SettingsPage() {
                 setField(item.key as keyof FormState, e.target.value as never)
                 }
                 placeholder="https://"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                className={inputClass} />
 
                 {errors[item.key] &&
-              <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+              <p className={errorClass}>
                     {errors[item.key]}
                   </p>
                 }
@@ -1174,13 +1191,13 @@ export function SettingsPage() {
             )}
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className={labelClass}>
                 Collaboration Experience *
               </label>
               <select
                 value={form.collaborationExperience}
                 onChange={(e) => setField('collaborationExperience', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                className={selectClass}>
 
                 <option value="">Select one</option>
                 <option value="This will be my first collaboration">
@@ -1194,23 +1211,23 @@ export function SettingsPage() {
                 </option>
               </select>
               {errors.collaborationExperience &&
-              <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+              <p className={errorClass}>
                   {errors.collaborationExperience}
                 </p>
               }
             </div>
 
-            <div className="border border-gray-200 dark:border-[#27272a] rounded-lg p-4 bg-gray-50 dark:bg-[#0a0a0b]">
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+            <div className="rounded-[24px] border border-[var(--border)] bg-[color:var(--bg-elevated)] p-4">
+              <h3 className="mb-3 text-sm font-medium text-[var(--text)]">
                 On-Platform History
               </h3>
               {onPlatformHistory.projectsJoined === 0 &&
               onPlatformHistory.projectsCompleted === 0 ?
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-[var(--text-muted)]">
                   Complete your first collaboration to build your track record.
                 </p> :
 
-              <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+              <div className="space-y-1 text-sm text-[var(--text)]">
                   <p>Projects joined: {onPlatformHistory.projectsJoined}</p>
                   <p>Projects completed: {onPlatformHistory.projectsCompleted}</p>
                   <p>
@@ -1227,7 +1244,7 @@ export function SettingsPage() {
             <div className="flex justify-end pt-2">
               <button
                 onClick={() => saveSection('trust', validateTrustSection())}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
+                className={saveButtonClass}>
 
                 {saveLabel('trust')}
                 {saveState.trust === 'saved' && <CheckCircle2 size={16} />}
@@ -1236,16 +1253,16 @@ export function SettingsPage() {
           </div>
         </section>
 
-        <section className="bg-white dark:bg-[#141416] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b] flex items-center gap-2">
-            <Shield size={18} className="text-gray-500 dark:text-gray-400" />
-            <h2 className="font-semibold text-gray-900 dark:text-white">
+        <section className={sectionClass}>
+          <div className={sectionHeaderClass}>
+            <Shield size={18} className="text-[var(--accent)]" />
+            <h2 className="font-semibold text-[var(--text)]">
               Section 5 - Account
             </h2>
           </div>
-          <div className="p-6 space-y-6">
+          <div className={sectionBodyClass}>
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label className={labelClass}>
                 Email Address
               </label>
               <div className="flex items-center gap-3">
@@ -1253,25 +1270,25 @@ export function SettingsPage() {
                   type="email"
                   value="john.doe@example.com"
                   disabled
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#0a0a0b] text-gray-500 dark:text-gray-500 rounded-md shadow-sm text-sm cursor-not-allowed" />
+                  className="w-full cursor-not-allowed rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-muted)] px-4 py-3 text-sm text-[var(--text-muted)]" />
 
-                <button className="text-sm text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap">
+                <button className="whitespace-nowrap text-sm text-[var(--accent)] hover:underline">
                   Change email
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className={labelClass}>
                 Password
               </label>
-              <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 rounded-md transition-colors shadow-sm">
+              <button className={saveButtonClass}>
                 Change password
               </button>
             </div>
 
             <div>
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
+              <h3 className="mb-3 text-sm font-medium text-[var(--text)]">
                 Notification Preferences
               </h3>
               <div className="space-y-3">
@@ -1301,7 +1318,7 @@ export function SettingsPage() {
                   label: 'Platform announcements and updates'
                 }].
                 map((item) =>
-                <label key={item.key} className="flex items-center gap-3">
+                <label key={item.key} className="flex items-center gap-3 rounded-[18px] border border-[var(--border)] bg-[color:var(--bg-panel)] px-4 py-3">
                     <input
                     type="checkbox"
                     checked={notificationPrefs[item.key as keyof typeof notificationPrefs]}
@@ -1311,9 +1328,9 @@ export function SettingsPage() {
                       [item.key]: e.target.checked
                     }))
                     }
-                    className="w-4 h-4 text-blue-600 dark:text-blue-500 border-gray-300 dark:border-[#3f3f46] rounded focus:ring-blue-500 bg-white dark:bg-[#0a0a0b]" />
+                    className="h-4 w-4 rounded border-[var(--border-strong)] bg-white text-[var(--accent)] focus:ring-[var(--accent)]" />
 
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                    <span className="text-sm text-[var(--text-muted)]">
                       {item.label}
                     </span>
                   </label>
@@ -1323,13 +1340,13 @@ export function SettingsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Who can see your profile
                 </label>
                 <select
                   value={form.profileVisibility}
                   onChange={(e) => setField('profileVisibility', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                  className={selectClass}>
 
                   <option>Everyone</option>
                   <option>Matched users only</option>
@@ -1337,13 +1354,13 @@ export function SettingsPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className={labelClass}>
                   Who can send collaboration requests
                 </label>
                 <select
                   value={form.requestPermission}
                   onChange={(e) => setField('requestPermission', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm">
+                  className={selectClass}>
 
                   <option>Everyone</option>
                   <option>People whose projects match your preferences</option>
@@ -1352,19 +1369,19 @@ export function SettingsPage() {
               </div>
             </div>
 
-            <div className="pt-4 border border-red-200 dark:border-red-500/30 rounded-lg p-4 bg-red-50/50 dark:bg-red-500/5">
-              <h3 className="text-sm font-medium text-red-700 dark:text-red-400 mb-3">
+            <div className="rounded-[24px] border border-[rgba(180,83,9,0.22)] bg-[rgba(180,83,9,0.08)] p-4">
+              <h3 className="mb-3 text-sm font-medium text-[var(--danger)]">
                 Danger Zone
               </h3>
               <div className="space-y-4">
                 <div>
                   <button
                     onClick={() => setPausedListings((prev) => !prev)}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-[#1f1f23] border border-gray-300 dark:border-[#3f3f46] rounded-md hover:bg-gray-50 dark:hover:bg-[#27272a] transition-colors shadow-sm">
+                    className="premium-button-secondary rounded-full px-4 py-2.5 text-sm font-medium">
 
                     {pausedListings ? 'Resume All Listings' : 'Pause All Listings'}
                   </button>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+                  <p className={helperClass}>
                     Your projects will be hidden from discovery temporarily. You
                     can reactivate anytime.
                   </p>
@@ -1372,11 +1389,11 @@ export function SettingsPage() {
                 <div>
                   <button
                     onClick={() => setShowDeleteModal(true)}
-                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 dark:bg-red-500 hover:bg-red-700 dark:hover:bg-red-600 rounded-md transition-colors shadow-sm">
+                    className="rounded-full bg-[var(--danger)] px-4 py-2.5 text-sm font-medium text-[#1d1409] transition-opacity hover:opacity-90">
 
                     Delete Account
                   </button>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+                  <p className={helperClass}>
                     This will permanently delete your account, profile, and all
                     project listings. This cannot be undone.
                   </p>
@@ -1393,14 +1410,14 @@ export function SettingsPage() {
           className="absolute inset-0 bg-black/40 backdrop-blur-sm"
           onClick={() => setShowDeleteModal(false)} />
 
-          <div className="relative w-full max-w-md bg-white dark:bg-[#141416] rounded-xl border border-gray-200 dark:border-[#27272a] shadow-xl p-6">
+          <div className="premium-panel relative w-full max-w-md rounded-[28px] p-6">
             <div className="flex items-start gap-3">
               <AlertTriangle className="text-red-600 dark:text-red-400 mt-0.5" size={18} />
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-lg font-semibold text-[var(--text)]">
                   Confirm account deletion
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
                   Type your display name to confirm.
                 </p>
               </div>
@@ -1411,7 +1428,7 @@ export function SettingsPage() {
             value={deleteConfirmText}
             onChange={(e) => setDeleteConfirmText(e.target.value)}
             placeholder={form.displayName}
-            className="w-full mt-4 px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-sm" />
+            className="premium-input mt-4 w-full rounded-[18px] px-4 py-3 text-sm" />
 
             <div className="flex justify-end gap-3 mt-5">
               <button
@@ -1419,13 +1436,13 @@ export function SettingsPage() {
                 setShowDeleteModal(false);
                 setDeleteConfirmText('');
               }}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-[#1f1f23] border border-gray-300 dark:border-[#3f3f46] rounded-md hover:bg-gray-50 dark:hover:bg-[#27272a] transition-colors">
+              className="premium-button-secondary rounded-full px-4 py-2.5 text-sm font-medium">
 
                 Cancel
               </button>
               <button
               disabled={deleteConfirmText.trim() !== form.displayName.trim()}
-              className={`px-4 py-2 text-sm font-medium rounded-md text-white transition-colors ${deleteConfirmText.trim() === form.displayName.trim() ? 'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600' : 'bg-red-300 dark:bg-red-900/40 cursor-not-allowed'}`}>
+              className={`rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${deleteConfirmText.trim() === form.displayName.trim() ? 'bg-[var(--danger)] text-[#1d1409] hover:opacity-90' : 'cursor-not-allowed bg-[rgba(180,83,9,0.2)] text-[var(--text-muted)]'}`}>
 
                 Delete permanently
               </button>

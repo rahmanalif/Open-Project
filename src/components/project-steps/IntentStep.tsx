@@ -60,16 +60,22 @@ const STAGE_ICONS: Record<string, React.ComponentType<{size?: number; className?
 
 export function IntentStep({ data, updateData }: IntentStepProps) {
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+    <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <section className="premium-soft-panel rounded-[24px] p-4 sm:rounded-[28px] sm:p-6">
+        <div className="mb-5">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+            <span>01</span>
+            <span>Domain</span>
+          </div>
+          <h2 className="text-xl font-semibold text-[var(--text)] mb-1">
           Project Domain / Category
-        </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">
           Pick one domain so matching starts in the right context.
-        </p>
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {DOMAIN_OPTIONS.map((domain) => {
             const Icon = DOMAIN_ICONS[domain] || Briefcase;
             const active = data.domain === domain;
@@ -77,29 +83,38 @@ export function IntentStep({ data, updateData }: IntentStepProps) {
               <button
                 key={domain}
                 onClick={() => updateData('domain', domain)}
-                className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all ${active ? 'border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-500/10 ring-1 ring-blue-600 dark:ring-blue-500' : 'border-gray-200 dark:border-[#27272a] hover:border-gray-300 dark:hover:border-[#3f3f46] hover:bg-gray-50 dark:hover:bg-[#1f1f23]'}`}>
-
-                <div className={`p-2 rounded-md ${active ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-[#27272a] text-gray-500 dark:text-gray-400'}`}>
+                className={`group flex min-h-[88px] items-center gap-3 rounded-[18px] border p-4 text-left transition-all sm:rounded-[22px] ${
+                  active
+                    ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_14px_32px_rgba(0,0,0,0.16)]'
+                    : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:-translate-y-0.5 hover:border-[var(--border-strong)]'
+                }`}>
+                <div className={`rounded-2xl p-3 ${active ? 'bg-[rgba(255,248,239,0.16)] text-[var(--accent)]' : 'bg-[color:var(--bg-muted)] text-[var(--text-muted)] group-hover:text-[var(--text)]'}`}>
                   <Icon size={18} />
                 </div>
-                <span className={`text-sm font-medium ${active ? 'text-blue-900 dark:text-blue-300' : 'text-gray-900 dark:text-white'}`}>
+                <span className="text-sm font-medium text-[var(--text)]">
                   {domain}
                 </span>
-              </button>);
-
+              </button>
+            );
           })}
         </div>
-      </div>
+      </section>
 
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+      <section className="premium-soft-panel rounded-[24px] p-4 sm:rounded-[28px] sm:p-6">
+        <div className="mb-5">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+            <span>02</span>
+            <span>Goal</span>
+          </div>
+          <h2 className="text-xl font-semibold text-[var(--text)] mb-1">
           Primary Goal
-        </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">
           Tell collaborators what success looks like for this project.
-        </p>
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {GOAL_OPTIONS.map((goal) => {
             const Icon = GOAL_ICONS[goal.id] || Target;
             const active = data.goal === goal.id;
@@ -107,34 +122,43 @@ export function IntentStep({ data, updateData }: IntentStepProps) {
               <button
                 key={goal.id}
                 onClick={() => updateData('goal', goal.id)}
-                className={`flex items-start gap-3 p-4 rounded-lg border text-left transition-all ${active ? 'border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-500/10 ring-1 ring-blue-600 dark:ring-blue-500' : 'border-gray-200 dark:border-[#27272a] hover:border-gray-300 dark:hover:border-[#3f3f46] hover:bg-gray-50 dark:hover:bg-[#1f1f23]'}`}>
-
-                <div className={`p-2 rounded-md ${active ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : 'bg-gray-100 dark:bg-[#27272a] text-gray-500 dark:text-gray-400'}`}>
+                className={`group flex items-start gap-3 rounded-[18px] border p-4 text-left transition-all sm:rounded-[24px] ${
+                  active
+                    ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_14px_32px_rgba(0,0,0,0.16)]'
+                    : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:-translate-y-0.5 hover:border-[var(--border-strong)]'
+                }`}>
+                <div className={`rounded-2xl p-3 ${active ? 'bg-[rgba(255,248,239,0.16)] text-[var(--accent)]' : 'bg-[color:var(--bg-muted)] text-[var(--text-muted)] group-hover:text-[var(--text)]'}`}>
                   <Icon size={18} />
                 </div>
                 <div>
-                  <p className={`font-medium ${active ? 'text-blue-900 dark:text-blue-300' : 'text-gray-900 dark:text-white'}`}>
+                  <p className="font-medium text-[var(--text)]">
                     {goal.label}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
                     {goal.desc}
                   </p>
                 </div>
-              </button>);
-
+              </button>
+            );
           })}
         </div>
-      </div>
+      </section>
 
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+      <section className="premium-soft-panel rounded-[24px] p-4 sm:rounded-[28px] sm:p-6">
+        <div className="mb-5">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+            <span>03</span>
+            <span>Stage</span>
+          </div>
+          <h2 className="text-xl font-semibold text-[var(--text)] mb-1">
           Current Stage
-        </h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          </h2>
+          <p className="text-sm text-[var(--text-muted)]">
           Choose the stage that best represents where this project is right now.
-        </p>
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {STAGE_OPTIONS.map((stage) => {
             const Icon = STAGE_ICONS[stage.id] || Lightbulb;
             const active = data.stage === stage.id;
@@ -142,39 +166,52 @@ export function IntentStep({ data, updateData }: IntentStepProps) {
               <button
                 key={stage.id}
                 onClick={() => updateData('stage', stage.id)}
-                className={`p-3 rounded-lg border text-left transition-all ${active ? 'border-blue-600 dark:border-blue-500 bg-blue-50 dark:bg-blue-500/10 ring-1 ring-blue-600 dark:ring-blue-500' : 'border-gray-200 dark:border-[#27272a] hover:border-gray-300 dark:hover:border-[#3f3f46] hover:bg-gray-50 dark:hover:bg-[#1f1f23]'}`}>
-
-                <div className="flex items-center gap-2 mb-1">
+                className={`rounded-[18px] border p-4 text-left transition-all sm:rounded-[22px] ${
+                  active
+                    ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] shadow-[0_14px_32px_rgba(0,0,0,0.16)]'
+                    : 'border-[var(--border)] bg-[color:var(--bg-panel)] hover:-translate-y-0.5 hover:border-[var(--border-strong)]'
+                }`}>
+                <div className="mb-2 flex items-center gap-2">
                   <Icon
                     size={16}
-                    className={active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'} />
-                  <span className={`text-sm font-medium ${active ? 'text-blue-900 dark:text-blue-300' : 'text-gray-900 dark:text-white'}`}>
+                    className={active ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'} />
+                  <span className="text-sm font-medium text-[var(--text)]">
                     {stage.label}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{stage.desc}</p>
-              </button>);
-
+                <p className="text-sm leading-6 text-[var(--text-muted)]">{stage.desc}</p>
+              </button>
+            );
           })}
         </div>
-      </div>
+      </section>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      <section className="premium-soft-panel rounded-[24px] p-4 sm:rounded-[28px] sm:p-6">
+        <div className="mb-5">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+            <span>04</span>
+            <span>Description</span>
+          </div>
+          <label className="block text-xl font-semibold text-[var(--text)] mb-1">
           Project Description
-        </label>
+          </label>
+          <p className="text-sm text-[var(--text-muted)]">
+            Describe what you are building and why it matters so collaborators can quickly understand the opportunity.
+          </p>
+        </div>
         <textarea
           value={data.projectDescription || ''}
           onChange={(e) => updateData('projectDescription', e.target.value)}
           placeholder="Describe what you are building and what problem it solves."
           rows={4}
           maxLength={300}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-[#3f3f46] bg-white dark:bg-[#0a0a0b] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" />
+          className="premium-input min-h-[132px] w-full rounded-[22px] px-4 py-3 text-sm leading-6"
+        />
 
-        <div className="text-right text-xs text-gray-400 dark:text-gray-500 mt-1">
+        <div className="mt-2 text-right text-xs text-[var(--text-muted)]">
           {data.projectDescription?.length || 0}/300
         </div>
-      </div>
-    </div>);
-
+      </section>
+    </div>
+  );
 }

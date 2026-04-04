@@ -11,18 +11,27 @@ export function StepIndicator({
   labels
 }: StepIndicatorProps) {
   return (
-    <div className="w-full py-4 px-6 border-b border-gray-100 dark:border-[#27272a] bg-gray-50/50 dark:bg-[#0a0a0b]">
-      <div className="flex items-center justify-between relative">
-        {/* Progress Bar Background */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-gray-200 dark:bg-[#27272a] -z-10" />
+    <div className="border-b border-[var(--border)] bg-[color:var(--bg-elevated)] px-4 py-2.5 sm:px-6 lg:px-7 lg:py-3">
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">Creation flow</p>
+          <p className="mt-0.5 text-sm text-[var(--text-muted)]">
+            Step {currentStep} of {totalSteps}: {labels[currentStep - 1]}
+          </p>
+        </div>
+        <div className="w-fit rounded-full border border-[var(--border)] bg-[color:var(--bg-panel)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+          {Math.round((currentStep / totalSteps) * 100)}% complete
+        </div>
+      </div>
 
-        {/* Progress Bar Fill */}
+      <div className="scrollbar-hidden -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <div className="relative flex min-w-[520px] items-start justify-between gap-2 sm:min-w-0 sm:gap-4">
+        <div className="absolute left-0 right-0 top-5 h-px bg-[var(--border)]" />
         <div
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 bg-blue-600 dark:bg-blue-500 -z-10 transition-all duration-300"
+          className="absolute left-0 top-5 h-px bg-[linear-gradient(90deg,var(--accent-strong),var(--accent),var(--success))] transition-all duration-500"
           style={{
             width: `${(currentStep - 1) / (totalSteps - 1) * 100}%`
           }} />
-
 
         {labels.map((label, index) => {
           const stepNum = index + 1;
@@ -31,30 +40,29 @@ export function StepIndicator({
           return (
             <div
               key={label}
-              className="flex flex-col items-center gap-2 bg-gray-50/50 dark:bg-[#0a0a0b] px-2">
-
+              className="relative z-10 flex min-w-0 flex-1 flex-col items-center gap-2 bg-[color:var(--bg-elevated)] px-1 text-center"
+            >
               <div
                 className={`
-                  w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium border-2 transition-all duration-200
-                  ${isCompleted ? 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500 text-white' : ''}
-                  ${isCurrent ? 'bg-white dark:bg-[#141416] border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400' : ''}
-                  ${!isCompleted && !isCurrent ? 'bg-white dark:bg-[#141416] border-gray-300 dark:border-[#3f3f46] text-gray-400 dark:text-gray-600' : ''}
-                `}>
-
+                  flex h-10 w-10 items-center justify-center rounded-full border text-xs font-semibold transition-all duration-200
+                  ${isCompleted ? 'border-[color:var(--success)] bg-[rgba(91,191,167,0.14)] text-[var(--success)]' : ''}
+                  ${isCurrent ? 'border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[var(--text)] shadow-[0_12px_28px_rgba(0,0,0,0.18)]' : ''}
+                  ${!isCompleted && !isCurrent ? 'border-[var(--border)] bg-[color:var(--bg-panel)] text-[var(--text-muted)]' : ''}
+                `}
+              >
                 {isCompleted ? <Check size={14} /> : stepNum}
               </div>
-              <span
-                className={`
-                  text-[10px] font-medium uppercase tracking-wider absolute -bottom-6 w-20 text-center
-                  ${isCurrent ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-600'}
-                `}>
 
-                {isCurrent ? label : ''}
-              </span>
-            </div>);
-
+              <div className="min-h-[1.35rem] sm:min-h-[1.6rem]">
+                <p className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${isCurrent ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
+                  {label}
+                </p>
+              </div>
+            </div>
+          );
         })}
+        </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
